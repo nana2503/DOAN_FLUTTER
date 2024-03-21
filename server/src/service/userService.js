@@ -1,3 +1,4 @@
+//src/service/userService.js
 import bcrypt from 'bcryptjs';
 import mysql from  'mysql2/promise';
 const salt = bcrypt.genSaltSync(10);

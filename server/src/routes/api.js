@@ -1,5 +1,4 @@
 import express from "express";
-import homeController from '../controller/homeController';
 import apiController from '../controller/apiController';
 import userController from '../controller/userController';
 import classController from '../controller/classController';
@@ -33,9 +32,20 @@ router.post("/user/create", userController.createFunc);
 router.put("/user/update", userController.updateFunc);
 router.delete("/user/delete", userController.deleteFunc);
 
-router.get("/class/read", classController.readFunc);
-router.get("/point/read", pointController.readFunc);
-//router.get("/subject/read", subjectController.readFunc);
+ router.get("/point/read", pointController.readFunc);
+router.post("/point/create",pointController.createFunc);
+router.put("/point/update", pointController.updateFunc);
+router.delete("/point/delete", pointController.deleteFunc);
+
+ router.get("/class/read", classController.readFunc);
+router.post("/class/create", classController.createFunc);
+router.put("/class/update", classController.updateFunc);
+router.delete("/class/delete", classController.deleteFunc);
+
+ router.get("/subject/read", subjectController.readFunc);
+router.post("/subject/create", subjectController.createFunc);
+router.put("/subject/update", subjectController.updateFunc);
+router.delete("/subject/delete", subjectController.deleteFunc);
     return app.use("/api/v1/", router);
 }
 export default initApiRoutes;

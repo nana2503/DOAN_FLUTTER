@@ -1,75 +1,83 @@
+//src/service/userApiService.js
 import db from "../models";
 import { checkUserIdExist,checkPhoneExist,hashUserPassword} from "../service/loginRegisterService";
 import bcrypt from 'bcryptjs';
 const salt = bcrypt.genSaltSync(10);
-const getAllUser=async()=>{
+const getAllUser = async () => {
     try {
         const users = await db.User.findAll({
-            attributes: ["userId", "username", "address", "phone", "sex","classId"],
-            include: {model: db.Class, attributes: ["className"]  },
+            // where: {
+            //     userId: {
+            //         [Op.ne]: 'admin'
+            //     }
+            // },
+            attributes: ["userId", "username", "address", "phone", "sex", "classId"],
+            include: { model: db.Class, attributes: ["className"] },
         });
         console.log("check", users);
-        if(users) {
-            //let data = user.get({plain :true});
+        if (users) {
             return {
-                EM : 'get data success',
+                EM: 'get data success',
                 EC: 0,
-                DT:users
-            
+                DT: users
+            }
+        } else {
+            return {
+                EM: 'get data success',
+                EC: 0,
+                DT: []
             }
         }
-        else {
-            return {
-                EM : 'get data success',
-                EC: 0,
-                DT:[]
-            
-            }
-      
-}
-}catch(e){
-    console.log(e)
-    return {
-        EM : 'error from server',
-        EC: 1,
-        DT:[]
-    
-    }
-}
-}
-
-const getUserWithPagination= async(page, limit)=>{
-    try {
-        let offset=(page-1)*limit;
-        const {count, rows}= await db.User.findAndCountAll({
-            offset: offset,
-            limit: limit,
-            attributes : ["userId", "username", "address", "phone", "sex","classId"],
-            include: {model: db.Class, attributes: ["className"]  },
-            order:[['userId','DESC']]
-        })
-        let totalPages=Math.ceil(count / limit);
-        let data ={
-            totalRows:count,
-            totalPages:totalPages,
-            users:rows
-        }
-        return {
-            EM : 'fetch ok',
-            EC: 0,
-            DT: data
-        
-        }
-    } catch (error) {
+    } catch (e) {
         console.log(e)
         return {
-            EM : 'get data success',
-            EC: 0,
-            DT:[]
-        
+            EM: 'error from server',
+            EC: 1,
+            DT: []
         }
     }
-}
+};
+
+
+const getUserWithPagination = async (page, limit) => {
+    try {
+        let offset = (page - 1) * limit;
+        const { count, rows } = await db.User.findAndCountAll({
+            // where: {
+            //     // Không lấy người dùng có userId là 'admin'
+            //     userId: {
+            //         [Op.ne]: 'admin'
+            //     }
+            // },
+            offset: offset,
+            limit: limit,
+            attributes: ["userId", "username", "address", "phone", "sex", "classId"],
+            include: { model: db.Class, attributes: ["className"] },
+            order: [['userId', 'DESC']]
+        });
+        
+        let totalPages = Math.ceil(count / limit);
+        let data = {
+            totalRows: count,
+            totalPages: totalPages,
+            users: rows
+        };
+
+        return {
+            EM: 'fetch ok',
+            EC: 0,
+            DT: data
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: 'error from server',
+            EC: 1,
+            DT: []
+        };
+    }
+};
+
 
 const createNewUser=async(data)=>{
     try {

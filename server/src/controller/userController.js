@@ -1,3 +1,4 @@
+//src/controller/userController.js
 import userApiService from '../service/userApiService';
 
 const readFunc =async(req,res)=>{
