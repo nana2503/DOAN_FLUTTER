@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.STRING,
     subjectId:DataTypes.STRING,
     point: DataTypes.INTEGER,
+    hocky:DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Point',

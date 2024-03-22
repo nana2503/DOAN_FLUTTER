@@ -43,6 +43,7 @@ class _LoginFormState extends State<LoginForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               CustomTextField(
+                isReadOnly: false,
                   isPassword: false,
                   hintText: "Số điện thoại hoặc MSSV",
                   controller: _valueLoginController),
@@ -50,6 +51,7 @@ class _LoginFormState extends State<LoginForm> {
                 height: 20,
               ),
               CustomTextField(
+                 isReadOnly: false,
                   isPassword: true,
                   hintText: "Mật Khẩu",
                   controller: _passwordController),

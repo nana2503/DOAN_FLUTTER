@@ -1,4 +1,5 @@
 import "dart:convert";
+// import "dart:ffi";
 import "package:http/http.dart" as http;
 
 class AppUtils {
@@ -31,6 +32,25 @@ class AppUtils {
       'valueLogin': valueLogin,
       'password': password
     });
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Đăng nhập thất bại');
+    }
+  }
+static Future<Map<String, dynamic>> HandleUpdate(
+      String userId, String phone, String username, String password, String address, String sex, String classId) async {
+    final response = await http.post(Uri.parse("$baseApi/update"), headers: <String, String>{
+      'ContentType': 'application/json',
+    }, body: jsonEncode(<String, String>{
+      'userId': userId,
+      'phone': phone,
+      'username': username,
+      'password': password,
+      'address': address,
+      'sex': sex,
+      'class': classId
+    }));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
