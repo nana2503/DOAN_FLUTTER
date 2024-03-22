@@ -25,11 +25,11 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final TextEditingController _userPhoneNumberController =
+  final TextEditingController _valueLoginController =
       TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   void clearTextField() {
-    _userPhoneNumberController.text = "";
+    _valueLoginController.text = "";
     _passwordController.text = "";
   }
 
@@ -44,8 +44,8 @@ class _LoginFormState extends State<LoginForm> {
             children: <Widget>[
               CustomTextField(
                   isPassword: false,
-                  hintText: "Số điện thoại",
-                  controller: _userPhoneNumberController),
+                  hintText: "phone or mssv",
+                  controller: _valueLoginController),
               const SizedBox(
                 height: 20,
               ),
@@ -59,9 +59,9 @@ class _LoginFormState extends State<LoginForm> {
               CustomButton(
                   buttonText: "Đăng nhập",
                   onPressed: () async {
-                    String phoneNumber = _userPhoneNumberController.text.trim();
+                    String valueLogin = _valueLoginController.text.trim();
                     String password = _passwordController.text.trim();
-                    if (phoneNumber.isEmpty || password.isEmpty) {
+                    if (valueLogin.isEmpty || password.isEmpty) {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -74,7 +74,7 @@ class _LoginFormState extends State<LoginForm> {
                     } else {
                       try {
                         final response =
-                            await AppUtils.hanldeLogin(phoneNumber, password);
+                            await AppUtils.hanldeLogin(valueLogin, password);
                         clearTextField();
                         print(response);
                         if (mounted) {

@@ -79,22 +79,23 @@ const chekPassword = (inputPassword, hashPassword) => {
 };
 const handleUserLogin = async (rawData) => {
   try {
+    // console.log("rawData",rawData)
     let user = await db.User.findOne({
       where: {
         [Op.or]: [
-          { userId: rawData.valueLogin },
+           { userId: rawData.valueLogin },
           { phone: rawData.valueLogin },
         ],
       },
     });
+    // console.log("user",user)
     if (user) {
-      //console.log("not found student with email/phone  ");
       let isCorrectPassword = chekPassword(rawData.password, user.password);
       if (isCorrectPassword === true) {
-        let getclass = await getClassName(user);
+        //let getclass = await getClassName(user);
         let payload = {
           userId: user.userId,
-          getclass,
+          //getclass,
           username: user.username,
         };
         let token = createJWT(payload);
@@ -103,7 +104,7 @@ const handleUserLogin = async (rawData) => {
           EC: 0,
           DT: {
             access_token: token,
-            getclass,
+            //getclass,
             userId: user.userId,
             username: user.username,
           },

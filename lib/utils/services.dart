@@ -17,17 +17,18 @@ class AppUtils {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Đăng ký thất bại!!');
+      throw Exception('Đăng ký thất bại!');
     }
   }
 
   static Future<Map<String, dynamic>> hanldeLogin(
-      String phoneNumber, String password) async {
+      String valueLogin, String password) async {
     final response =
         await http.post(Uri.parse("$baseApi/login"), headers: <String, String>{
       'ContentType': 'application/json',
     }, body: <String, String>{
-      'phone': phoneNumber,
+
+      'valueLogin': valueLogin,
       'password': password
     });
     if (response.statusCode == 200) {
