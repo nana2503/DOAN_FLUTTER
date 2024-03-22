@@ -64,7 +64,7 @@ const handleRegister = async(req, res) => {
         try {
             res.clearCookie("jwt");
              return res.status(200).json({
-                 EM : 'clear cookie',
+                 EM : 'Đăng xuất thành công!!',
                  EC: 0,
                  DT: ''
          

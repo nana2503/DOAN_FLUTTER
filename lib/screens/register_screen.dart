@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/button.dart';
 import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/textfield.dart';
-import 'package:flutter_doan/screens/login_screen.dart';
 import 'package:flutter_doan/utils/services.dart';
 
 class RegisterScreen extends StatelessWidget {
