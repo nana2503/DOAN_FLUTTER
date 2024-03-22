@@ -18,6 +18,9 @@ module.exports = {
       point: {
         type: Sequelize.INTEGER
       },
+      hocky: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

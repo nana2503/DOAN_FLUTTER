@@ -48,6 +48,7 @@ class _RegisterFormState extends State<RegisterForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomTextField(
+                isReadOnly: false,
                   isPassword: false,
                   hintText: "Họ và tên",
                   controller: _userNameController),
@@ -55,11 +56,13 @@ class _RegisterFormState extends State<RegisterForm> {
                 height: 10,
               ),
               CustomTextField(
+                     isReadOnly: false,
                   isPassword: false,
                   hintText: "Số điện thoại",
                   controller: _userPhoneNumberController),
               const SizedBox(height: 10),
               CustomTextField(
+                     isReadOnly: false,
                   isPassword: true,
                   hintText: "Mật khẩu",
                   controller: _passwordController),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_doan/component/button.dart';
+import 'package:flutter_doan/screens/createUser_page.dart';
 import 'package:flutter_doan/screens/login_screen.dart';
 import 'package:flutter_doan/screens/register_screen.dart';
 
@@ -50,6 +51,7 @@ class AuthenticationPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => LoginScreen()));
+                      //  MaterialPageRoute(builder: (context) => EditScreen()));
                 }),
             SizedBox(height: 20),
             CustomButton(
