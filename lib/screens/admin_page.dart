@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_doan/main.dart';
+import 'package:flutter_doan/screens/login_screen.dart';
+import 'package:flutter_doan/utils/services.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({Key? key}) : super(key: key);
@@ -11,17 +14,17 @@ class _AdminPageState extends State<AdminPage> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
+  final List<Widget> _widgetOptions = <Widget>[
+    const Text(
       'Đây là trang chủ',
       style: optionStyle,
     ),
-    Text(
+    const Text(
       'Đây là trang hiển thị danh sách sinh viên',
       style: optionStyle,
     ),
-    Text(
-      'Nút đăng xuất',
+    const Text(
+      'Đăng xuất',
       style: optionStyle,
     ),
   ];
@@ -29,6 +32,18 @@ class _AdminPageState extends State<AdminPage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void handleLogout() {
+    try {
+      final response = AppUtils.handleLogout();
+      if (response.toString().isNotEmpty) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MyApp()));
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -61,7 +76,7 @@ class _AdminPageState extends State<AdminPage> {
                 selected: _selectedIndex == 2,
                 onTap: () {
                   _onItemTapped(2);
-                  Navigator.pop(context);
+                  handleLogout();
                 })
           ],
         ),
