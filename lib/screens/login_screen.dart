@@ -12,9 +12,9 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Đăng nhập"),
+          title: const Text("Đăng nhập"),
         ),
-        body: LoginForm());
+        body: const LoginForm());
   }
 }
 
@@ -36,73 +36,84 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(60),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              CustomTextField(
-                isReadOnly: false,
-                  isPassword: false,
-                  hintText: "Số điện thoại hoặc MSSV",
-                  controller: _valueLoginController),
-              const SizedBox(
-                height: 20,
+        body: SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(60),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CustomTextField(
+                        isPassword: false,
+                        isReadOnly: false,
+                        hintText: "Số điện thoại hoặc MSSV",
+                        controller: _valueLoginController),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextField(
+                        isPassword: true,
+                        hintText: "Mật Khẩu",
+                        isReadOnly: false,
+                        controller: _passwordController),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomButton(
+                        buttonText: "Đăng nhập",
+                        onPressed: () async {
+                          String valueLogin = _valueLoginController.text.trim();
+                          String password = _passwordController.text.trim();
+                          if (valueLogin.isEmpty || password.isEmpty) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return CustomDialogAlert(
+                                      title: "Thông báo",
+                                      message: "Vui lòng nhập đầy đủ thông tin",
+                                      closeButtonText: "Đóng",
+                                      onPressed: () =>
+                                          Navigator.of(context).pop());
+                                });
+                          } else {
+                            try {
+                              final response = await AppUtils.hanldeLogin(
+                                  valueLogin, password);
+                              print(response);
+                              if (response['EM'].toString().isNotEmpty) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AdminPage()));
+                              }
+                              clearTextField();
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CustomDialogAlert(
+                                        title: "Thông báo",
+                                        message: response['EM'],
+                                        closeButtonText: "Đóng",
+                                        onPressed: () =>
+                                            Navigator.of(context).pop());
+                                  });
+                            } catch (e) {
+                              print("Lỗi: $e");
+                            }
+                          }
+                        }),
+                  ],
+                ),
               ),
-              CustomTextField(
-                 isReadOnly: false,
-                  isPassword: true,
-                  hintText: "Mật Khẩu",
-                  controller: _passwordController),
-              const SizedBox(
-                height: 20,
-              ),
-              CustomButton(
-                  buttonText: "Đăng nhập",
-                  onPressed: () async {
-                    String valueLogin = _valueLoginController.text.trim();
-                    String password = _passwordController.text.trim();
-                    if (valueLogin.isEmpty || password.isEmpty) {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return CustomDialogAlert(
-                                title: "Thông báo",
-                                message: "Vui lòng nhập đầy đủ thông tin",
-                                closeButtonText: "Đóng",
-                                onPressed: () => Navigator.of(context).pop());
-                          });
-                    } else {
-                      try {
-                        final response =
-                            await AppUtils.hanldeLogin(valueLogin, password);
-                        print(response);
-                        if (response['EM'].toString().isNotEmpty) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AdminPage()));
-                        }
-                        clearTextField();
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomDialogAlert(
-                                  title: "Thông báo",
-                                  message: response['EM'],
-                                  closeButtonText: "Đóng",
-                                  onPressed: () => Navigator.of(context).pop());
-                            });
-                      } catch (e) {
-                        print("Lỗi: $e");
-                      }
-                    }
-                  }),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-    );
+    ));
   }
 }
