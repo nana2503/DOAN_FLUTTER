@@ -100,7 +100,7 @@ const handleUserLogin = async (rawData) => {
         };
         let token = createJWT(payload);
         return {
-          EM: "ok",
+          EM: "Đăng nhập thành công",
           EC: 0,
           DT: {
             access_token: token,

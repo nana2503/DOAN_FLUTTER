@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/button.dart';
 import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/textfield.dart';
+import 'package:flutter_doan/screens/admin_page.dart';
 import 'package:flutter_doan/utils/services.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -25,8 +26,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final TextEditingController _valueLoginController =
-      TextEditingController();
+  final TextEditingController _valueLoginController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   void clearTextField() {
     _valueLoginController.text = "";
@@ -44,7 +44,7 @@ class _LoginFormState extends State<LoginForm> {
             children: <Widget>[
               CustomTextField(
                   isPassword: false,
-                  hintText: "phone or mssv",
+                  hintText: "Số điện thoại hoặc MSSV",
                   controller: _valueLoginController),
               const SizedBox(
                 height: 20,
@@ -75,20 +75,23 @@ class _LoginFormState extends State<LoginForm> {
                       try {
                         final response =
                             await AppUtils.hanldeLogin(valueLogin, password);
-                        clearTextField();
                         print(response);
-                        if (mounted) {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return CustomDialogAlert(
-                                    title: "Thông báo",
-                                    message: response['EM'],
-                                    closeButtonText: "Đóng",
-                                    onPressed: () =>
-                                        Navigator.of(context).pop());
-                              });
+                        if (response['EM'].toString().isNotEmpty) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AdminPage()));
                         }
+                        clearTextField();
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomDialogAlert(
+                                  title: "Thông báo",
+                                  message: response['EM'],
+                                  closeButtonText: "Đóng",
+                                  onPressed: () => Navigator.of(context).pop());
+                            });
                       } catch (e) {
                         print("Lỗi: $e");
                       }
