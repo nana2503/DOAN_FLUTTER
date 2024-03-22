@@ -8,7 +8,6 @@ class AppUtils {
     final response = await http
         .post(Uri.parse("$baseApi/register"), headers: <String, String>{
       'ContentType': 'application/json',
-      'Access-Control-Allow-Origin': 'true'
     }, body: <String, String>{
       'userId': username,
       'username': username,
@@ -19,6 +18,22 @@ class AppUtils {
       return jsonDecode(response.body);
     } else {
       throw Exception('Đăng ký thất bại!!');
+    }
+  }
+
+  static Future<Map<String, dynamic>> hanldeLogin(
+      String phoneNumber, String password) async {
+    final response =
+        await http.post(Uri.parse("$baseApi/login"), headers: <String, String>{
+      'ContentType': 'application/json',
+    }, body: <String, String>{
+      'phone': phoneNumber,
+      'password': password
+    });
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Đăng nhập thất bại');
     }
   }
 }

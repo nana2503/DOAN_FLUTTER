@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/button.dart';
 import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/textfield.dart';
+import 'package:flutter_doan/screens/login_screen.dart';
 import 'package:flutter_doan/utils/services.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -49,7 +50,7 @@ class _RegisterFormState extends State<RegisterForm> {
             children: [
               CustomTextField(
                   isPassword: false,
-                  hintText: "UserName",
+                  hintText: "Họ và tên",
                   controller: _userNameController),
               const SizedBox(
                 height: 10,
@@ -65,7 +66,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   controller: _passwordController),
               const SizedBox(height: 10),
               CustomButton(
-                  buttonText: "Sign Up",
+                  buttonText: "Đăng ký",
                   onPressed: () async {
                     String userName = _userNameController.text.trim();
                     String password = _passwordController.text.trim();
@@ -97,8 +98,7 @@ class _RegisterFormState extends State<RegisterForm> {
                                     title: "Thông báo",
                                     message: response['EM'],
                                     closeButtonText: "Đóng",
-                                    onPressed: () =>
-                                        Navigator.of(context).pop());
+                                    onPressed: () => Navigator.pop(context));
                               });
                         }
                       } catch (e) {
