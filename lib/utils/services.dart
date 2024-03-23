@@ -28,7 +28,6 @@ class AppUtils {
         await http.post(Uri.parse("$baseApi/login"), headers: <String, String>{
       'ContentType': 'application/json',
     }, body: <String, String>{
-
       'valueLogin': valueLogin,
       'password': password
     });
@@ -38,19 +37,37 @@ class AppUtils {
       throw Exception('Đăng nhập thất bại');
     }
   }
-static Future<Map<String, dynamic>> HandleUpdate(
-      String userId, String phone, String username, String password, String address, String sex, String classId) async {
-    final response = await http.post(Uri.parse("$baseApi/update"), headers: <String, String>{
-      'ContentType': 'application/json',
-    }, body: jsonEncode(<String, String>{
-      'userId': userId,
-      'phone': phone,
-      'username': username,
-      'password': password,
-      'address': address,
-      'sex': sex,
-      'class': classId
-    }));
+
+  static Future<Map<String, dynamic>> handleLogout() async {
+    final response = await http.post(Uri.parse("$baseApi/logout"));
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Lỗi đăng xuất!!!');
+    }
+  }
+
+  static Future<Map<String, dynamic>> HandleUpdate(
+      String userId,
+      String phone,
+      String username,
+      String password,
+      String address,
+      String sex,
+      String classId) async {
+    final response = await http.post(Uri.parse("$baseApi/update"),
+        headers: <String, String>{
+          'ContentType': 'application/json',
+        },
+        body: jsonEncode(<String, String>{
+          'userId': userId,
+          'phone': phone,
+          'username': username,
+          'password': password,
+          'address': address,
+          'sex': sex,
+          'class': classId
+        }));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {

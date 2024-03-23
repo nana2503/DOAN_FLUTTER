@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_doan/component/button.dart';
 import 'package:flutter_doan/screens/action_page.dart';
 import 'package:flutter_doan/screens/admin_page.dart';
-import 'package:flutter_doan/screens/login_screen.dart';
-import 'package:flutter_doan/screens/register_screen.dart';
+import 'package:flutter_doan/screens/user_page.dart';
 import 'package:flutter_doan/utils/tokenService.dart';
 
 void main() {
@@ -32,20 +30,24 @@ class AuthenticationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: TokenService.getToken(),
+        future: TokenService.getTokenAndRole(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          } else {
-            if (snapshot.hasData && snapshot.data != null) {
-              return const AdminPage();
+          if (snapshot.hasData && snapshot.data != null) {
+            String? role = snapshot.data!['role']; // Lấy vai trò từ snapshot
+            if (role != null) {
+              // Xử lý dữ liệu role ở đây
+              if (role == 'admin') {
+                return const AdminPage();
+              } else {
+                return const UserPage();
+              }
             } else {
+              print('Chưa đăng nhập');
               return const ActionPage();
             }
+          } else {
+            print('Không có dữ liệu từ snapshot');
+            return const ActionPage();
           }
         });
   }

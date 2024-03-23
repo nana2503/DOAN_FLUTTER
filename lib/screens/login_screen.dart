@@ -3,6 +3,7 @@ import 'package:flutter_doan/component/button.dart';
 import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/textfield.dart';
 import 'package:flutter_doan/screens/admin_page.dart';
+import 'package:flutter_doan/screens/user_page.dart';
 import 'package:flutter_doan/utils/services.dart';
 import 'package:flutter_doan/utils/tokenService.dart';
 
@@ -88,14 +89,25 @@ class _LoginFormState extends State<LoginForm> {
                               print(response);
                               if (response['EM'].toString().isNotEmpty &&
                                   response['DT'].toString().isNotEmpty) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AdminPage()));
-                                clearTextField();
                                 String? token =
                                     response['DT']['access_token'] as String;
-                                await TokenService.saveToken(token);
+                                String? role =
+                                    response['DT']['username'] as String;
+                                await TokenService.saveToken(token, role);
+                                if (role == 'admin') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const AdminPage()));
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const UserPage()));
+                                }
+
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {

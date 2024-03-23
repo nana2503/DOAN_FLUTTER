@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_doan/main.dart';
+import 'package:flutter_doan/screens/action_page.dart';
 import 'package:flutter_doan/utils/services.dart';
 import 'package:flutter_doan/utils/tokenService.dart';
 
@@ -38,10 +38,8 @@ class _AdminPageState extends State<AdminPage> {
     try {
       final response = AppUtils.handleLogout();
       if (response.toString().isNotEmpty) {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const AuthenticationPage()));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const ActionPage()));
         TokenService.deleteToken();
       }
     } catch (e) {
