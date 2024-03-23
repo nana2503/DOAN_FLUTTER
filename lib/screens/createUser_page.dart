@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/button.dart';
 import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/textfield.dart';
-import 'package:flutter_doan/screens/login_screen.dart';
-import 'package:flutter_doan/utils/services.dart';
 
 class EditScreen extends StatelessWidget {
   const EditScreen({super.key});
@@ -29,12 +27,13 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  final TextEditingController _userIDController =TextEditingController();
+  final TextEditingController _userIDController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
-  final TextEditingController _userPhoneNumberController =TextEditingController();
-  final TextEditingController _addressController =TextEditingController();
-  final TextEditingController _genderController =TextEditingController();
-   final TextEditingController _classController = TextEditingController();
+  final TextEditingController _userPhoneNumberController =
+      TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _classController = TextEditingController();
 
   // void clearTextField() {
   //   _userNameController.text = "";
@@ -52,16 +51,15 @@ class _RegisterFormState extends State<RegisterForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomTextField(
-                  isReadOnly:true,
+                  isReadOnly: true,
                   isPassword: false,
                   hintText: "MSSV",
-                  controller: _userIDController
-                  ),
+                  controller: _userIDController),
               const SizedBox(
                 height: 10,
               ),
               CustomTextField(
-                   isReadOnly:false,
+                  isReadOnly: false,
                   isPassword: false,
                   hintText: "Họ và tên",
                   controller: _userNameController),
@@ -69,23 +67,23 @@ class _RegisterFormState extends State<RegisterForm> {
                 height: 10,
               ),
               CustomTextField(
-                   isReadOnly:false,
+                  isReadOnly: false,
                   isPassword: false,
                   hintText: "Số điện thoại",
                   controller: _userPhoneNumberController),
               const SizedBox(height: 10),
               CustomTextField(
-                   isReadOnly:false,
+                  isReadOnly: false,
                   isPassword: false,
                   hintText: "Địa chỉ",
                   controller: _addressController),
-                  CustomTextField(
-                       isReadOnly:false,
+              CustomTextField(
+                  isReadOnly: false,
                   isPassword: false,
                   hintText: "Giới tính",
                   controller: _genderController),
-                  CustomTextField(
-                       isReadOnly:false,
+              CustomTextField(
+                  isReadOnly: false,
                   isPassword: false,
                   hintText: "Lớp",
                   controller: _classController),
@@ -117,7 +115,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       try {
                         // final response = await AppUtils.registerUser(
                         //     userName);
-        
+
                         if (mounted) {
                           // print(response['EM']);
                           showDialog(
@@ -126,7 +124,7 @@ class _RegisterFormState extends State<RegisterForm> {
                                 return CustomDialogAlert(
                                     title: "Thông báo",
                                     // message: response['EM'],
-                                    message:  "Thông báo",
+                                    message: "Thông báo",
                                     closeButtonText: "Đóng",
                                     onPressed: () => Navigator.pop(context));
                               });

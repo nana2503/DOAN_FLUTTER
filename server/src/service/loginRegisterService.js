@@ -118,7 +118,7 @@ const handleUserLogin = async (rawData) => {
       rawData.password
     );
     return {
-      EM: "Your masv/phone or password is incorrect",
+      EM: "Thông tin đăng nhập chưa đúng, xin vui lòng nhập lại!",
       EC: 1,
       DT: "",
     };

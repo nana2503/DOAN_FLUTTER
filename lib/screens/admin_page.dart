@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/main.dart';
-import 'package:flutter_doan/screens/login_screen.dart';
 import 'package:flutter_doan/utils/services.dart';
+import 'package:flutter_doan/utils/tokenService.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({Key? key}) : super(key: key);
@@ -39,7 +39,10 @@ class _AdminPageState extends State<AdminPage> {
       final response = AppUtils.handleLogout();
       if (response.toString().isNotEmpty) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => MyApp()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => const AuthenticationPage()));
+        TokenService.deleteToken();
       }
     } catch (e) {
       print(e);

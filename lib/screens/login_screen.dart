@@ -4,6 +4,7 @@ import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/textfield.dart';
 import 'package:flutter_doan/screens/admin_page.dart';
 import 'package:flutter_doan/utils/services.dart';
+import 'package:flutter_doan/utils/tokenService.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -38,7 +39,7 @@ class _LoginFormState extends State<LoginForm> {
     return Scaffold(
         body: SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -85,23 +86,38 @@ class _LoginFormState extends State<LoginForm> {
                               final response = await AppUtils.hanldeLogin(
                                   valueLogin, password);
                               print(response);
-                              if (response['EM'].toString().isNotEmpty) {
+                              if (response['EM'].toString().isNotEmpty &&
+                                  response['DT'].toString().isNotEmpty) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => AdminPage()));
+                                clearTextField();
+                                String? token =
+                                    response['DT']['access_token'] as String;
+                                await TokenService.saveToken(token);
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CustomDialogAlert(
+                                          title: "Thông báo",
+                                          message: response['EM'],
+                                          closeButtonText: "Đóng",
+                                          onPressed: () =>
+                                              Navigator.of(context).pop());
+                                    });
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CustomDialogAlert(
+                                          title: "Thông báo",
+                                          message: response['EM'],
+                                          closeButtonText: "Đóng",
+                                          onPressed: () =>
+                                              Navigator.of(context).pop());
+                                    });
                               }
-                              clearTextField();
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return CustomDialogAlert(
-                                        title: "Thông báo",
-                                        message: response['EM'],
-                                        closeButtonText: "Đóng",
-                                        onPressed: () =>
-                                            Navigator.of(context).pop());
-                                  });
                             } catch (e) {
                               print("Lỗi: $e");
                             }

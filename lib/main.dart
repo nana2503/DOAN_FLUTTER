@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_doan/component/button.dart';
-import 'package:flutter_doan/screens/createUser_page.dart';
+import 'package:flutter_doan/screens/action_page.dart';
+import 'package:flutter_doan/screens/admin_page.dart';
 import 'package:flutter_doan/screens/login_screen.dart';
 import 'package:flutter_doan/screens/register_screen.dart';
+import 'package:flutter_doan/utils/tokenService.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,43 +29,24 @@ class MyApp extends StatelessWidget {
 
 class AuthenticationPage extends StatelessWidget {
   const AuthenticationPage({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-      backgroundColor: Colors.blue,
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Center(
-          child: Text(
-            "Quản Lý Sinh Viên",
-          ),
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomButton(
-                buttonText: "Đăng nhập",
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()));
-                      //  MaterialPageRoute(builder: (context) => EditScreen()));
-                }),
-            SizedBox(height: 20),
-            CustomButton(
-                buttonText: "Đăng ký",
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RegisterScreen()));
-                }),
-          ],
-        ),
-      ),
-    ));
+    return FutureBuilder(
+        future: TokenService.getToken(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          } else {
+            if (snapshot.hasData && snapshot.data != null) {
+              return const AdminPage();
+            } else {
+              return const ActionPage();
+            }
+          }
+        });
   }
 }
