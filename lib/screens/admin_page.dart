@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/screens/action_page.dart';
+import 'package:flutter_doan/screens/listUser_page.dart';
 import 'package:flutter_doan/utils/services.dart';
 import 'package:flutter_doan/utils/tokenService.dart';
 
@@ -12,17 +13,15 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage> {
   int _selectedIndex = 0;
+  String appBarTitle = "Trang chủ";
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   final List<Widget> _widgetOptions = <Widget>[
     const Text(
       'Đây là trang chủ',
       style: optionStyle,
     ),
-    const Text(
-      'Đây là trang hiển thị danh sách sinh viên',
-      style: optionStyle,
-    ),
+    const ListUser(),
     const Text(
       'Đăng xuất',
       style: optionStyle,
@@ -50,30 +49,37 @@ class _AdminPageState extends State<AdminPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Trang quản trị")),
+      appBar: AppBar(title: Text(appBarTitle)),
       body: Center(
         child: _widgetOptions[_selectedIndex],
       ),
       drawer: Drawer(
         child: ListView(
-          padding: EdgeInsets.zero,
           children: [
+            const SizedBox(height: 50),
             ListTile(
-                title: const Text("Trang chủ"),
+                title: const Text("Trang chủ", style: optionStyle),
                 selected: _selectedIndex == 0,
                 onTap: () {
                   _onItemTapped(0);
                   Navigator.pop(context);
+                  setState(() {
+                    appBarTitle = "Trang chủ";
+                  });
                 }),
             ListTile(
-                title: const Text("Xem danh sách sinh viên"),
+                title:
+                    const Text("Xem danh sách sinh viên", style: optionStyle),
                 selected: _selectedIndex == 1,
                 onTap: () {
                   _onItemTapped(1);
                   Navigator.pop(context);
+                  setState(() {
+                    appBarTitle = "Danh sách sinh viên";
+                  });
                 }),
             ListTile(
-                title: const Text("Đăng xuất"),
+                title: const Text("Đăng xuất", style: optionStyle),
                 selected: _selectedIndex == 2,
                 onTap: () {
                   _onItemTapped(2);

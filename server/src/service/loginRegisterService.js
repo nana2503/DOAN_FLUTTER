@@ -41,14 +41,14 @@ const registerNewUser = async (rawUserData) => {
     let isUserIdExist = await checkUserIdExist(generatedUserId);
     if (isUserIdExist === true) {
       return {
-        EM: "The mssv already exists",
+        EM: "MSSV này đã được sử dụng, vui lòng nhập đúng MSSV đã được cấp",
         EC: 1,
       };
     }
     let isPhoneExist = await checkPhoneExist(rawUserData.phone);
     if (isPhoneExist === true) {
       return {
-        EM: "The phone number already exists",
+        EM: "Số điện thoại đã được sử dụng, vui lòng nhập số điện thoại khác",
         EC: 1,
       };
     }
@@ -62,7 +62,7 @@ const registerNewUser = async (rawUserData) => {
       phone: rawUserData.phone,
     });
     return {
-      EM: "create student successfully",
+      EM: "Đăng ký thành công",
       EC: 0,
     };
   } catch (e) {

@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 
 class AppUtils {
-  static const String baseApi = "http://localhost:8080/api/v1";
+  static const String baseApi = "http://192.168.1.50:8080/api/v1";
   static Future<Map<String, dynamic>> registerUser(
       String username, String phoneNumber, String password) async {
     final response = await http
@@ -83,30 +83,41 @@ static Future<Map<String, dynamic>> fetchUser() async {
     }
   }
 
-static Future<Map<String, dynamic>> HandleUpdate(
-  String userId,
-  String username,
-  String address,
-  String sex,
-  int classId
-) async {
-  final response = await http.post(
-    Uri.parse("$baseApi/user/update"),
-    headers: <String, String>{
-      'ContentType': 'application/json',
-    },
-    body: jsonEncode(<String, String>{
-      'userId': userId,
-      'username': username,
-      'address': address,
-      'sex': sex,
-      'class': classId.toString()
-    }),
-  );
-  if (response.statusCode == 200) {
-    return jsonDecode(response.body);
-  } else {
-    throw Exception('Cập nhật thất bại');
+  static Future<Map<String, dynamic>> getListAllUser() async {
+    final response = await http.get(Uri.parse("$baseApi/user/read"));
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Lấy dữ liệu thất bại!!");
+    }
+  }
+
+  static Future<Map<String, dynamic>> HandleUpdate(
+      String userId,
+      String phone,
+      String username,
+      String password,
+      String address,
+      String sex,
+      String classId) async {
+    final response = await http.post(Uri.parse("$baseApi/update"),
+        headers: <String, String>{
+          'ContentType': 'application/json',
+        },
+        body: jsonEncode(<String, String>{
+          'userId': userId,
+          'phone': phone,
+          'username': username,
+          'password': password,
+          'address': address,
+          'sex': sex,
+          'class': classId
+        }));
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Đăng nhập thất bại');
+    }
   }
 }
 
