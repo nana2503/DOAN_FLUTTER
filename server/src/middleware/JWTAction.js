@@ -1,13 +1,13 @@
+//server/src/middleware/JWTAction.js
 import  jwt  from "jsonwebtoken";
 require("dotenv").config();
 //const nonSecurePaths = ['/*'];
 const nonSecurePaths = ['/logout', '/login', '/register','/','/user/read','/class/read','/user/create','/user/update','/user/delete','/point/read','/subject/read'];
 const createJWT = (payload)=> {
-    //let payload  = { name : 'zero', address : 'hcm'};node_modulesregister
+
     let key = process.env.JWT_SECRET;
     let token=null;
     try {
-         //var token = jwt.sign({ key: 'value' }, 'password');
         token = jwt.sign(payload, key,{
             expiresIn: process.env.JWT_EXPIRES_IN
         });

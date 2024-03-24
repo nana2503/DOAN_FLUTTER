@@ -1,9 +1,10 @@
+//lib/service.dart
 import "dart:convert";
-// import "dart:ffi";
+import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 
 class AppUtils {
-  static const String baseApi = "http://192.168.1.50:8080/api/v1";
+  static const String baseApi = "http://localhost:8080/api/v1";
   static Future<Map<String, dynamic>> registerUser(
       String username, String phoneNumber, String password) async {
     final response = await http
@@ -21,7 +22,42 @@ class AppUtils {
       throw Exception('Đăng ký thất bại!');
     }
   }
+static Future<Map<String, dynamic>> fetchUser() async {
+  final response = await http.get(
+    Uri.parse("$baseApi/user/read"), // Đường dẫn API fetchAllUser
+    headers: <String, String>{
+      'Content-Type': 'application/json', // Định dạng dữ liệu gửi đi
+    },
+  );
 
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  } else {
+    throw Exception('Thất bại khi gọi API!');
+  }
+}
+
+// static Future<Map<String, dynamic>> fetchUser(String userId) async {
+//   final response = await http.get(
+//     Uri.parse("$baseApi/api/v1/user/read"), // Đường dẫn API fetchAllUser
+//     headers: <String, String>{
+//       'Content-Type': 'application/json', // Định dạng dữ liệu gửi đi
+//     },
+//   );
+
+//   if (response.statusCode == 200) {
+//     final List<dynamic> userList = jsonDecode(response.body);
+//     // Lọc ra user đã đăng nhập
+//     final Map<String, dynamic>? loggedInUser = userList.firstWhere((user) => user['userId'] == userId, orElse: () => null);
+//     if (loggedInUser != null) {
+//       return loggedInUser;
+//     } else {
+//       throw Exception('Không tìm thấy thông tin của user đã đăng nhập!');
+//     }
+//   } else {
+//     throw Exception('Thất bại khi gọi API!');
+//   }
+// }
   static Future<Map<String, dynamic>> hanldeLogin(
       String valueLogin, String password) async {
     final response =
@@ -47,31 +83,31 @@ class AppUtils {
     }
   }
 
-  static Future<Map<String, dynamic>> HandleUpdate(
-      String userId,
-      String phone,
-      String username,
-      String password,
-      String address,
-      String sex,
-      String classId) async {
-    final response = await http.post(Uri.parse("$baseApi/update"),
-        headers: <String, String>{
-          'ContentType': 'application/json',
-        },
-        body: jsonEncode(<String, String>{
-          'userId': userId,
-          'phone': phone,
-          'username': username,
-          'password': password,
-          'address': address,
-          'sex': sex,
-          'class': classId
-        }));
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception('Đăng nhập thất bại');
-    }
+static Future<Map<String, dynamic>> HandleUpdate(
+  String userId,
+  String username,
+  String address,
+  String sex,
+  int classId
+) async {
+  final response = await http.post(
+    Uri.parse("$baseApi/user/update"),
+    headers: <String, String>{
+      'ContentType': 'application/json',
+    },
+    body: jsonEncode(<String, String>{
+      'userId': userId,
+      'username': username,
+      'address': address,
+      'sex': sex,
+      'class': classId.toString()
+    }),
+  );
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  } else {
+    throw Exception('Cập nhật thất bại');
   }
+}
+
 }

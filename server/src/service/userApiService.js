@@ -6,15 +6,11 @@ const salt = bcrypt.genSaltSync(10);
 const getAllUser = async () => {
     try {
         const users = await db.User.findAll({
-            // where: {
-            //     userId: {
-            //         [Op.ne]: 'admin'
-            //     }
-            // },
+          
             attributes: ["userId", "username", "address", "phone", "sex", "classId"],
             include: { model: db.Class, attributes: ["className"] },
         });
-        console.log("check", users);
+        console.log( users);
         if (users) {
             return {
                 EM: 'get data success',
@@ -43,12 +39,7 @@ const getUserWithPagination = async (page, limit) => {
     try {
         let offset = (page - 1) * limit;
         const { count, rows } = await db.User.findAndCountAll({
-            // where: {
-            //     // Không lấy người dùng có userId là 'admin'
-            //     userId: {
-            //         [Op.ne]: 'admin'
-            //     }
-            // },
+       
             offset: offset,
             limit: limit,
             attributes: ["userId", "username", "address", "phone", "sex", "classId"],
@@ -118,49 +109,55 @@ let hashPassword = hashUserPassword(data.password);
         }
     }
 }
-const updateUser=async(data)=>{
+const updateUser = async (data) => {
+    let transaction;
     try {
-        if(!data.classId){
-             return {
-            EM : 'error with empty MSSV',
-            EC: 1,
-            DT:'class'
-        
-            } 
+        // Bắt đầu một transaction
+        transaction = await db.sequelize.transaction();
+
+        // Cập nhật dữ liệu cho bảng User
+        const updatedUser = await db.User.update(
+            { username: data.username, address: data.address, sex: data.sex },
+            { where: { userId: data.userId }, transaction }
+        );
+
+        // Kiểm tra xem dữ liệu User đã được cập nhật thành công hay không
+        if (updatedUser[0] === 0) {
+            throw new Error('User not found');
         }
-          let user = await db.User.findOne({
-            where : {userId : data.userId }
-        })
-        if(user){
-            await user.update({
-                username: data.username,
-                address : data.address,
-                sex     : data.sex,
-                classId : data.classId
-            })
-             return {
-            EM : 'update student success',
-            EC: 0,
-            DT:''
-            } 
-        }else{
-            return {
-            EM: 'student not found',
-            EC: 2,
-            DT:''
-        
-        } 
+
+        // Cập nhật dữ liệu cho bảng Class
+        const updatedClass = await db.Class.update(
+            { className: data.classname },
+            { where: { userId: data.userId }, transaction }
+        );
+
+        // Kiểm tra xem dữ liệu Class đã được cập nhật thành công hay không
+        if (updatedClass[0] === 0) {
+            throw new Error('Class update failed');
         }
-    } catch (error) {
-        console.log(e)
+
+        // Commit transaction nếu tất cả các bước đều thành công
+        await transaction.commit();
+
         return {
-            EM : 'something wrong with service',
-            EC: 1,
-            DT:[]
+            EM: 'Update user and class success',
+            EC: 0,
+            DT: { updatedUser, updatedClass }
+        };
+    } catch (error) {
+        // Nếu có bất kỳ lỗi nào xảy ra, rollback transaction
+        if (transaction) await transaction.rollback();
         
-        } 
+        console.error(error);
+        return {
+            EM: 'Error updating user and class',
+            EC: 1,
+            DT: []
+        };
     }
-}
+};
+
 const deleteUser=async(userId)=>{
     try {
         let user = await db.User.findOne({
