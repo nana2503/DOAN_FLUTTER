@@ -47,6 +47,15 @@ class AppUtils {
     }
   }
 
+  static Future<Map<String, dynamic>> getListAllUser() async {
+    final response = await http.get(Uri.parse("$baseApi/user/read"));
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Lấy dữ liệu thất bại!!");
+    }
+  }
+
   static Future<Map<String, dynamic>> HandleUpdate(
       String userId,
       String phone,
@@ -71,7 +80,7 @@ class AppUtils {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Đăng nhập thất bại');
+      throw Exception('Cập nhật thất bại');
     }
   }
 }
