@@ -12,8 +12,8 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  late Future<Map<String, dynamic>> _userData;
-  late String _role;
+  Future<Map<String, dynamic>>? _userData;
+  String? _role;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _userIdController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -73,23 +73,14 @@ class _UserPageState extends State<UserPage> {
                   _usernameController.text = user['username'];
                   _userIdController.text = user['userId'];
                   _phoneController.text = user['phone'];
-                  _addressController.text = user['address'] ?? '';
-                  _sexController.text = user['sex'] ?? '';
-                  _classController.text = user['Class']['className'] ?? '';
-                  // print(user);
+                  _addressController.text = user['address'] ?? 'Chưa cập nhật';
+                  _sexController.text = user['sex'] ?? 'Chưa cập nhật';
+                  _classController.text =
+                      user['Class']['className'] ?? 'Chưa xếp lớp';
+                  print(user);
                   return ListView(
                     padding: const EdgeInsets.all(16.0),
                     children: [
-                      Container(
-                        child: Center(
-                            child: Text(
-                          "Thông tin sinh viên",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold),
-                        )),
-                      ),
                       CustomTextField(
                           isReadOnly: true,
                           isPassword: false,
