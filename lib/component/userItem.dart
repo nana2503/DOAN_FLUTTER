@@ -3,8 +3,8 @@ import 'package:flutter_doan/model/user.dart';
 
 class UserItem extends StatelessWidget {
   final User user;
-  final void Function() onPressedButton1;
-  final void Function() onPressedButton2;
+  final VoidCallback onPressedButton1;
+  final VoidCallback onPressedButton2;
 
   UserItem({
     required this.user,
@@ -43,7 +43,7 @@ class UserItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
                       onPressed: onPressedButton1,
@@ -61,7 +61,8 @@ class UserItem extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10))),
                     ),
                   ],
-                )
+                ),
+                const SizedBox(height: 5),
               ],
             ),
           ),

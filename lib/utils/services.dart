@@ -22,20 +22,21 @@ class AppUtils {
       throw Exception('Đăng ký thất bại!');
     }
   }
-static Future<Map<String, dynamic>> fetchUser() async {
-  final response = await http.get(
-    Uri.parse("$baseApi/user/read"), // Đường dẫn API fetchAllUser
-    headers: <String, String>{
-      'Content-Type': 'application/json', // Định dạng dữ liệu gửi đi
-    },
-  );
 
-  if (response.statusCode == 200) {
-    return jsonDecode(response.body);
-  } else {
-    throw Exception('Thất bại khi gọi API!');
+  static Future<Map<String, dynamic>> fetchUser() async {
+    final response = await http.get(
+      Uri.parse("$baseApi/user/read"), // Đường dẫn API fetchAllUser
+      headers: <String, String>{
+        'Content-Type': 'application/json', // Định dạng dữ liệu gửi đi
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Thất bại khi gọi API!');
+    }
   }
-}
 
 // static Future<Map<String, dynamic>> fetchUser(String userId) async {
 //   final response = await http.get(
@@ -92,34 +93,26 @@ static Future<Map<String, dynamic>> fetchUser() async {
     }
   }
 
-static Future<Map<String, dynamic>> HandleUpdate(
-  String userId,
-  String username,
-  String address,
-  String sex,
-  String className
-) async {
-  final response = await http.put(
-    Uri.parse("$baseApi/user/update"),
-    headers: <String, String>{
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: {
-      'userId': userId,
-      'username': username,
-      'address': address,
-      'sex': sex,
-      'className': className,
-    },
-  );
-  print(response.body);
-  if (response.statusCode == 200) {
-    return jsonDecode(response.body);
-  } else {
-    throw Exception('Cập nhật thất bại');
+  static Future<Map<String, dynamic>> HandleUpdate(String userId,
+      String username, String address, String sex, String className) async {
+    final response = await http.put(
+      Uri.parse("$baseApi/user/update"),
+      headers: <String, String>{
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: {
+        'userId': userId,
+        'username': username,
+        'address': address,
+        'sex': sex,
+        'className': className,
+      },
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Cập nhật thất bại');
+    }
   }
 }
-
-}
-
-

@@ -3,6 +3,36 @@ import db from "../models";
 import { checkUserIdExist,checkPhoneExist,hashUserPassword} from "../service/loginRegisterService";
 import bcrypt from 'bcryptjs';
 const salt = bcrypt.genSaltSync(10);
+const getOneUser = async (userId) => {
+    try {
+        let user = await db.User.findOne({
+            where : {userId : userId }
+        })
+        if(user){
+            return {
+                EM : 'Get one user success',
+                EC: 0,
+                DT: user
+            }
+        }
+        else{
+            return {
+                EM : ' student not exist',
+                EC: 2,
+                DT: []
+            
+            }
+        }
+    } catch (error) {
+        console.log(e)
+        return {
+            EM : 'get data success',
+            EC: 1,
+            DT:[]
+        
+        }
+    }
+}
 const getAllUser = async () => {
     try {
         const users = await db.User.findAll({
@@ -196,5 +226,5 @@ const deleteUser=async(userId)=>{
 }
 
 module.exports={
-    getAllUser,createNewUser,updateUser,deleteUser,getUserWithPagination
+    getAllUser,createNewUser,updateUser,deleteUser,getUserWithPagination, getOneUser
 }

@@ -22,7 +22,7 @@ class _UserHomePageState extends State<UserHomePage> {
       style: optionStyle,
     ),
     const UserPage(),
-        const Text(
+    const Text(
       'Xem điểm',
       style: optionStyle,
     ),
@@ -75,7 +75,7 @@ class _UserHomePageState extends State<UserHomePage> {
                   _onItemTapped(1);
                   Navigator.pop(context);
                 }),
-                  ListTile(
+            ListTile(
                 title: const Text("Xem điểm sinh viên"),
                 selected: _selectedIndex == 2,
                 onTap: () {
