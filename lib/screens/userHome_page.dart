@@ -21,7 +21,11 @@ class _UserHomePageState extends State<UserHomePage> {
       'Đây là trang chủ',
       style: optionStyle,
     ),
-    const UserPage(), // Thay Text bằng UserPage để hiển thị trang "Xem thông tin sinh viên"
+    const UserPage(),
+        const Text(
+      'Xem điểm',
+      style: optionStyle,
+    ),
     const Text(
       'Đăng xuất',
       style: optionStyle,
@@ -71,11 +75,18 @@ class _UserHomePageState extends State<UserHomePage> {
                   _onItemTapped(1);
                   Navigator.pop(context);
                 }),
-            ListTile(
-                title: const Text("Đăng xuất"),
+                  ListTile(
+                title: const Text("Xem điểm sinh viên"),
                 selected: _selectedIndex == 2,
                 onTap: () {
                   _onItemTapped(2);
+                  Navigator.pop(context);
+                }),
+            ListTile(
+                title: const Text("Đăng xuất"),
+                selected: _selectedIndex == 3,
+                onTap: () {
+                  _onItemTapped(3);
                   handleLogout();
                 })
           ],

@@ -19,7 +19,6 @@ class _UserPageState extends State<UserPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _sexController = TextEditingController();
-  final TextEditingController _classIdController = TextEditingController();
   final TextEditingController _classController = TextEditingController();
   @override
   void initState() {
@@ -67,15 +66,14 @@ class _UserPageState extends State<UserPage> {
                   }
 
                   // Gán dữ liệu từ filteredUsers vào các controller
-                  final user = filteredUsers.first;
-                  _usernameController.text = user['username'];
-                  _userIdController.text = user['userId'];
-                  _phoneController.text = user['phone'];
-                  _addressController.text = user['address'] ?? '';
-                  _sexController.text = user['sex'] ?? '';
-                  _classIdController.text = user['classId']?.toString() ?? '';
-                   _classController.text = user['Class']['className'];
-                    print(user);
+                 final user = filteredUsers.first;
+                        _usernameController.text = user['username'];
+                        _userIdController.text = user['userId'];
+                        _phoneController.text = user['phone'];
+                        _addressController.text = user['address'] ?? '';
+                        _sexController.text = user['sex'] ?? '';
+                        _classController.text = user['Class']['className']?? '';
+                    // print(user);
                   return ListView(
                     padding: const EdgeInsets.all(16.0),
                     children: [
@@ -141,15 +139,15 @@ class _UserPageState extends State<UserPage> {
                         children: [
                           ElevatedButton(
                             onPressed: () async {
-                              String userId = _userIdController.text.trim();
-                              String username = _usernameController.text.trim();
-                              String address = _addressController.text.trim();
-                              String gender = _sexController.text.trim();
-                              int classId = int.tryParse(_classIdController.text.trim()) ?? 0;
+                            String userId = _userIdController.text.trim();
+                                String username = _usernameController.text.trim();
+                                String address = _addressController.text.trim();
+                                String gender = _sexController.text.trim();
+                                String className = _classController.text.trim();
                               if (username.isEmpty || 
                                   address.isEmpty ||
                                   gender.isEmpty ||
-                                  classId == 0) {
+                                  className.isEmpty) {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -163,9 +161,9 @@ class _UserPageState extends State<UserPage> {
                                 );
                               } else {
                                 try {
+                                    print(className);
                                   final response = await AppUtils.HandleUpdate(
-                                    userId, username, address, gender, classId
-                                  );
+                                    userId, username, address, gender, className);
                                   print(response);
                                   showDialog(
                                     context: context,

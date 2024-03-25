@@ -51,23 +51,24 @@ const createFunc =async(req,res)=>{
     })
     }
 }
-const updateFunc =async(req,res)=>{
+const updateFunc = async (req, res) => {
     try {
-        let data=await userApiService.updateUser(req.body);
-        return res.status(200).json({
-            EM : data.EM,
-            EC: data.EC,
-            DT: data.DT
-    
-        })
+      console.log("update", req.body);
+      let data = await userApiService.updateUser(req.body);
+      return res.status(200).json({
+        EM: data.EM,
+        EC: data.EC,
+        DT: data.DT
+      });
     } catch (error) {
-        return res.status(500).json({
-            EM : 'error from server',
-            EC: '-1',
-            DT:''
-    })
+      return res.status(500).json({
+        EM: 'error from server',
+        EC: '-1',
+        DT: ''
+      })
     }
-}
+  }
+  
 const deleteFunc =async(req,res)=>{
   
     try {

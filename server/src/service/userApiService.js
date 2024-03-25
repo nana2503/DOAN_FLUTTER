@@ -10,7 +10,7 @@ const getAllUser = async () => {
             attributes: ["userId", "username", "address", "phone", "sex", "classId"],
             include: { model: db.Class, attributes: ["className"] },
         });
-        console.log( users);
+        // console.log( users);
         if (users) {
             return {
                 EM: 'get data success',
@@ -110,14 +110,28 @@ let hashPassword = hashUserPassword(data.password);
     }
 }
 const updateUser = async (data) => {
+    console.log( "update1",data);
     let transaction;
     try {
         // Bắt đầu một transaction
         transaction = await db.sequelize.transaction();
 
+        // Tìm thông tin lớp học trong database
+        let classInfo = await db.Class.findOne({ where: { className: data.className }, transaction });
+
+        // Nếu không tìm thấy thông tin lớp học, thêm lớp học mới vào database
+        if (!classInfo) {
+            classInfo = await db.Class.create({ className: data.className }, { transaction });
+        }
+
         // Cập nhật dữ liệu cho bảng User
         const updatedUser = await db.User.update(
-            { username: data.username, address: data.address, sex: data.sex },
+            { 
+                username: data.username, 
+                address: data.address, 
+                sex: data.sex,
+                classId: classInfo.id // Sử dụng id của lớp học đã tìm hoặc tạo ra
+            },
             { where: { userId: data.userId }, transaction }
         );
 
@@ -126,24 +140,13 @@ const updateUser = async (data) => {
             throw new Error('User not found');
         }
 
-        // Cập nhật dữ liệu cho bảng Class
-        const updatedClass = await db.Class.update(
-            { className: data.classname },
-            { where: { userId: data.userId }, transaction }
-        );
-
-        // Kiểm tra xem dữ liệu Class đã được cập nhật thành công hay không
-        if (updatedClass[0] === 0) {
-            throw new Error('Class update failed');
-        }
-
         // Commit transaction nếu tất cả các bước đều thành công
         await transaction.commit();
 
         return {
             EM: 'Update user and class success',
             EC: 0,
-            DT: { updatedUser, updatedClass }
+            DT: updatedUser
         };
     } catch (error) {
         // Nếu có bất kỳ lỗi nào xảy ra, rollback transaction
@@ -157,6 +160,7 @@ const updateUser = async (data) => {
         };
     }
 };
+
 
 const deleteUser=async(userId)=>{
     try {
