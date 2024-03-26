@@ -37,6 +37,21 @@ class AppUtils {
       throw Exception('Thất bại khi gọi API!');
     }
   }
+
+  static Future<Map<String, dynamic>> getUserByID(String userId) async {
+    final response = await http
+        .post(Uri.parse("$baseApi/user/getById"), headers: <String, String>{
+      'ContentType': 'application/json',
+    }, body: <String, String>{
+      'userId': userId,
+    });
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Tìm người thất bại');
+    }
+  }
+
   static Future<Map<String, dynamic>> hanldeLogin(
       String valueLogin, String password) async {
     final response =
@@ -94,48 +109,46 @@ class AppUtils {
     }
   }
 
-static Future<Map<String, dynamic>> getTablePoint(String role) async {
-  try {
-    final responsePoint = await http.get(
-      Uri.parse("$baseApi/point/read"),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-    );
-    final responseSubject = await http.get(
-      Uri.parse("$baseApi/subject/read"),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-    );
-
-    if (responsePoint.statusCode == 200 && responseSubject.statusCode == 200) {
-      final pointData = jsonDecode(responsePoint.body)['DT'];
-      final subjectData = jsonDecode(responseSubject.body)['DT'];
-
-    
-      final userPoints = pointData.where((point) => point['userId'] == role).toList();
-
-    
-      final subjectMap = Map.fromIterable(
-        subjectData,
-        key: (subject) => subject['subjectId'],
-        value: (subject) => subject['subjectName'],
+  static Future<Map<String, dynamic>> getTablePoint(String role) async {
+    try {
+      final responsePoint = await http.get(
+        Uri.parse("$baseApi/point/read"),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+      );
+      final responseSubject = await http.get(
+        Uri.parse("$baseApi/subject/read"),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
       );
 
-      
-      for (var point in userPoints) {
-        final subjectId = point['subjectId'];
-        point['subjectName'] = subjectMap[subjectId];
+      if (responsePoint.statusCode == 200 &&
+          responseSubject.statusCode == 200) {
+        final pointData = jsonDecode(responsePoint.body)['DT'];
+        final subjectData = jsonDecode(responseSubject.body)['DT'];
+
+        final userPoints =
+            pointData.where((point) => point['userId'] == role).toList();
+
+        final subjectMap = Map.fromIterable(
+          subjectData,
+          key: (subject) => subject['subjectId'],
+          value: (subject) => subject['subjectName'],
+        );
+
+        for (var point in userPoints) {
+          final subjectId = point['subjectId'];
+          point['subjectName'] = subjectMap[subjectId];
+        }
+
+        return {'points': userPoints};
+      } else {
+        throw Exception('Thất bại khi gọi API!');
       }
-
-      return {'points': userPoints};
-    } else {
-      throw Exception('Thất bại khi gọi API!');
+    } catch (e) {
+      throw Exception('Lỗi: $e');
     }
-  } catch (e) {
-    throw Exception('Lỗi: $e');
   }
-}
-
 }
