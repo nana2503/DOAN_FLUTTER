@@ -22,6 +22,8 @@ class ListUser extends StatelessWidget {
               final List<dynamic> userDataList = snapshot.data!['DT'];
               final List<User> userList =
                   userDataList.map((item) => User.fromJson(item)).toList();
+                  print("userDataList");
+                   print(userDataList);
               return ListView.builder(
                 padding: const EdgeInsets.all(10),
                 itemCount: userList.length,

@@ -48,19 +48,21 @@ Future<void> _getTablePoint(String semester) async {
             return Center(child: Text('Lỗi: ${snapshot.error}'));
           } else {
             final points = snapshot.data;
-            print("points");
-            print(points);
+            // print("points");
+            // print(points);
             if (points == null || points.isEmpty) {
               return Center(child: 
               Column(children: [
-                  CustomDropdownButton(
-                    onChanged: (semester) {
-                      setState(() {
-                        _selectedSemester = semester;
-                      });
-                      _getTablePoint(semester); // Gọi lại hàm để lấy dữ liệu mới dựa trên học kỳ mới được chọn
-                    },
-                  ),
+                CustomDropdownButton(
+  onChanged: (semester) {
+    setState(() {
+      _selectedSemester = semester;
+    });
+    _getTablePoint(semester); // Gọi lại hàm để lấy dữ liệu mới dựa trên học kỳ mới được chọn
+  },
+  selectedSemester: _selectedSemester, // Truyền giá trị _selectedSemester vào CustomDropdownButton
+),
+
                   Text('Không có điểm')
               ],),);
              
@@ -68,14 +70,16 @@ Future<void> _getTablePoint(String semester) async {
             return Center(
               child: Column(
                 children: [
-                  CustomDropdownButton(
-                    onChanged: (semester) {
-                      setState(() {
-                        _selectedSemester = semester;
-                      });
-                      _getTablePoint(semester); // Gọi lại hàm để lấy dữ liệu mới dựa trên học kỳ mới được chọn
-                    },
-                  ),
+                 CustomDropdownButton(
+  onChanged: (semester) {
+    setState(() {
+      _selectedSemester = semester;
+    });
+    _getTablePoint(semester); // Gọi lại hàm để lấy dữ liệu mới dựa trên học kỳ mới được chọn
+  },
+  selectedSemester: _selectedSemester, // Truyền giá trị _selectedSemester vào CustomDropdownButton
+),
+
                   SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: SingleChildScrollView(

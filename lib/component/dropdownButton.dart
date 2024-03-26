@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 
 class CustomDropdownButton extends StatefulWidget {
   final Function(String) onChanged;
+  final String selectedSemester; // Thêm thuộc tính selectedSemester
 
-  CustomDropdownButton({required this.onChanged});
+  CustomDropdownButton({required this.onChanged, required this.selectedSemester});
 
   @override
   _CustomDropdownButtonState createState() => _CustomDropdownButtonState();
 }
 
 class _CustomDropdownButtonState extends State<CustomDropdownButton> {
-  String? _selectedItem;
+  String _selectedItem ='Học kỳ 1';
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
       decoration: BoxDecoration(
           color: Colors.grey[50], borderRadius: BorderRadius.circular(8)),
       child: DropdownButton<String>(
-        value: _selectedItem,
+        value: widget.selectedSemester, // Sử dụng giá trị selectedSemester từ prop
         onChanged: (String? newValue) {
           setState(() {
             _selectedItem = newValue!;
