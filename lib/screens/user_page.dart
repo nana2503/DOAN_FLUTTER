@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/textfield.dart';
+import 'package:flutter_doan/screens/action_page.dart';
 import 'package:flutter_doan/utils/services.dart';
 import 'package:flutter_doan/utils/tokenService.dart';
 
@@ -28,13 +29,26 @@ class _UserPageState extends State<UserPage> {
 
   Future<void> _getUserData() async {
     final tokenAndRole = await TokenService.getTokenAndRole();
-    _role = tokenAndRole['role'] ?? ''; // Lấy giá trị role từ TokenService
+    _role = tokenAndRole['role'] ?? '';
+        print("_role");
+     print(_role);
     setState(() {
       _userData = AppUtils.fetchUser();
-      print(_userData);
+      // print(_userData);
     });
   }
-
+ void handleLogout() {
+    try {
+      final response = AppUtils.handleLogout();
+      if (response.toString().isNotEmpty) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const ActionPage()));
+        TokenService.deleteToken();
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +73,7 @@ class _UserPageState extends State<UserPage> {
                   }
 
                   final List<dynamic> filteredUsers = userList
-                      .where((user) => user['username'] == _role)
+                      .where((user) => user['userId'] == _role)
                       .toList();
 
                   if (filteredUsers.isEmpty) {
@@ -77,7 +91,6 @@ class _UserPageState extends State<UserPage> {
                   _sexController.text = user['sex'] ?? 'Chưa cập nhật';
                   _classController.text =
                       user['Class']['className'] ?? 'Chưa xếp lớp';
-                  print(user);
                   return ListView(
                     padding: const EdgeInsets.all(16.0),
                     children: [
@@ -168,7 +181,7 @@ class _UserPageState extends State<UserPage> {
                                             address,
                                             gender,
                                             className);
-                                    print(response);
+                                    // print(response);
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
@@ -190,7 +203,7 @@ class _UserPageState extends State<UserPage> {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                // Xử lý sự kiện khi nhấn nút "Thoát"
+                               handleLogout();
                               },
                               child: Text('Thoát'),
                             ),

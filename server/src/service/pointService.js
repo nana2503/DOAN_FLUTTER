@@ -1,19 +1,19 @@
 import db from "../models";
-
-const getPoint = async () => {
-    try {
-        const points = await db.Point.findAll({
-            include: [
-                { model: db.Subject }
-            ]
-        });
-        // try {
+    // try {
         //     const subject = await db.Subject.findAll({
         // });
         // const point = await db.Point.findAll({
         // });
         // const data ={subject,point};
         //   console.log("check subject",points)
+const getPoint = async () => {
+    try {
+        const points = await db.Point.findAll({
+            // include: [
+            //     { model: db.Subject}
+            // ]
+        });
+    
         return {
             EM: 'Get points success',
             EC: 0,

@@ -1,6 +1,7 @@
 //lib/screens/userHome_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/screens/action_page.dart';
+import 'package:flutter_doan/screens/userPoin_page.dart';
 import 'package:flutter_doan/screens/user_page.dart';
 import 'package:flutter_doan/utils/services.dart';
 import 'package:flutter_doan/utils/tokenService.dart';
@@ -22,10 +23,7 @@ class _UserHomePageState extends State<UserHomePage> {
       style: optionStyle,
     ),
     const UserPage(),
-    const Text(
-      'Xem điểm',
-      style: optionStyle,
-    ),
+    const UserPointPage(),
     const Text(
       'Đăng xuất',
       style: optionStyle,

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CustomDropdownButton extends StatefulWidget {
+  final Function(String) onChanged;
+
+  CustomDropdownButton({required this.onChanged});
+
   @override
-  _CustomDropdownButtonnState createState() => _CustomDropdownButtonnState();
+  _CustomDropdownButtonState createState() => _CustomDropdownButtonState();
 }
 
-class _CustomDropdownButtonnState extends State<CustomDropdownButton> {
-  String _selectedItem = 'Học kỳ 1';
+class _CustomDropdownButtonState extends State<CustomDropdownButton> {
+  String? _selectedItem;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +23,7 @@ class _CustomDropdownButtonnState extends State<CustomDropdownButton> {
         onChanged: (String? newValue) {
           setState(() {
             _selectedItem = newValue!;
+            widget.onChanged(newValue!); 
           });
         },
         items: <String>['Học kỳ 1', 'Học kỳ 2']
@@ -31,17 +36,4 @@ class _CustomDropdownButtonnState extends State<CustomDropdownButton> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-      appBar: AppBar(
-        title: Text('Dropdown Button Example'),
-      ),
-      body: Center(
-        child: CustomDropdownButton(),
-      ),
-    ),
-  ));
 }

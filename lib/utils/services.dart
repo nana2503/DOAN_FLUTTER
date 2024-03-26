@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 
 class AppUtils {
-  static const String baseApi = "http://172.19.200.148:8080/api/v1";
+  static const String baseApi = "http://172.19.200.147:8080/api/v1";
   static Future<Map<String, dynamic>> registerUser(
       String username, String phoneNumber, String password) async {
     final response = await http
@@ -25,9 +25,9 @@ class AppUtils {
 
   static Future<Map<String, dynamic>> fetchUser() async {
     final response = await http.get(
-      Uri.parse("$baseApi/user/read"), // Đường dẫn API fetchAllUser
+      Uri.parse("$baseApi/user/read"),
       headers: <String, String>{
-        'Content-Type': 'application/json', // Định dạng dữ liệu gửi đi
+        'Content-Type': 'application/json',
       },
     );
 
@@ -37,28 +37,6 @@ class AppUtils {
       throw Exception('Thất bại khi gọi API!');
     }
   }
-
-// static Future<Map<String, dynamic>> fetchUser(String userId) async {
-//   final response = await http.get(
-//     Uri.parse("$baseApi/api/v1/user/read"), // Đường dẫn API fetchAllUser
-//     headers: <String, String>{
-//       'Content-Type': 'application/json', // Định dạng dữ liệu gửi đi
-//     },
-//   );
-
-//   if (response.statusCode == 200) {
-//     final List<dynamic> userList = jsonDecode(response.body);
-//     // Lọc ra user đã đăng nhập
-//     final Map<String, dynamic>? loggedInUser = userList.firstWhere((user) => user['userId'] == userId, orElse: () => null);
-//     if (loggedInUser != null) {
-//       return loggedInUser;
-//     } else {
-//       throw Exception('Không tìm thấy thông tin của user đã đăng nhập!');
-//     }
-//   } else {
-//     throw Exception('Thất bại khi gọi API!');
-//   }
-// }
   static Future<Map<String, dynamic>> hanldeLogin(
       String valueLogin, String password) async {
     final response =
@@ -108,11 +86,56 @@ class AppUtils {
         'className': className,
       },
     );
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
       throw Exception('Cập nhật thất bại');
     }
   }
+
+static Future<Map<String, dynamic>> getTablePoint(String role) async {
+  try {
+    final responsePoint = await http.get(
+      Uri.parse("$baseApi/point/read"),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+    );
+    final responseSubject = await http.get(
+      Uri.parse("$baseApi/subject/read"),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (responsePoint.statusCode == 200 && responseSubject.statusCode == 200) {
+      final pointData = jsonDecode(responsePoint.body)['DT'];
+      final subjectData = jsonDecode(responseSubject.body)['DT'];
+
+    
+      final userPoints = pointData.where((point) => point['userId'] == role).toList();
+
+    
+      final subjectMap = Map.fromIterable(
+        subjectData,
+        key: (subject) => subject['subjectId'],
+        value: (subject) => subject['subjectName'],
+      );
+
+      
+      for (var point in userPoints) {
+        final subjectId = point['subjectId'];
+        point['subjectName'] = subjectMap[subjectId];
+      }
+
+      return {'points': userPoints};
+    } else {
+      throw Exception('Thất bại khi gọi API!');
+    }
+  } catch (e) {
+    throw Exception('Lỗi: $e');
+  }
+}
+
 }
