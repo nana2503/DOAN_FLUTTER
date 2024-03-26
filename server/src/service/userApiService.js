@@ -1,3 +1,4 @@
+
 //src/service/userApiService.js
 import db from "../models";
 import { checkUserIdExist,checkPhoneExist,hashUserPassword} from "../service/loginRegisterService";
@@ -6,7 +7,9 @@ const salt = bcrypt.genSaltSync(10);
 const getOneUser = async (userId) => {
     try {
         let user = await db.User.findOne({
-            where : {userId : userId }
+            where : {userId : userId },
+            attributes: ['userId', 'username', 'address', 'sex', 'phone', 'classId'],
+            include: {model: db.Class, attributes: ['className']}
         })
         if(user){
             return {

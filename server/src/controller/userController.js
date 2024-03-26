@@ -2,6 +2,25 @@
 //src/controller/userController.js
 import userApiService from '../service/userApiService';
 
+const findOneFunc =async(req,res)=>{
+  
+    try {
+        let data =await userApiService.getOneUser(req.body.userId);
+        return res.status(200).json({
+            EM : data.EM,
+            EC: data.EC,
+            DT: data.DT
+    
+        })
+    } catch (error) {
+            return res.status(500).json({
+                EM : 'error from server',
+                EC: '-1',
+                DT:''
+    })
+    }
+}
+
 const readFunc =async(req,res)=>{
 try {
     // if(req.query.page && req.query.limit){
@@ -101,5 +120,5 @@ const getUserAccount =async(req,res)=>{
 })
 }
 module.exports={
-    readFunc,createFunc,updateFunc,deleteFunc,getUserAccount
+    readFunc,createFunc,updateFunc,deleteFunc,getUserAccount, findOneFunc
 }

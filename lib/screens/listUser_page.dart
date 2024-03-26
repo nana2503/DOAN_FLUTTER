@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/userItem.dart';
 import 'package:flutter_doan/model/user.dart';
+import 'package:flutter_doan/screens/userDetail_page.dart';
 import 'package:flutter_doan/utils/services.dart';
 
 class ListUser extends StatelessWidget {
@@ -26,18 +27,20 @@ class ListUser extends StatelessWidget {
                 itemCount: userList.length,
                 itemBuilder: (context, index) {
                   final User user = userList[index];
-                  return UserItem(
-                      user: user,
-                      onPressedButton1: () async {
-                        String userId = user.userId;
-                        print(userId);
-                        try {
-                          // print(response);
-                        } catch (e) {
-                          print(e);
-                        }
-                      },
-                      onPressedButton2: () => {print('2')});
+                  if (user.username == 'admin') {
+                    return const SizedBox();
+                  } else {
+                    return UserItem(
+                        user: user,
+                        onPressedButton1: () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          UserDetail(userId: user.userId)))
+                            },
+                        onPressedButton2: () => {print('2')});
+                  }
                 },
               );
             } else {

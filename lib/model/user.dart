@@ -4,7 +4,7 @@ class User {
   final String address;
   final String sex;
   final String phone;
-  final int classId;
+  final String className;
 
   User({
     required this.userId,
@@ -12,7 +12,7 @@ class User {
     required this.address,
     required this.sex,
     required this.phone,
-    required this.classId,
+    required this.className,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -22,7 +22,7 @@ class User {
       address: json['address'] ?? 'Chưa cập nhật',
       sex: json['sex'] ?? 'Chưa cập nhật',
       phone: json['phone'],
-      classId: json['classId'] ?? 0,
+      className: json['Class']['className'] ?? '',
     );
   }
 
@@ -33,7 +33,7 @@ class User {
       'address': address,
       'sex': sex,
       'phone': phone,
-      'classId': classId,
+      'classId': className,
     };
   }
 

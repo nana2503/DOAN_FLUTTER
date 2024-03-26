@@ -6,13 +6,12 @@ class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final bool isReadOnly;
 
-  const CustomTextField({
-    super.key,
-    required this.isPassword,
-    required this.hintText,
-    required this.controller,
-    required this.isReadOnly
-  });
+  const CustomTextField(
+      {super.key,
+      required this.isPassword,
+      required this.hintText,
+      required this.controller,
+      required this.isReadOnly});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -25,10 +24,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      readOnly:widget.isReadOnly ?true: false,
+      readOnly: widget.isReadOnly ? true : false,
       controller: widget.controller,
       obscureText: widget.isPassword && _isObscure,
       decoration: InputDecoration(
+          filled: widget.isReadOnly,
+          fillColor: widget.isReadOnly ? Colors.grey[200] : Colors.white,
+          contentPadding: const EdgeInsets.all(0),
           labelText: widget.hintText,
           suffixIcon: widget.isPassword
               ? IconButton(
