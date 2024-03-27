@@ -38,14 +38,16 @@ class _UserDetailState extends State<UserDetail> {
 
   Future<void> _getUserById() async {
     final response = await AppUtils.getUserByID(widget.userId);
+    print("response['DT']");
+     print(response['DT']);
     setState(() {
       user = User.fromJson(response['DT']);
       _usernameController.text = user.username;
       _userIdController.text = user.userId;
       _phoneController.text = user.phone;
-      _addressController.text = user.address ?? '';
-      _sexController.text = user.sex ?? '';
-      _classController.text = user.className ?? '';
+      _addressController.text = user.address == null ? "": user.address;
+      _sexController.text = user.sex == null ?"":user.sex;
+      _classController.text = user.className == null ?"":user.className;
     });
   }
 

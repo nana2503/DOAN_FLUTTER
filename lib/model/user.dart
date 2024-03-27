@@ -19,10 +19,13 @@ class User {
     return User(
       userId: json['userId'],
       username: json['username'],
-      address: json['address'] ?? 'Chưa cập nhật',
-      sex: json['sex'] ?? 'Chưa cập nhật',
-      phone: json['phone'],
-      className: json['Class']['className'] ?? '',
+      address: json['address'] != null ? json['address']: 'Chưa cập nhật',
+      sex: json['sex'] != null ? json['sex']: 'Chưa cập nhật',
+      phone: json['phone'] != null ? json['phone']: 'Chưa cập nhật',
+      className: json['Class'] != null && json['Class']['className'] != null
+                                      ? json['Class']['className']
+                                      : 'Chưa cập nhật'
+     
     );
   }
 

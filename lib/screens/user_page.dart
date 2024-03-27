@@ -87,10 +87,12 @@ class _UserPageState extends State<UserPage> {
                   _usernameController.text = user['username'];
                   _userIdController.text = user['userId'];
                   _phoneController.text = user['phone'];
-                  _addressController.text = user['address'] ?? 'Chưa cập nhật';
-                  _sexController.text = user['sex'] ?? 'Chưa cập nhật';
-                  _classController.text =
-                      user['Class']['className'] ?? 'Chưa xếp lớp';
+                  _addressController.text = user['address'] ?? '';
+                  _sexController.text = user['sex'] ?? '';
+                 _classController.text = user['Class'] != null && user['Class']['className'] != null
+                                      ? user['Class']['className']
+                                      : '';
+
                   return ListView(
                     padding: const EdgeInsets.all(16.0),
                     children: [
@@ -140,11 +142,11 @@ class _UserPageState extends State<UserPage> {
                         height: 10,
                       ),
                         Text("Lớp",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
-                      CustomTextField(
-                          isReadOnly: false,
-                          isPassword: false,
-                          hintText: "Lớp",
-                          controller: _classController),
+                     CustomTextField(
+                        isReadOnly: false,
+                        isPassword: false,
+                        hintText: "Lớp",
+                        controller: _classController),
                       const SizedBox(
                         height: 10,
                       ),

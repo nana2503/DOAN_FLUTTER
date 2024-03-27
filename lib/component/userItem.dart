@@ -5,11 +5,12 @@ class UserItem extends StatelessWidget {
   final User user;
   final VoidCallback onPressedButton1;
   final VoidCallback onPressedButton2;
-
+  final VoidCallback onPressedButton3;
   UserItem({
     required this.user,
     required this.onPressedButton1,
     required this.onPressedButton2,
+    required this.onPressedButton3,
   });
 
   @override
@@ -42,26 +43,45 @@ class UserItem extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: onPressedButton1,
-                      child: Text('Thông tin sinh viên'),
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                    ),
-                    ElevatedButton(
-                      onPressed: onPressedButton2,
-                      child: Text('Điểm số của sinh viên'),
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                    ),
-                  ],
-                ),
+             Row(
+  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  children: [
+    Expanded(
+      child: ElevatedButton(
+        onPressed: onPressedButton1,
+        child: Text('Thông tin sinh viên'),
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+    ),
+    Expanded(
+      child: ElevatedButton(
+        onPressed: onPressedButton2,
+        child: Text('Điểm số của sinh viên'),
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+    ),
+    Expanded(
+      child: ElevatedButton(
+        onPressed: onPressedButton3,
+        child: Text('Xóa sinh viên'),
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+    ),
+  ],
+),
+
                 const SizedBox(height: 5),
               ],
             ),

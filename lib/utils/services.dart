@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 
 class AppUtils {
-  static const String baseApi = "http://172.19.200.147:8080/api/v1";
+  static const String baseApi = "http://localhost:8080/api/v1";
   static Future<Map<String, dynamic>> registerUser(
       String username, String phoneNumber, String password) async {
     final response = await http
@@ -46,7 +46,10 @@ class AppUtils {
       'userId': userId,
     });
     if (response.statusCode == 200) {
+          print("response['DT']");
+     print(response.body);
       return jsonDecode(response.body);
+      
     } else {
       throw Exception('Tìm người thất bại');
     }
@@ -149,6 +152,19 @@ class AppUtils {
       }
     } catch (e) {
       throw Exception('Lỗi: $e');
+    }
+  }
+   static Future<Map<String, dynamic>> deleteUser(String userId) async {
+    final response = await http
+        .delete(Uri.parse("$baseApi/user/delete"), headers: <String, String>{
+      'ContentType': 'application/json',
+    }, body: <String, String>{
+      'userId': userId,
+    });
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Tìm người thất bại');
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/button.dart';
 import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/textfield.dart';
+import 'package:flutter_doan/screens/action_page.dart';
 import 'package:flutter_doan/utils/services.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -108,8 +109,11 @@ class _RegisterFormState extends State<RegisterForm> {
                                           message: response['EM'],
                                           closeButtonText: "Đóng",
                                           onPressed: () =>
-                                              Navigator.pop(context));
-                                    });
+                                              Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => const ActionPage())));
+                                                                      });
                               }
                             } catch (e) {
                               print("Lỗi: $e");
