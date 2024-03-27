@@ -112,7 +112,7 @@ class AppUtils {
     }
   }
 
-  static Future<Map<String, dynamic>> getTablePoint(String role) async {
+  static Future<Map<String, dynamic>> getTablePoint(String userId) async {
     try {
       final responsePoint = await http.get(
         Uri.parse("$baseApi/point/read"),
@@ -133,7 +133,7 @@ class AppUtils {
         final subjectData = jsonDecode(responseSubject.body)['DT'];
 
         final userPoints =
-            pointData.where((point) => point['userId'] == role).toList();
+            pointData.where((point) => point['userId'] == userId).toList();
 
         final subjectMap = Map.fromIterable(
           subjectData,

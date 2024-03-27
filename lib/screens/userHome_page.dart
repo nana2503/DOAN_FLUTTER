@@ -1,4 +1,3 @@
-//lib/screens/userHome_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/screens/action_page.dart';
 import 'package:flutter_doan/screens/userPoin_page.dart';
@@ -14,21 +13,37 @@ class UserHomePage extends StatefulWidget {
 }
 
 class _UserHomePageState extends State<UserHomePage> {
+  String? _role; // Sử dụng role như là userId
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  final List<Widget> _widgetOptions = <Widget>[
-    const Text(
-      'Đây là trang chủ',
-      style: optionStyle,
-    ),
-    const UserPage(),
-    const UserPointPage(),
-    const Text(
-      'Đăng xuất',
-      style: optionStyle,
-    ),
-  ];
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+   List<Widget>? _widgetOptions;
+
+  @override
+  void initState() {
+    super.initState();
+    _getRole(); // Thay vì _getRoleAndUserId, chỉ cần lấy role
+  }
+
+  Future<void> _getRole() async {
+    final tokenAndRole = await TokenService.getTokenAndRole();
+    setState(() {
+      _role = tokenAndRole['role'] ?? ''; // Sử dụng role như là userId
+      _widgetOptions = <Widget>[
+        const Text(
+          'Đây là trang chủ',
+          style: optionStyle,
+        ),
+        const UserPage(),
+        UserPointPage(userId: _role!), // Truyền role vào UserPointPage
+        const Text(
+          'Đăng xuất',
+          style: optionStyle,
+        ),
+      ];
+    });
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -39,8 +54,10 @@ class _UserHomePageState extends State<UserHomePage> {
     try {
       final response = AppUtils.handleLogout();
       if (response.toString().isNotEmpty) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const ActionPage()));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const ActionPage()),
+        );
         TokenService.deleteToken();
       }
     } catch (e) {
@@ -53,7 +70,7 @@ class _UserHomePageState extends State<UserHomePage> {
     return Scaffold(
       appBar: AppBar(title: const Text("Trang chủ")),
       body: Center(
-        child: _widgetOptions[_selectedIndex],
+        child: _widgetOptions?[_selectedIndex],
       ),
       drawer: Drawer(
         child: ListView(
@@ -61,33 +78,37 @@ class _UserHomePageState extends State<UserHomePage> {
           children: [
             const SizedBox(height: 50),
             ListTile(
-                title: const Text("Trang chủ"),
-                selected: _selectedIndex == 0,
-                onTap: () {
-                  _onItemTapped(0);
-                  Navigator.pop(context);
-                }),
+              title: const Text("Trang chủ"),
+              selected: _selectedIndex == 0,
+              onTap: () {
+                _onItemTapped(0);
+                Navigator.pop(context);
+              },
+            ),
             ListTile(
-                title: const Text("Xem thông tin sinh viên"),
-                selected: _selectedIndex == 1,
-                onTap: () {
-                  _onItemTapped(1);
-                  Navigator.pop(context);
-                }),
+              title: const Text("Xem thông tin sinh viên"),
+              selected: _selectedIndex == 1,
+              onTap: () {
+                _onItemTapped(1);
+                Navigator.pop(context);
+              },
+            ),
             ListTile(
-                title: const Text("Xem điểm sinh viên"),
-                selected: _selectedIndex == 2,
-                onTap: () {
-                  _onItemTapped(2);
-                  Navigator.pop(context);
-                }),
+              title: const Text("Xem điểm sinh viên"),
+              selected: _selectedIndex == 2,
+              onTap: () {
+                _onItemTapped(2);
+                Navigator.pop(context);
+              },
+            ),
             ListTile(
-                title: const Text("Đăng xuất"),
-                selected: _selectedIndex == 3,
-                onTap: () {
-                  _onItemTapped(3);
-                  handleLogout();
-                })
+              title: const Text("Đăng xuất"),
+              selected: _selectedIndex == 3,
+              onTap: () {
+                _onItemTapped(3);
+                handleLogout();
+              },
+            ),
           ],
         ),
       ),
