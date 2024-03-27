@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomDropdownButton extends StatefulWidget {
   final Function(String) onChanged;
-  final String selectedSemester; // Thêm thuộc tính selectedSemester
+  final String selectedSemester;
 
   CustomDropdownButton({required this.onChanged, required this.selectedSemester});
 
@@ -17,23 +17,32 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-          color: Colors.grey[50], borderRadius: BorderRadius.circular(8)),
-      child: DropdownButton<String>(
-        value: widget.selectedSemester, // Sử dụng giá trị selectedSemester từ prop
-        onChanged: (String? newValue) {
-          setState(() {
-            _selectedItem = newValue!;
-            widget.onChanged(newValue!); 
-          });
-        },
-        items: <String>['Học kỳ 1', 'Học kỳ 2']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
+      margin: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.1), // Lề phải 10% chiều rộng màn hình
+      alignment: Alignment.centerRight, // Đặt alignment về phía bên phải
+      child: Container(
+          height: 30,
+        decoration: BoxDecoration(
+          //color: Colors.blue,
+
+          // borderRadius: BorderRadius.circular(10), // Bo góc 10%
+          // border: Border.all(color: Colors.black), // Viền đen
+        ),
+        child: DropdownButton<String>(
+          value: widget.selectedSemester,
+          onChanged: (String? newValue) {
+            setState(() {
+              _selectedItem = newValue!;
+              widget.onChanged(newValue!); 
+            });
+          },
+          items: <String>['Học kỳ 1', 'Học kỳ 2']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
       ),
     );
   }

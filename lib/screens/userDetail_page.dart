@@ -58,6 +58,7 @@ class _UserDetailState extends State<UserDetail> {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
+           Text("MSSV",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
           CustomTextField(
             isReadOnly: true,
             isPassword: false,
@@ -65,6 +66,7 @@ class _UserDetailState extends State<UserDetail> {
             controller: _userIdController,
           ),
           const SizedBox(height: 10),
+           Text("Họ và tên",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
           CustomTextField(
             isReadOnly: false,
             isPassword: false,
@@ -72,6 +74,7 @@ class _UserDetailState extends State<UserDetail> {
             controller: _usernameController,
           ),
           const SizedBox(height: 10),
+           Text("SĐT",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
           CustomTextField(
             isReadOnly: true,
             isPassword: false,
@@ -79,6 +82,7 @@ class _UserDetailState extends State<UserDetail> {
             controller: _phoneController,
           ),
           const SizedBox(height: 10),
+           Text("Địa chỉ",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
           CustomTextField(
             isReadOnly: false,
             isPassword: false,
@@ -86,6 +90,7 @@ class _UserDetailState extends State<UserDetail> {
             controller: _addressController,
           ),
           const SizedBox(height: 10),
+           Text("Giới tính",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
           CustomTextField(
             isReadOnly: false,
             isPassword: false,
@@ -93,6 +98,7 @@ class _UserDetailState extends State<UserDetail> {
             controller: _sexController,
           ),
           const SizedBox(height: 10),
+           Text("Lớp",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
           CustomTextField(
             isReadOnly: false,
             isPassword: false,
@@ -101,10 +107,12 @@ class _UserDetailState extends State<UserDetail> {
           ),
           const SizedBox(height: 10),
           BottomAppBar(
+           surfaceTintColor: Colors.white,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
                   onPressed: () async {
                     String userId = _userIdController.text.trim();
                     String username = _usernameController.text.trim();

@@ -93,7 +93,7 @@ Future<void> _getTablePoint(String semester) async {
                           columns: [
                             DataColumn(
                               label: Container(
-                                width: MediaQuery.of(context).size.width * 0.4, // 50% chiều rộng cột
+                                width: MediaQuery.of(context).size.width * 0.5, // 50% chiều rộng cột
                                 decoration: BoxDecoration(
                                   border: Border(right: BorderSide(color: Colors.black))), // Viền đen bên phải cho DataColumn đầu tiên
                                 child: Center(child: Text('Môn học')),
@@ -101,7 +101,7 @@ Future<void> _getTablePoint(String semester) async {
                             ),
                             DataColumn(
                               label: Container(
-                                width: MediaQuery.of(context).size.width * 0.35, // 30% chiều rộng cột
+                                width: MediaQuery.of(context).size.width * 0.3, // 30% chiều rộng cột
                                 decoration: BoxDecoration(
                                   border: Border(left: BorderSide(color: Colors.black))), // Viền đen bên phải cho DataColumn thứ hai
                                 child: Center(child: Text('Điểm')),
@@ -113,7 +113,7 @@ Future<void> _getTablePoint(String semester) async {
                               cells: [
                                 DataCell(
                                   Container(
-                                    width: MediaQuery.of(context).size.width * 0.4, // 50% chiều rộng cột
+                                    width: MediaQuery.of(context).size.width * 0.5, // 50% chiều rộng cột
                                     child: Center(child: Text(point['subjectName'] ?? '')),
                                     decoration: BoxDecoration(
                                       border: Border(right: BorderSide(color: Colors.black)) // Viền cho bảng
@@ -122,7 +122,7 @@ Future<void> _getTablePoint(String semester) async {
                                 ),
                                 DataCell(
                                   Container(
-                                    width: MediaQuery.of(context).size.width * 0.35, // 30% chiều rộng cột
+                                    width: MediaQuery.of(context).size.width * 0.3, // 30% chiều rộng cột
                                     child: Center(child: Text(point['point']?.toString() ?? '')),
                                     decoration: BoxDecoration(
                                       border: Border(left: BorderSide(color: Colors.black)) // Viền cho bảng

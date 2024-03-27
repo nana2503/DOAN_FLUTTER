@@ -94,6 +94,7 @@ class _UserPageState extends State<UserPage> {
                   return ListView(
                     padding: const EdgeInsets.all(16.0),
                     children: [
+                       Text("MSSV",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
                       CustomTextField(
                           isReadOnly: true,
                           isPassword: false,
@@ -102,6 +103,7 @@ class _UserPageState extends State<UserPage> {
                       const SizedBox(
                         height: 10,
                       ),
+                        Text("Họ và tên",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
                       CustomTextField(
                           isReadOnly: false,
                           isPassword: false,
@@ -110,6 +112,7 @@ class _UserPageState extends State<UserPage> {
                       const SizedBox(
                         height: 10,
                       ),
+                        Text("SĐT",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
                       CustomTextField(
                           isReadOnly: true,
                           isPassword: false,
@@ -118,6 +121,7 @@ class _UserPageState extends State<UserPage> {
                       const SizedBox(
                         height: 10,
                       ),
+                       Text("Địa chỉ",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
                       CustomTextField(
                           isReadOnly: false,
                           isPassword: false,
@@ -126,6 +130,7 @@ class _UserPageState extends State<UserPage> {
                       const SizedBox(
                         height: 10,
                       ),
+                        Text("Giới tính",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
                       CustomTextField(
                           isReadOnly: false,
                           isPassword: false,
@@ -134,6 +139,7 @@ class _UserPageState extends State<UserPage> {
                       const SizedBox(
                         height: 10,
                       ),
+                        Text("Lớp",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
                       CustomTextField(
                           isReadOnly: false,
                           isPassword: false,
@@ -143,10 +149,12 @@ class _UserPageState extends State<UserPage> {
                         height: 10,
                       ),
                       BottomAppBar(
+                         surfaceTintColor: Colors.white,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             ElevatedButton(
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
                               onPressed: () async {
                                 String userId = _userIdController.text.trim();
                                 String username =
@@ -202,6 +210,7 @@ class _UserPageState extends State<UserPage> {
                               child: Text('Cập nhật'),
                             ),
                             ElevatedButton(
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
                               onPressed: () {
                                handleLogout();
                               },
