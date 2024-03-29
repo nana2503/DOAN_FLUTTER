@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/dropdownButton.dart';
+import 'package:flutter_doan/screens/addTablePoint.dart';
 import 'package:flutter_doan/utils/services.dart';
 import 'package:flutter_doan/utils/tokenService.dart';
 
 class UserPointPage extends StatefulWidget {
   final String userId;
+
   const UserPointPage({Key? key, required this.userId}) : super(key: key);
 
   @override
@@ -14,7 +16,7 @@ class UserPointPage extends StatefulWidget {
 class _UserPointPageState extends State<UserPointPage> {
   Future<List<dynamic>>? _pointData;
   String? _role;
-  String _selectedSemester = "Học kỳ 1";
+ String _selectedSemester = "Học kỳ 1";
 
   @override
   void initState() {
@@ -24,7 +26,9 @@ class _UserPointPageState extends State<UserPointPage> {
 
   Future<void> _getTablePoint(String semester) async {
     final tokenAndRole = await TokenService.getTokenAndRole();
-    _role = tokenAndRole['role'] ?? '';
+    setState(() {
+      _role = tokenAndRole['role'];
+    });
     final data = await AppUtils.getTablePoint(widget.userId);
     setState(() {
       final semesterIndex = semester == 'Học kỳ 1' ? '1' : '2';
@@ -34,9 +38,27 @@ class _UserPointPageState extends State<UserPointPage> {
     });
   }
 
+  Future<void> _updateTablePoint(String subjectName, int point) async {
+    try {
+      final response = await AppUtils.updateTablePoint(subjectName, point);
+      if (response['EC'] == 0) {
+        // Cập nhật thành công, cập nhật lại dữ liệu trong widget
+        _getTablePoint(_selectedSemester);
+      } else {
+        throw Exception(response['EM']);
+      }
+    } catch (e) {
+      throw Exception('Lỗi: $e');
+    }
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
+    String _userId = widget.userId;
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Bảng điểm sinh viên"),
+      ),
       body: FutureBuilder<List<dynamic>>(
         future: _pointData,
         builder: (context, snapshot) {
@@ -45,7 +67,8 @@ class _UserPointPageState extends State<UserPointPage> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Lỗi: ${snapshot.error}'));
           } else {
-            final points = snapshot.data;
+            final List<dynamic>? points = snapshot.data as List<dynamic>?;
+
             if (points == null || points.isEmpty) {
               return Center(
                 child: Column(
@@ -64,6 +87,7 @@ class _UserPointPageState extends State<UserPointPage> {
                 ),
               );
             }
+
             return Center(
               child: Column(
                 children: [
@@ -132,8 +156,8 @@ class _UserPointPageState extends State<UserPointPage> {
                                     width: MediaQuery.of(context).size.width * 0.3,
                                     child: Center(
                                       child: TextField(
-                                          textAlign: TextAlign.center,
-                                        controller: TextEditingController(text: point['point']?.toString() ?? ''),
+                                        textAlign: TextAlign.center,
+                                        controller: TextEditingController(text: point['point'].toString()), 
                                         readOnly: _role != 'admin', // Chỉ cho phép chỉnh sửa khi là admin
                                         decoration: InputDecoration(
                                           border: InputBorder.none, // Xóa viền của TextField
@@ -166,28 +190,29 @@ class _UserPointPageState extends State<UserPointPage> {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-                    onPressed: () {
-                      // Xử lý logic cập nhật điểm ở đây
-                      setState(() {
-                        // Thực hiện cập nhật điểm
-                      });
+                    onPressed: () async {
+                      // Lặp qua danh sách điểm để cập nhật từng điểm
+                      for (var point in await _pointData!) {
+                        _updateTablePoint(point['subjectName'], int.parse(point['point'] ?? '0'));
+                      }
                     },
                     child: Text('Cập nhật'),
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
                     onPressed: () {
-                      // Xử lý logic thêm mới điểm ở đây
-                      setState(() {
-                        // Thực hiện thêm mới điểm
-                      });
+                     Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                               AddTablePointPage(userId: _userId ,hocky: _selectedSemester)));
                     },
                     child: Text('Thêm'),
                   ),
                 ],
               ),
             )
-          : null, // Ẩn BottomAppBar nếu không phải là admin
+          : null,
     );
   }
 }

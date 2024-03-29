@@ -18,9 +18,9 @@ const getSubject = async () => {
     }
 };
 
-const createNewSubject = async (data) => {
+const createNewSubject = async (subjectId,subjectName) => {
     try {
-        const newSubject = await db.Subject.create(data);
+        const newSubject = await db.Subject.create(subjectId,subjectName);
         return {
             EM: 'Create Subject success',
             EC: 0,
@@ -35,11 +35,11 @@ const createNewSubject = async (data) => {
         };
     }
 };
-
-const updateSubject = async (subjectId, data) => {
+//api updateSubject
+const updateSubject = async (subjectName) => {
     try {
-        const updatedSubject = await db.Subject.update(data, {
-            where: { subjectId }
+        const updatedSubject = await db.Subject.update(subjectName, {
+            where: { subjectName }
         });
         return {
             EM: 'Update Subject success',

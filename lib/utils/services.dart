@@ -167,4 +167,73 @@ class AppUtils {
       throw Exception('Tìm người thất bại');
     }
   }
+static Future<Map<String, dynamic>> updateTablePoint(String subjectName, int point) async {
+  try {
+    // Gửi yêu cầu cập nhật môn học
+    final responseSubject = await http.put(
+      Uri.parse("$baseApi/subject/update"),
+      headers: <String, String>{
+        'Content-Type': 'application/json', // Chỉnh sửa Content-Type để gửi dữ liệu dưới dạng JSON
+      },
+      body: jsonEncode({'subjectName': subjectName}), // Chuyển đổi dữ liệu thành JSON trước khi gửi
+    );
+    
+    if (responseSubject.statusCode == 200) {
+      final subjectId = jsonDecode(responseSubject.body)['DT']['subjectId'];
+      
+      // Gửi yêu cầu cập nhật điểm của môn học
+      final responsePoint = await http.put(
+        Uri.parse("$baseApi/point/update"),
+        headers: <String, String>{
+          'Content-Type': 'application/json', // Chỉnh sửa Content-Type để gửi dữ liệu dưới dạng JSON
+        },
+        body: jsonEncode({'subjectId': subjectId, 'point': point}), // Chuyển đổi dữ liệu thành JSON trước khi gửi
+      );
+
+      if (responsePoint.statusCode == 200) {
+        // Trả về dữ liệu mới sau khi cập nhật thành công
+        return {'EM': 'Cập nhật thành công', 'EC': 0};
+      } else {
+        throw Exception('Cập nhật điểm thất bại');
+      }
+    } else {
+      throw Exception('Cập nhật môn học thất bại');
+    }
+  } catch (error) {
+    throw Exception('Lỗi khi gọi API: $error');
+  }
+}
+static Future<Map<String, dynamic>> addTablePoint(String userId,String subjectId,
+      String subjectName, int point, String hocky) async {
+    final responseSubject = await http.post(
+      Uri.parse("$baseApi/subject/create"),
+      headers: <String, String>{
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: {
+        'subjectId': subjectId,
+        'subjectName': subjectName,
+      },
+    );
+   final responsePoint = await http.post(
+      Uri.parse("$baseApi/point/create"),
+      headers: <String, String>{
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: {
+        'userId': userId,
+        'subjectId': subjectId,
+        'point': point,
+        'hocky': hocky,
+     
+      },
+    );
+    if (responseSubject.statusCode == 200 && responsePoint.statusCode==200) {
+      return {'EM': 'Cập nhật thành công', 'EC': 0};
+    } else {
+      throw Exception('Thêm thất bại');
+    }
+  }
+
+
 }
