@@ -17,16 +17,14 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      userId: json['userId'],
-      username: json['username'],
-      address: json['address'] != null ? json['address']: 'Chưa cập nhật',
-      sex: json['sex'] != null ? json['sex']: 'Chưa cập nhật',
-      phone: json['phone'] != null ? json['phone']: 'Chưa cập nhật',
-      className: json['Class'] != null && json['Class']['className'] != null
-                                      ? json['Class']['className']
-                                      : 'Chưa cập nhật'
-     
-    );
+        userId: json['userId'],
+        username: json['username'],
+        address: json['address'] != null ? json['address'] : 'Chưa cập nhật',
+        sex: json['sex'] != null ? json['sex'] : 'Chưa cập nhật',
+        phone: json['phone'] != null ? json['phone'] : 'Chưa cập nhật',
+        className: json['Class'] != null && json['Class']['className'] != null
+            ? json['Class']['className']
+            : 'Chưa cập nhật');
   }
 
   Map<String, dynamic> toJson() {
@@ -42,15 +40,15 @@ class User {
 
   @override
   String toString() {
-    return "MSSV: " +
+    return "MSSV       : " +
         this.userId +
-        "\nHọ và tên: " +
+        "\nHọ và tên : " +
         this.username +
-        "\nĐịa chỉ: " +
+        "\nĐịa chỉ      : " +
         this.address +
-        "\nGiới tính: " +
+        "\nGiới tính   :" +
         this.sex +
-        "\nSố điện thoại: " +
+        "\nSĐT          : " +
         this.phone;
   }
 }

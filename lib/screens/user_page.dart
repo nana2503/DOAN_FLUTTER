@@ -30,14 +30,15 @@ class _UserPageState extends State<UserPage> {
   Future<void> _getUserData() async {
     final tokenAndRole = await TokenService.getTokenAndRole();
     _role = tokenAndRole['role'] ?? '';
-        print("_role");
-     print(_role);
+    print("_role");
+    print(_role);
     setState(() {
       _userData = AppUtils.fetchUser();
       // print(_userData);
     });
   }
- void handleLogout() {
+
+  void handleLogout() {
     try {
       final response = AppUtils.handleLogout();
       if (response.toString().isNotEmpty) {
@@ -49,6 +50,7 @@ class _UserPageState extends State<UserPage> {
       print(e);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,14 +91,18 @@ class _UserPageState extends State<UserPage> {
                   _phoneController.text = user['phone'];
                   _addressController.text = user['address'] ?? '';
                   _sexController.text = user['sex'] ?? '';
-                 _classController.text = user['Class'] != null && user['Class']['className'] != null
-                                      ? user['Class']['className']
-                                      : '';
+                  _classController.text = user['Class'] != null &&
+                          user['Class']['className'] != null
+                      ? user['Class']['className']
+                      : '';
 
                   return ListView(
                     padding: const EdgeInsets.all(16.0),
                     children: [
-                       Text("MSSV",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
+                      Text("MSSV",
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold)),
                       CustomTextField(
                           isReadOnly: true,
                           isPassword: false,
@@ -105,7 +111,10 @@ class _UserPageState extends State<UserPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                        Text("Họ và tên",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
+                      Text("Họ và tên",
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold)),
                       CustomTextField(
                           isReadOnly: false,
                           isPassword: false,
@@ -114,7 +123,10 @@ class _UserPageState extends State<UserPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                        Text("SĐT",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
+                      Text("SĐT",
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold)),
                       CustomTextField(
                           isReadOnly: true,
                           isPassword: false,
@@ -123,7 +135,10 @@ class _UserPageState extends State<UserPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                       Text("Địa chỉ",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
+                      Text("Địa chỉ",
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold)),
                       CustomTextField(
                           isReadOnly: false,
                           isPassword: false,
@@ -132,7 +147,10 @@ class _UserPageState extends State<UserPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                        Text("Giới tính",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
+                      Text("Giới tính",
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold)),
                       CustomTextField(
                           isReadOnly: false,
                           isPassword: false,
@@ -141,82 +159,87 @@ class _UserPageState extends State<UserPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                        Text("Lớp",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
-                     CustomTextField(
-                        isReadOnly: false,
-                        isPassword: false,
-                        hintText: "Lớp",
-                        controller: _classController),
+                      Text("Lớp",
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold)),
+                      CustomTextField(
+                          isReadOnly: _role == 'admin' ? false : true,
+                          isPassword: false,
+                          hintText: "Lớp",
+                          controller: _classController),
                       const SizedBox(
                         height: 10,
                       ),
                       BottomAppBar(
-                         surfaceTintColor: Colors.white,
+                        surfaceTintColor: Colors.white,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-                              onPressed: () async {
-                                String userId = _userIdController.text.trim();
-                                String username =
-                                    _usernameController.text.trim();
-                                String address = _addressController.text.trim();
-                                String gender = _sexController.text.trim();
-                                String className = _classController.text.trim();
-                                if (username.isEmpty ||
-                                    address.isEmpty ||
-                                    gender.isEmpty ||
-                                    className.isEmpty) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return CustomDialogAlert(
-                                        title: "Thông báo",
-                                        message:
-                                            "Vui lòng nhập đầy đủ thông tin",
-                                        closeButtonText: "Đóng",
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(),
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  try {
-                                    print(className);
-                                    final response =
-                                        await AppUtils.HandleUpdate(
-                                            userId,
-                                            username,
-                                            address,
-                                            gender,
-                                            className);
-                                    // print(response);
+                            Container(
+                              width: 150,
+                              height: 50,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
+                                onPressed: () async {
+                                  String userId = _userIdController.text.trim();
+                                  String username =
+                                      _usernameController.text.trim();
+                                  String address =
+                                      _addressController.text.trim();
+                                  String gender = _sexController.text.trim();
+                                  String className =
+                                      _classController.text.trim();
+                                  if (username.isEmpty ||
+                                      address.isEmpty ||
+                                      gender.isEmpty ||
+                                      className.isEmpty) {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return CustomDialogAlert(
                                           title: "Thông báo",
-                                          message: response['EM'],
+                                          message:
+                                              "Vui lòng nhập đầy đủ thông tin",
                                           closeButtonText: "Đóng",
                                           onPressed: () =>
                                               Navigator.of(context).pop(),
                                         );
                                       },
                                     );
-                                  } catch (e) {
-                                    print("Lỗi: $e");
+                                  } else {
+                                    try {
+                                      print(className);
+                                      final response =
+                                          await AppUtils.HandleUpdate(
+                                              userId,
+                                              username,
+                                              address,
+                                              gender,
+                                              className);
+                                      // print(response);
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return CustomDialogAlert(
+                                            title: "Thông báo",
+                                            message: response['EM'],
+                                            closeButtonText: "Đóng",
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                          );
+                                        },
+                                      );
+                                    } catch (e) {
+                                      print("Lỗi: $e");
+                                    }
                                   }
-                                }
-                              },
-                              child: Text('Cập nhật'),
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-                              onPressed: () {
-                               handleLogout();
-                              },
-                              child: Text('Thoát'),
+                                },
+                                child: Text('Cập nhật'),
+                              ),
                             ),
                           ],
                         ),

@@ -25,12 +25,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10), // Bo góc 10%
-        border: Border.all(color: Colors.black), // Viền đen
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.black),
       ),
       child: TextField(
         onChanged: (value) {
-          setState(() {}); // Khi có sự thay đổi trong TextField, rebuild để cập nhật hiển thị
+          setState(() {});
         },
         readOnly: widget.isReadOnly ? true : false,
         controller: widget.controller,
@@ -38,14 +38,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
         decoration: InputDecoration(
           filled: widget.isReadOnly,
           fillColor: widget.isReadOnly ? Colors.grey[200] : Colors.white,
-          contentPadding: const EdgeInsets.all(10), // Lề nội dung
+          contentPadding: const EdgeInsets.all(10),
           border: OutlineInputBorder(
-            borderSide: BorderSide.none, // Loại bỏ viền của TextField
-            borderRadius: BorderRadius.circular(10), // Bo góc 10%
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(10), //
           ),
           hintText: widget.hintText,
           hintStyle: TextStyle(
-            color: widget.controller.text.isEmpty ? Colors.grey : Colors.transparent, // Biến mất hint khi có ký tự
+            color: widget.controller.text.isEmpty
+                ? Colors.grey
+                : Colors.transparent,
           ),
           suffixIcon: widget.isPassword
               ? IconButton(

@@ -31,8 +31,8 @@ class UserItem extends StatelessWidget {
                 // Ô lớn chứa thông tin
                 Container(
                   decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(10)),
+                    color: Colors.blue,
+                  ),
                   padding: const EdgeInsets.all(8),
                   child: Text(
                     user.toString(),
@@ -42,47 +42,50 @@ class UserItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 5),
-             Row(
-  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  children: [
-    Expanded(
-      child: ElevatedButton(
-        onPressed: onPressedButton1,
-        child: Text('Thông tin sinh viên'),
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-      ),
-    ),
-    Expanded(
-      child: ElevatedButton(
-        onPressed: onPressedButton2,
-        child: Text('Điểm số của sinh viên'),
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-      ),
-    ),
-    Expanded(
-      child: ElevatedButton(
-        onPressed: onPressedButton3,
-        child: Text('Xóa sinh viên'),
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-      ),
-    ),
-  ],
-),
-
-                const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: onPressedButton1,
+                        child: Icon(Icons.info),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: onPressedButton2,
+                        child: Icon(Icons.scoreboard),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: onPressedButton3,
+                        child: Icon(Icons.delete),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

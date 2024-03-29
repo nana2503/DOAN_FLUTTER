@@ -56,9 +56,17 @@ class _UserPointPageState extends State<UserPointPage> {
   Widget build(BuildContext context) { 
     String _userId = widget.userId;
     return Scaffold(
+<<<<<<< Updated upstream
       appBar: AppBar(
         title: Text("Bảng điểm sinh viên"),
       ),
+=======
+      appBar: _role != 'admin'
+          ? null
+          : AppBar(
+              title: Text("Điểm của sinh viên"),
+            ),
+>>>>>>> Stashed changes
       body: FutureBuilder<List<dynamic>>(
         future: _pointData,
         builder: (context, snapshot) {
@@ -115,7 +123,8 @@ class _UserPointPageState extends State<UserPointPage> {
                               label: Container(
                                 width: MediaQuery.of(context).size.width * 0.5,
                                 decoration: BoxDecoration(
-                                  border: Border(right: BorderSide(color: Colors.black)),
+                                  border: Border(
+                                      right: BorderSide(color: Colors.black)),
                                 ),
                                 child: Center(child: Text('Môn học')),
                               ),
@@ -124,7 +133,8 @@ class _UserPointPageState extends State<UserPointPage> {
                               label: Container(
                                 width: MediaQuery.of(context).size.width * 0.3,
                                 decoration: BoxDecoration(
-                                  border: Border(left: BorderSide(color: Colors.black)),
+                                  border: Border(
+                                      left: BorderSide(color: Colors.black)),
                                 ),
                                 child: Center(child: Text('Điểm')),
                               ),
@@ -135,37 +145,55 @@ class _UserPointPageState extends State<UserPointPage> {
                               cells: [
                                 DataCell(
                                   Container(
-                                    width: MediaQuery.of(context).size.width * 0.5,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
                                     child: Center(
                                       child: TextField(
                                         textAlign: TextAlign.center,
-                                        controller: TextEditingController(text: point['subjectName'] ?? ''),
-                                        readOnly: _role != 'admin', // Chỉ cho phép chỉnh sửa khi là admin
+                                        controller: TextEditingController(
+                                            text: point['subjectName'] ?? ''),
+                                        readOnly: _role !=
+                                            'admin', // Chỉ cho phép chỉnh sửa khi là admin
                                         decoration: InputDecoration(
-                                          border: InputBorder.none, // Xóa viền của TextField
+                                          border: InputBorder
+                                              .none, // Xóa viền của TextField
                                         ),
                                       ),
                                     ),
                                     decoration: BoxDecoration(
-                                      border: Border(right: BorderSide(color: Colors.black)),
+                                      border: Border(
+                                          right:
+                                              BorderSide(color: Colors.black)),
                                     ),
                                   ),
                                 ),
                                 DataCell(
                                   Container(
-                                    width: MediaQuery.of(context).size.width * 0.3,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.3,
                                     child: Center(
                                       child: TextField(
                                         textAlign: TextAlign.center,
+<<<<<<< Updated upstream
                                         controller: TextEditingController(text: point['point'].toString()), 
                                         readOnly: _role != 'admin', // Chỉ cho phép chỉnh sửa khi là admin
+=======
+                                        controller: TextEditingController(
+                                            text: point['point']?.toString() ??
+                                                ''),
+                                        readOnly: _role !=
+                                            'admin', // Chỉ cho phép chỉnh sửa khi là admin
+>>>>>>> Stashed changes
                                         decoration: InputDecoration(
-                                          border: InputBorder.none, // Xóa viền của TextField
+                                          border: InputBorder
+                                              .none, // Xóa viền của TextField
                                         ),
                                       ),
                                     ),
                                     decoration: BoxDecoration(
-                                      border: Border(left: BorderSide(color: Colors.black)),
+                                      border: Border(
+                                          left:
+                                              BorderSide(color: Colors.black)),
                                     ),
                                   ),
                                 ),
@@ -188,6 +216,7 @@ class _UserPointPageState extends State<UserPointPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
+<<<<<<< Updated upstream
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
                     onPressed: () async {
@@ -208,6 +237,39 @@ class _UserPointPageState extends State<UserPointPage> {
                                                AddTablePointPage(userId: _userId ,hocky: _selectedSemester)));
                     },
                     child: Text('Thêm'),
+=======
+                  Container(
+                    width: 150,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      onPressed: () {
+                        // Xử lý logic cập nhật điểm ở đây
+                        setState(() {
+                          // Thực hiện cập nhật điểm
+                        });
+                      },
+                      child: Text('Cập nhật'),
+                    ),
+                  ),
+                  Container(
+                    width: 100,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      onPressed: () {
+                        // Xử lý logic thêm mới điểm ở đây
+                        setState(() {
+                          // Thực hiện thêm mới điểm
+                        });
+                      },
+                      child: Text('Thêm'),
+                    ),
+>>>>>>> Stashed changes
                   ),
                 ],
               ),

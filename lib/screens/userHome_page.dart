@@ -16,8 +16,8 @@ class _UserHomePageState extends State<UserHomePage> {
   String? _role; // Sử dụng role như là userId
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-   List<Widget>? _widgetOptions;
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  List<Widget>? _widgetOptions;
 
   @override
   void initState() {
@@ -28,14 +28,14 @@ class _UserHomePageState extends State<UserHomePage> {
   Future<void> _getRole() async {
     final tokenAndRole = await TokenService.getTokenAndRole();
     setState(() {
-      _role = tokenAndRole['role'] ?? ''; // Sử dụng role như là userId
+      _role = tokenAndRole['role'] ?? '';
       _widgetOptions = <Widget>[
         const Text(
           'Đây là trang chủ',
           style: optionStyle,
         ),
         const UserPage(),
-        UserPointPage(userId: _role!), // Truyền role vào UserPointPage
+        UserPointPage(userId: _role!),
         const Text(
           'Đăng xuất',
           style: optionStyle,

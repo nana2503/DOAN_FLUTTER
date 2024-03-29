@@ -175,9 +175,8 @@ const updateUser = async (data) => {
 
         // Commit transaction nếu tất cả các bước đều thành công
         await transaction.commit();
-
         return {
-            EM: 'Update user and class success',
+            EM: 'Cập nhật thông tin của sinh viên thành công !!!',
             EC: 0,
             DT: updatedUser
         };
