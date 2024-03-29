@@ -31,6 +31,7 @@ const getPoint = async () => {
 
 const createNewPoint = async (userId,subjectId, point, hocky) => {
     try {
+        
         const newPoint = await db.Point.create(userId,subjectId, point, hocky);
         return {
             EM: 'Create point success',

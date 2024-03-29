@@ -94,7 +94,8 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
                   onPressed: () async {
                     String subjectId = _subjectId.text.trim();
                     String subjectName = _subjectName.text.trim();
-                    int point = int.parse(_point.text.trim());
+                     String point = _point.text.trim();
+                     //int point = int.parse(_point.text.trim());
                     if (subjectId.isEmpty ||
                         subjectName.isEmpty ||
                         point==0) {
@@ -111,8 +112,11 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
                       );
                     } else {
                       try {
+                       
+                        final hk=widget.hocky == 'Học kỳ 1' ? '1' : '2';
+                         print(hk);
                         final response = await AppUtils.addTablePoint(
-                            widget.userId,subjectId ,subjectName, point,widget.hocky);
+                            widget.userId,subjectId ,subjectName, point,hk);
                         print(response);
                         showDialog(
                           context: context,
@@ -130,7 +134,7 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
                       }
                     }
                   },
-                  child: Text('Cập nhật'),
+                  child: Text('Thêm'),
                 ),
               ],
             ),

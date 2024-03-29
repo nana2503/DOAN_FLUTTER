@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 
 class AppUtils {
-  static const String baseApi = "http://192.168.216.1:8080/api/v1";
+  static const String baseApi = "http://localhost:8080/api/v1";
   static Future<Map<String, dynamic>> registerUser(
       String username, String phoneNumber, String password) async {
     final response = await http
@@ -187,7 +187,7 @@ static Future<Map<String, dynamic>> updateTablePoint(String subjectName, int poi
         headers: <String, String>{
           'Content-Type': 'application/json', // Chỉnh sửa Content-Type để gửi dữ liệu dưới dạng JSON
         },
-        body: jsonEncode({'subjectId': subjectId, 'point': point}), // Chuyển đổi dữ liệu thành JSON trước khi gửi
+        body: jsonEncode({'subjectId': subjectId, point: point}), // Chuyển đổi dữ liệu thành JSON trước khi gửi
       );
 
       if (responsePoint.statusCode == 200) {
@@ -204,7 +204,7 @@ static Future<Map<String, dynamic>> updateTablePoint(String subjectName, int poi
   }
 }
 static Future<Map<String, dynamic>> addTablePoint(String userId,String subjectId,
-      String subjectName, int point, String hocky) async {
+      String subjectName, String point, String hocky) async {
     final responseSubject = await http.post(
       Uri.parse("$baseApi/subject/create"),
       headers: <String, String>{

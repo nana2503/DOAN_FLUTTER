@@ -2,7 +2,11 @@
 import  jwt  from "jsonwebtoken";
 require("dotenv").config();
 //const nonSecurePaths = ['/*'];
-const nonSecurePaths = ['/user/getById','/logout', '/login', '/register','/','/user/read','/class/read','/user/create','/user/update','/user/delete','/point/read','/subject/read'];
+const nonSecurePaths = ['/logout', '/login','/register','/',
+'/user/getById','/user/read','/user/create','/user/update','/user/delete',
+'/class/read',
+'/point/read','/point/create','/point/update',
+'/subject/read','/subject/create','/subject/update'];
 const createJWT = (payload)=> {
 
     let key = process.env.JWT_SECRET;
@@ -53,15 +57,15 @@ if((cookies && cookies.jwt) || tokenFromHeader){
         return res.status(401).json({
             EC: -1,
             DT: '',
-            EM: 'Not authenticated the user'
+            EM: 'Not authenticated the user 1'
           
         })
     }
-}else{
+ } else{
     return res.status(401).json({
         EC: -1,
         DT: '',
-        EM: 'Not authenticated the user'
+        EM: 'Not authenticated the user 2'
     })
 }
 }
