@@ -8,7 +8,8 @@ class AddTablePointPage extends StatefulWidget {
   final String userId;
   final String hocky;
 
-  const AddTablePointPage({Key? key, required this.userId, required this.hocky}) : super(key: key);
+  const AddTablePointPage({Key? key, required this.userId, required this.hocky})
+      : super(key: key);
 
   @override
   _AddTablePointPageState createState() => _AddTablePointPageState();
@@ -33,7 +34,7 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
   @override
   void initState() {
     super.initState();
-   // _getUserById();
+    // _getUserById();
   }
 
   // Future<void> _getUserById() async {
@@ -60,7 +61,9 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-           Text("ID",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
+          Text("ID",
+              style: TextStyle(
+                  fontStyle: FontStyle.italic, fontWeight: FontWeight.bold)),
           CustomTextField(
             isReadOnly: false,
             isPassword: false,
@@ -68,7 +71,9 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
             controller: _subjectId,
           ),
           const SizedBox(height: 10),
-           Text("Tên môn học",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
+          Text("Tên môn học",
+              style: TextStyle(
+                  fontStyle: FontStyle.italic, fontWeight: FontWeight.bold)),
           CustomTextField(
             isReadOnly: false,
             isPassword: false,
@@ -76,7 +81,9 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
             controller: _subjectName,
           ),
           const SizedBox(height: 10),
-           Text("Điểm",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold)),
+          Text("Điểm",
+              style: TextStyle(
+                  fontStyle: FontStyle.italic, fontWeight: FontWeight.bold)),
           CustomTextField(
             isReadOnly: false,
             isPassword: false,
@@ -85,20 +92,21 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
           ),
           const SizedBox(height: 10),
           BottomAppBar(
-           surfaceTintColor: Colors.white,
+            surfaceTintColor: Colors.white,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 232, 225, 225)),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 232, 225, 225)),
                   onPressed: () async {
                     String subjectId = _subjectId.text.trim();
                     String subjectName = _subjectName.text.trim();
-                     String point = _point.text.trim();
-                     //int point = int.parse(_point.text.trim());
+                    String point = _point.text.trim();
+                    //int point = int.parse(_point.text.trim());
                     if (subjectId.isEmpty ||
                         subjectName.isEmpty ||
-                        point==0) {
+                        point == 0) {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -112,21 +120,22 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
                       );
                     } else {
                       try {
-                       
-                        final hk=widget.hocky == 'Học kỳ 1' ? '1' : '2';
-                         print(hk);
+                        final hk = widget.hocky == 'Học kỳ 1' ? '1' : '2';
+                        print(hk);
                         final response = await AppUtils.addTablePoint(
-                            widget.userId,subjectId ,subjectName, point,hk);
+                            widget.userId, subjectId, subjectName, point, hk);
                         print(response);
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return CustomDialogAlert(
-                              title: "Thông báo",
-                              message: response['EM'],
-                              closeButtonText: "Đóng",
-                              onPressed: () => Navigator.of(context).pop(),
-                            );
+                                title: "Thông báo",
+                                message: response['EM'],
+                                closeButtonText: "Đóng",
+                                onPressed: () => {
+                                      Navigator.of(context).pop(),
+                                      Navigator.of(context).pop()
+                                    });
                           },
                         );
                       } catch (e) {

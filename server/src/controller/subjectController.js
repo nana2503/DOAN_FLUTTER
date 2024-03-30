@@ -24,9 +24,9 @@ try {
 const createFunc =async(req,res)=>{
  
     try {
-        let data=await userApiService.createNewSubject(req.body);
+        let data=await subjectService.createNewSubject(req.body);
         return res.status(200).json({
-            EM : data.EM,
+            EM : "Thêm môn học thành công!!",
             EC: data.EC,
             DT: data.DT
     
@@ -41,7 +41,7 @@ const createFunc =async(req,res)=>{
 }
 const updateFunc =async(req,res)=>{
     try {
-        let data=await userApiService.updateSubject(req.body);
+        let data=await subjectService.updateSubject(req.body);
         return res.status(200).json({
             EM : data.EM,
             EC: data.EC,
@@ -59,7 +59,7 @@ const updateFunc =async(req,res)=>{
 const deleteFunc =async(req,res)=>{
   
     try {
-        let data =await userApiService.deleteSubject(req.body.userId);
+        let data =await subjectService.deleteSubject(req.body.userId);
         return res.status(200).json({
             EM : data.EM,
             EC: data.EC,

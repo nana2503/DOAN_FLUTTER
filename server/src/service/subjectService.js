@@ -36,11 +36,12 @@ const createNewSubject = async (subjectId,subjectName) => {
     }
 };
 //api updateSubject
-const updateSubject = async (subjectName) => {
+const updateSubject = async (data) => {
     try {
-        const updatedSubject = await db.Subject.update(subjectName, {
-            where: { subjectName }
-        });
+        const updatedSubject = await db.Subject.update(
+            { subjectName: data.subjectName }, // Dữ liệu cập nhật
+            { where: { subjectId: data.subjectId }});
+        
         return {
             EM: 'Update Subject success',
             EC: 0,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_doan/component/button.dart';
 import 'package:flutter_doan/component/dropdownButton.dart';
 import 'package:flutter_doan/screens/addTablePoint.dart';
+import 'package:flutter_doan/screens/updateSubject_page.dart';
 import 'package:flutter_doan/utils/services.dart';
 import 'package:flutter_doan/utils/tokenService.dart';
 
@@ -16,7 +18,7 @@ class UserPointPage extends StatefulWidget {
 class _UserPointPageState extends State<UserPointPage> {
   Future<List<dynamic>>? _pointData;
   String? _role;
- String _selectedSemester = "Học kỳ 1";
+  String _selectedSemester = "Học kỳ 1";
 
   @override
   void initState() {
@@ -38,35 +40,29 @@ class _UserPointPageState extends State<UserPointPage> {
     });
   }
 
-  Future<void> _updateTablePoint(String subjectName, int point) async {
-    try {
-      final response = await AppUtils.updateTablePoint(subjectName, point);
-      if (response['EC'] == 0) {
-        // Cập nhật thành công, cập nhật lại dữ liệu trong widget
-        _getTablePoint(_selectedSemester);
-      } else {
-        throw Exception(response['EM']);
-      }
-    } catch (e) {
-      throw Exception('Lỗi: $e');
-    }
-  }
+  // Future<void> _updateTablePoint(String subjectName, int point) async {
+  //   try {
+  //     final response = await AppUtils.updateTablePoint(subjectName, subjectId, point);
+  //     if (response['EC'] == 0) {
+  //       // Cập nhật thành công, cập nhật lại dữ liệu trong widget
+  //       _getTablePoint(_selectedSemester);
+  //     } else {
+  //       throw Exception(response['EM']);
+  //     }
+  //   } catch (e) {
+  //     throw Exception('Lỗi: $e');
+  //   }
+  // }
 
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     String _userId = widget.userId;
     return Scaffold(
-<<<<<<< Updated upstream
-      appBar: AppBar(
-        title: Text("Bảng điểm sinh viên"),
-      ),
-=======
       appBar: _role != 'admin'
           ? null
           : AppBar(
               title: Text("Điểm của sinh viên"),
             ),
->>>>>>> Stashed changes
       body: FutureBuilder<List<dynamic>>(
         future: _pointData,
         builder: (context, snapshot) {
@@ -109,98 +105,124 @@ class _UserPointPageState extends State<UserPointPage> {
                     selectedSemester: _selectedSemester,
                   ),
                   SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                        ),
-                        child: DataTable(
-                          columnSpacing: MediaQuery.of(context).size.width * 0,
-                          columns: [
-                            DataColumn(
-                              label: Container(
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                      right: BorderSide(color: Colors.black)),
-                                ),
-                                child: Center(child: Text('Môn học')),
+                    scrollDirection: Axis.horizontal,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                      ),
+                      child: DataTable(
+                        columnSpacing: MediaQuery.of(context).size.width * 0,
+                        columns: [
+                          DataColumn(
+                            label: Container(
+                              width: MediaQuery.of(context).size.width * 0.1,
+                              decoration: BoxDecoration(
+                                border: Border(
+                                    right: BorderSide(color: Colors.black)),
                               ),
+                              child: Center(child: Text('ID')),
                             ),
-                            DataColumn(
-                              label: Container(
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                      left: BorderSide(color: Colors.black)),
-                                ),
-                                child: Center(child: Text('Điểm')),
+                          ),
+                          DataColumn(
+                            label: Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              decoration: BoxDecoration(
+                                border: Border(
+                                    right: BorderSide(
+                                        color: const Color.fromARGB(
+                                            255, 248, 204, 204))),
                               ),
+                              child: Center(child: Text('Môn học')),
                             ),
-                          ],
-                          rows: points.map<DataRow>((point) {
-                            return DataRow(
-                              cells: [
-                                DataCell(
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.5,
-                                    child: Center(
-                                      child: TextField(
-                                        textAlign: TextAlign.center,
-                                        controller: TextEditingController(
-                                            text: point['subjectName'] ?? ''),
-                                        readOnly: _role !=
-                                            'admin', // Chỉ cho phép chỉnh sửa khi là admin
-                                        decoration: InputDecoration(
-                                          border: InputBorder
-                                              .none, // Xóa viền của TextField
-                                        ),
-                                      ),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                          right:
-                                              BorderSide(color: Colors.black)),
-                                    ),
+                          ),
+                          DataColumn(
+                            label: Container(
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              decoration: BoxDecoration(
+                                border: Border(
+                                    left: BorderSide(color: Colors.black)),
+                              ),
+                              child: Center(child: Text('Điểm')),
+                            ),
+                          ),
+                        ],
+                        rows: points.map<DataRow>((point) {
+                          return DataRow(
+                            cells: [
+                              DataCell(
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                        right: BorderSide(color: Colors.black)),
+                                  ),
+                                  child:
+                                      Text(point['subjectId'].toString() ?? ''),
+                                ),
+                              ),
+                              DataCell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              UpdateSubjectAndPoint(
+                                                subjectId: point['subjectId']
+                                                    .toString(),
+                                                subject: point['subjectName']
+                                                    .toString(),
+                                                point:
+                                                    point['point'].toString(),
+                                                hocky: _selectedSemester
+                                                    .toString(),
+                                              )));
+                                },
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.5,
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                        right: BorderSide(color: Colors.black)),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                        point['subjectName'].toString() ?? ''),
                                   ),
                                 ),
-                                DataCell(
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.3,
-                                    child: Center(
-                                      child: TextField(
-                                        textAlign: TextAlign.center,
-<<<<<<< Updated upstream
-                                        controller: TextEditingController(text: point['point'].toString()), 
-                                        readOnly: _role != 'admin', // Chỉ cho phép chỉnh sửa khi là admin
-=======
-                                        controller: TextEditingController(
-                                            text: point['point']?.toString() ??
-                                                ''),
-                                        readOnly: _role !=
-                                            'admin', // Chỉ cho phép chỉnh sửa khi là admin
->>>>>>> Stashed changes
-                                        decoration: InputDecoration(
-                                          border: InputBorder
-                                              .none, // Xóa viền của TextField
-                                        ),
-                                      ),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                          left:
-                                              BorderSide(color: Colors.black)),
-                                    ),
+                              ),
+                              DataCell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              UpdateSubjectAndPoint(
+                                                subjectId: point['subjectId']
+                                                    .toString(),
+                                                subject: point['subjectName']
+                                                    .toString(),
+                                                point:
+                                                    point['point'].toString(),
+                                                hocky: _selectedSemester
+                                                    .toString(),
+                                              )));
+                                },
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
+                                  child: Center(
+                                      child: Text(
+                                          point['point'].toString() ?? '')),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                        left: BorderSide(color: Colors.black)),
                                   ),
                                 ),
-                              ],
-                            );
-                          }).toList(),
-                        ),
+                              ),
+                            ],
+                          );
+                        }).toList(),
                       ),
                     ),
                   ),
@@ -216,61 +238,13 @@ class _UserPointPageState extends State<UserPointPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-<<<<<<< Updated upstream
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-                    onPressed: () async {
-                      // Lặp qua danh sách điểm để cập nhật từng điểm
-                      for (var point in await _pointData!) {
-                        _updateTablePoint(point['subjectName'], int.parse(point['point'] ?? '0'));
-                      }
-                    },
-                    child: Text('Cập nhật'),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-                    onPressed: () {
-                     Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                               AddTablePointPage(userId: _userId ,hocky: _selectedSemester)));
-                    },
-                    child: Text('Thêm'),
-=======
-                  Container(
-                    width: 150,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      onPressed: () {
-                        // Xử lý logic cập nhật điểm ở đây
-                        setState(() {
-                          // Thực hiện cập nhật điểm
-                        });
-                      },
-                      child: Text('Cập nhật'),
-                    ),
-                  ),
-                  Container(
-                    width: 100,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      onPressed: () {
-                        // Xử lý logic thêm mới điểm ở đây
-                        setState(() {
-                          // Thực hiện thêm mới điểm
-                        });
-                      },
-                      child: Text('Thêm'),
-                    ),
->>>>>>> Stashed changes
-                  ),
+                  CustomButton(
+                      buttonText: "Thêm điểm",
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddTablePointPage(
+                                  userId: _userId, hocky: _selectedSemester))))
                 ],
               ),
             )

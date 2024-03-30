@@ -48,10 +48,10 @@ const createNewPoint = async (userId,subjectId, point, hocky) => {
     }
 };
 // api updatePoint
-const updatePoint = async (subjectId, point) => {
+const updatePoint = async (data) => {
     try {
-        const updatedPoint = await db.Point.update(point, {
-            where: { subjectId }
+        const updatedPoint = await db.Point.update({point: data.point}, {
+            where: {subjectId: data.subjectId}
         });
         return {
             EM: 'Update point success',
