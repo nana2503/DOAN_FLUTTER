@@ -1,5 +1,5 @@
 import db from "../models";
-
+import {checkSubjectIdExist} from "./pointService"
 const getSubject = async () => {
     try {
         const data = await db.Subject.findAll();
@@ -18,9 +18,19 @@ const getSubject = async () => {
     }
 };
 
-const createNewSubject = async (subjectId,subjectName) => {
+const createNewSubject = async (data) => {
     try {
-        const newSubject = await db.Subject.create(subjectId,subjectName);
+        console.log("check",data)
+        let isSubjectIdExist = await checkSubjectIdExist(data);
+        console.log("check",isSubjectIdExist)
+        if(isSubjectIdExist===true) {
+            return{
+                EM : 'Môn học đã tồn tại',
+                EC : 2,
+                DT :[]
+            }
+        }
+        const newSubject = await db.Subject.create(data);
         return {
             EM: 'Create Subject success',
             EC: 0,
@@ -82,5 +92,6 @@ module.exports = {
     getSubject,
     createNewSubject,
     updateSubject,
-    deleteSubject
+    deleteSubject,
+    checkSubjectIdExist
 };

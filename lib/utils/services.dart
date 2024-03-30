@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 
 class AppUtils {
-  static const String baseApi = "http://192.168.216.1:8080/api/v1";
+  static const String baseApi = "http://localhost:8080/api/v1";
   static Future<Map<String, dynamic>> registerUser(
       String username, String phoneNumber, String password) async {
     final response = await http
@@ -219,6 +219,8 @@ class AppUtils {
       body: {
         'subjectId': subjectId,
         'subjectName': subjectName,
+        'userId': userId,
+        'hocky': hocky,
       },
     );
     final responsePoint = await http.post(
@@ -234,7 +236,7 @@ class AppUtils {
       },
     );
     if (responseSubject.statusCode == 200 && responsePoint.statusCode == 200) {
-      return {'EM': 'Thêm thành công', 'EC': 0};
+      return jsonDecode(responseSubject.body);
     } else {
       throw Exception('Thêm thất bại');
     }

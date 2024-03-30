@@ -1,17 +1,20 @@
 import db from "../models";
-    // try {
-        //     const subject = await db.Subject.findAll({
-        // });
-        // const point = await db.Point.findAll({
-        // });
-        // const data ={subject,point};
-        //   console.log("check subject",points)
+const checkSubjectIdExist = async (data) => {
+    let subject = await db.Point.findOne({
+      where: { 
+        subjectId: data.subjectId ,
+        hocky:data.hocky,
+        userId:data.userId},
+    });
+  
+    if (subject) {
+      return true;
+    }
+    return false;
+  };
 const getPoint = async () => {
     try {
         const points = await db.Point.findAll({
-            // include: [
-            //     { model: db.Subject}
-            // ]
         });
     
         return {
@@ -29,10 +32,18 @@ const getPoint = async () => {
     }
 };
 
-const createNewPoint = async (userId,subjectId, point, hocky) => {
-    try {
-        
-        const newPoint = await db.Point.create(userId,subjectId, point, hocky);
+const createNewPoint = async (data) => {
+     try {
+        let isSubjectIdExist = await checkSubjectIdExist(data);
+        console.log("first",isSubjectIdExist)
+        if(isSubjectIdExist===true) {
+            return{
+                EM : 'Mã môn học đã tồn tại',
+                EC : 2,
+                DT :[]
+            }
+        }
+        const newPoint = await db.Point.create(data);
         return {
             EM: 'Create point success',
             EC: 0,
@@ -92,5 +103,6 @@ module.exports = {
     getPoint,
     createNewPoint,
     updatePoint,
-    deletePoint
+    deletePoint,
+    checkSubjectIdExist
 };

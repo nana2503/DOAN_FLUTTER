@@ -26,7 +26,7 @@ const createFunc =async(req,res)=>{
     try {
         let data=await subjectService.createNewSubject(req.body);
         return res.status(200).json({
-            EM : "Thêm môn học thành công!!",
+            EM :data.EM,
             EC: data.EC,
             DT: data.DT
     

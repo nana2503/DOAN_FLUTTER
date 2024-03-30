@@ -30,7 +30,9 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
   final TextEditingController _point = TextEditingController();
   // final TextEditingController _userId = TextEditingController();
   // final TextEditingController _hocky = TextEditingController();
-
+  void clearTextField() {
+    _point.text = "";
+  }
   @override
   void initState() {
     super.initState();
@@ -105,8 +107,7 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
                     String point = _point.text.trim();
                     //int point = int.parse(_point.text.trim());
                     if (subjectId.isEmpty ||
-                        subjectName.isEmpty ||
-                        point == 0) {
+                        subjectName.isEmpty) {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -114,11 +115,29 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
                             title: "Thông báo",
                             message: "Vui lòng nhập đầy đủ thông tin",
                             closeButtonText: "Đóng",
-                            onPressed: () => Navigator.of(context).pop(),
+                            onPressed: () => {
+                              Navigator.of(context).pop(),                           
+                            }
+                                                    
                           );
                         },
                       );
-                    } else {
+                    } 
+                    else if(int.parse(point) < 0 || int.parse(point) > 10) {
+                        showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CustomDialogAlert(
+                            title: "Thông báo",
+                            message: "Điểm phải từ 0 - 10",
+                            closeButtonText: "Đóng",
+                            onPressed: () => {Navigator.of(context).pop(),
+                             clearTextField()}
+                          );
+                        },
+                      );
+                    }
+                    else {
                       try {
                         final hk = widget.hocky == 'Học kỳ 1' ? '1' : '2';
                         print(hk);
