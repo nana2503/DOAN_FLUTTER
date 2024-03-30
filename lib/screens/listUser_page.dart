@@ -18,7 +18,6 @@ class _ListUserState extends State<ListUser> {
 
   Future<void> refreshData() async {
     await Future.delayed(const Duration(seconds: 1));
-    final response = await AppUtils.getListAllUser();
     setState(() {
       _userListFuture = AppUtils.getListAllUser();
     });
@@ -34,13 +33,6 @@ class _ListUserState extends State<ListUser> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    refreshData();
-  }
-
-  @override
-  void didUpdateWidget(covariant ListUser oldWidget) {
-    // TODO: implement didUpdateWidget
-    super.didUpdateWidget(oldWidget);
     refreshData();
   }
 
@@ -76,7 +68,7 @@ class _ListUserState extends State<ListUser> {
                             builder: (context) =>
                                 UserDetail(userId: user.userId),
                           ),
-                        );
+                        ).then((value) => {refreshData()});
                       },
                       onPressedButton2: () {
                         Navigator.push(
