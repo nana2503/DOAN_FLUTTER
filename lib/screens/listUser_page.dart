@@ -16,6 +16,34 @@ class ListUser extends StatefulWidget {
 class _ListUserState extends State<ListUser> {
   Future<Map<String, dynamic>> _userListFuture = AppUtils.getListAllUser();
 
+  Future<void> refreshData() async {
+    await Future.delayed(const Duration(seconds: 1));
+    final response = await AppUtils.getListAllUser();
+    setState(() {
+      _userListFuture = AppUtils.getListAllUser();
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    refreshData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    refreshData();
+  }
+
+  @override
+  void didUpdateWidget(covariant ListUser oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    refreshData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>>(
@@ -30,47 +58,51 @@ class _ListUserState extends State<ListUser> {
           final userList =
               userDataList.map((item) => User.fromJson(item)).toList();
 
-          return ListView.builder(
-            padding: const EdgeInsets.all(10),
-            itemCount: userList.length,
-            itemBuilder: (context, index) {
-              final user = userList[index];
-              if (user.username == 'admin') {
-                return const SizedBox();
-              } else {
-                return UserItem(
-                  user: user,
-                  onPressedButton1: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            UserDetail(userId: user.userId),
-                      ),
+          return RefreshIndicator(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(10),
+                itemCount: userList.length,
+                itemBuilder: (context, index) {
+                  final user = userList[index];
+                  if (user.username == 'admin') {
+                    return const SizedBox();
+                  } else {
+                    return UserItem(
+                      user: user,
+                      onPressedButton1: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                UserDetail(userId: user.userId),
+                          ),
+                        );
+                      },
+                      onPressedButton2: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                UserPointPage(userId: user.userId),
+                          ),
+                        );
+                      },
+                      onPressedButton3: () async {
+                        final shouldDelete =
+                            await _confirmDeleteUser(context, user);
+                        if (shouldDelete) {
+                          setState(() {
+                            _userListFuture = AppUtils.getListAllUser();
+                          });
+                        }
+                      },
                     );
-                  },
-                  onPressedButton2: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            UserPointPage(userId: user.userId),
-                      ),
-                    );
-                  },
-                  onPressedButton3: () async {
-                    final shouldDelete =
-                        await _confirmDeleteUser(context, user);
-                    if (shouldDelete) {
-                      setState(() {
-                        _userListFuture = AppUtils.getListAllUser();
-                      });
-                    }
-                  },
-                );
-              }
-            },
-          );
+                  }
+                },
+              ),
+              onRefresh: () async {
+                await refreshData();
+              });
         }
       },
     );

@@ -162,7 +162,10 @@ class _UserDetailState extends State<UserDetail> {
                               title: "Thông báo",
                               message: response['EM'],
                               closeButtonText: "Đóng",
-                              onPressed: () => Navigator.of(context).pop(),
+                              onPressed: () => {
+                                Navigator.of(context).pop(),
+                                Navigator.of(context).pop()
+                              },
                             );
                           },
                         );

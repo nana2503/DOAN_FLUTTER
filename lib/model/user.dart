@@ -44,11 +44,7 @@ class User {
         this.userId +
         "\nHọ và tên : " +
         this.username +
-        "\nĐịa chỉ      : " +
-        this.address +
         "\nGiới tính   : " +
-        this.sex +
-        "\nSĐT          : " +
-        this.phone;
+        this.sex;
   }
 }
