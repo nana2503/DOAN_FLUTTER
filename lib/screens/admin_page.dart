@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/screens/action_page.dart';
+import 'package:flutter_doan/screens/adminHome_page.dart';
 import 'package:flutter_doan/screens/listUser_page.dart';
 import 'package:flutter_doan/utils/services.dart';
 import 'package:flutter_doan/utils/tokenService.dart';
@@ -17,10 +18,7 @@ class _AdminPageState extends State<AdminPage> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   final List<Widget> _widgetOptions = <Widget>[
-    const Text(
-      'Đây là trang chủ',
-      style: optionStyle,
-    ),
+    const AdminHomePage(),
     const ListUser(),
     const Text(
       'Đăng xuất',
