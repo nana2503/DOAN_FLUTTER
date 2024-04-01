@@ -75,10 +75,29 @@ const deleteClass = async (id) => {
         };
     }
 };
-
+const countStudentInClass = async () => {
+    try {
+        const classes = await db.Class.findAll({
+            include: {model: db.User, attribute: ['userId', 'username', 'address', 'sex', 'phone', 'classId']},
+        });
+        return {
+            EM: 'Get classes success',
+            EC: 0,
+            DT: classes
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: 'Error fetching classes',
+            EC: 1,
+            DT: []
+        };
+    }
+}
 module.exports = {
     getClass,
     createNewClass,
     updateClass,
-    deleteClass
+    deleteClass,
+    countStudentInClass
 };

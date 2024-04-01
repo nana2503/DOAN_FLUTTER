@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_doan/component/homeItem.dart';
+import 'package:flutter_doan/screens/classList_page.dart';
+import 'package:flutter_doan/screens/listUser_page.dart';
 
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({super.key});
@@ -12,38 +14,59 @@ class _AdminHomePageState extends State<AdminHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Wrap(
-      spacing: 8.0,
-      runSpacing: 4.0,
-      children: <Widget>[
-        Chip(
-          label: const Text("Ngọc Na"),
-          avatar: CircleAvatar(
-            backgroundColor: Colors.blue.shade900,
-            child: const Text("NN"),
+      body: Column(
+        children: <Widget>[
+          Text(
+            "Quản lý",
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
-        ),
-        Chip(
-          avatar: CircleAvatar(
-              backgroundColor: Colors.blue.shade900, child: const Text('AH')),
-          label: const Text('Hamilton'),
-        ),
-        Chip(
-          avatar: CircleAvatar(
-              backgroundColor: Colors.blue.shade900, child: const Text('ML')),
-          label: const Text('Lafayette'),
-        ),
-        Chip(
-          avatar: CircleAvatar(
-              backgroundColor: Colors.blue.shade900, child: const Text('HM')),
-          label: const Text('Mulligan'),
-        ),
-        Chip(
-          avatar: CircleAvatar(
-              backgroundColor: Colors.blue.shade900, child: const Text('JL')),
-          label: const Text('Laurens'),
-        ),
-      ],
-    ));
+          Center(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.grey[300],
+              ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  spacing: 8.0,
+                  runSpacing: 8.0,
+                  children: <Widget>[
+                    HomeItem(
+                        title: "DDSV",
+                        backgroundColor: Colors.orange,
+                        onPress: () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const ListUser()))
+                            }),
+                    HomeItem(
+                        title: "Thông tin",
+                        backgroundColor: Colors.redAccent,
+                        onPress: () => {print('Nhấn nút thành công!!')}),
+                    HomeItem(
+                        title: "DSMH",
+                        backgroundColor: Colors.blue,
+                        onPress: () => {print('Nhấn nút thành công!!')}),
+                    HomeItem(
+                        title: "DS Lớp",
+                        backgroundColor: Colors.green,
+                        onPress: () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ClassList()))
+                            })
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

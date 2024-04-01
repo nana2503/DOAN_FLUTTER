@@ -14,7 +14,7 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage> {
   int _selectedIndex = 0;
-  String appBarTitle = "Trang chủ";
+  String appBarTitle = "Xin chào Admin";
   static const TextStyle optionStyle =
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   final List<Widget> _widgetOptions = <Widget>[

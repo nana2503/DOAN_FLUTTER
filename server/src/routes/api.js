@@ -29,16 +29,18 @@ router.get("/account", userController.getUserAccount);
 
 router.get("/user/read", userController.readFunc);
 router.post("/user/getById", userController.findOneFunc);
+router.get('/user/getClassList', userController.getUserInClass);
 router.post("/user/create", userController.createFunc);
 router.put("/user/update", userController.updateFunc);
 router.delete("/user/delete", userController.deleteFunc);
 
- router.get("/point/read", pointController.readFunc);
+router.get("/point/read", pointController.readFunc);
 router.post("/point/create",pointController.createFunc);
 router.put("/point/update", pointController.updateFunc);
 router.delete("/point/delete", pointController.deleteFunc);
 
  router.get("/class/read", classController.readFunc);
+ router.get("/class/get", classController.getClassListAndStudent);
 router.post("/class/create", classController.createFunc);
 router.put("/class/update", classController.updateFunc);
 router.delete("/class/delete", classController.deleteFunc);

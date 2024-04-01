@@ -28,9 +28,30 @@ const deleteUser = async (userId) => {
     },
   });
 };
+const countStudentInClass = async (classId) => {
+  try {
+      const studentCount = await db.User.count({
+          where: { classId }
+      });
+
+      return {
+          EM: 'Count students in class success',
+          EC: 0,
+          DT: studentCount
+      };
+  } catch (error) {
+      console.log(error);
+      return {
+          EM: 'Error counting students in class',
+          EC: 1,
+          DT: []
+      };
+  }
+};
 module.exports = {
   createNewUser,
   getUserList,
   deleteUser,
   updateUserInfor,
+  countStudentInClass
 };

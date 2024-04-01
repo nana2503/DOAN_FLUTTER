@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/model/user.dart';
 
@@ -12,6 +14,11 @@ class UserItem extends StatelessWidget {
     required this.onPressedButton2,
     required this.onPressedButton3,
   });
+  Color getRandomColor() {
+    Random random = Random();
+    return Color.fromARGB(
+        255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +37,7 @@ class UserItem extends StatelessWidget {
               children: [
                 // Ô lớn chứa thông tin
                 Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                  ),
+                  decoration: BoxDecoration(color: getRandomColor()),
                   padding: const EdgeInsets.all(8),
                   child: Text(
                     user.toString(),

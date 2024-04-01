@@ -1,5 +1,6 @@
 
 //src/service/userApiService.js
+import { where } from "sequelize";
 import db from "../models";
 import { checkUserIdExist,checkPhoneExist,hashUserPassword} from "../service/loginRegisterService";
 import bcrypt from 'bcryptjs';
@@ -226,7 +227,38 @@ const deleteUser=async(userId)=>{
         }
     }
 }
+const getListUserFromClass = async () => {
+    try {
+        let userCount = await db.User.findAll({
+            attributes: ['userId', 'username', 'address', 'sex', 'phone', 'classId'],
+            include: {model: db.Class, attributes: ['className']}
+        }); 
+        let count = userCount.length;
+        if (count > 0) {
+            return {
+                EM: 'Get list user from class success',
+                EC: 0,
+                DT: {
+                    userInClass: userCount,
+                    count: count
+                }
+            };
+        } else {
+            return {
+                EM: 'No user found in the class',
+                EC: 0,
+                DT: { }
+            };
+        }
+    } catch (e) {
+        return {
+            EM: 'Error from get list student in class',
+            EC: 1,
+            DT: []
+        };
+    }
+};
 
 module.exports={
-    getAllUser,createNewUser,updateUser,deleteUser,getUserWithPagination, getOneUser
+    getAllUser,createNewUser,updateUser,deleteUser,getUserWithPagination, getOneUser,getListUserFromClass
 }
