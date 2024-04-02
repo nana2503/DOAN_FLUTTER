@@ -17,9 +17,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
       body: Column(
         children: <Widget>[
           Text(
-            "Quản lý",
+            "Quản Lý Sinh Viên",
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 10),
           Center(
             child: Container(
               decoration: BoxDecoration(

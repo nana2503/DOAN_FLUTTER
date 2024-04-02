@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_doan/model/class.dart';
 
 class ClassItem extends StatelessWidget {
-  final String classId;
-  final String className;
-  final int totalStudent;
+  final ClassInfo classInfoItem;
   final VoidCallback onPressed;
 
   const ClassItem({
     Key? key,
-    required this.classId,
-    required this.className,
-    required this.totalStudent,
+    required this.classInfoItem,
     required this.onPressed,
   }) : super(key: key);
 
@@ -30,7 +27,7 @@ class ClassItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Class ID: $classId', // Hiển thị ID của lớp
+                'ID Lớp Học: ${classInfoItem.id}', // Hiển thị ID của lớp
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -39,7 +36,7 @@ class ClassItem extends StatelessWidget {
               ),
               SizedBox(height: 8.0),
               Text(
-                'Class Name: $className', // Hiển thị tên của lớp
+                'Tên lớp: ${classInfoItem.className}', // Hiển thị tên của lớp
                 style: TextStyle(
                   fontSize: 16.0,
                   color: Colors.white,
@@ -47,7 +44,7 @@ class ClassItem extends StatelessWidget {
               ),
               SizedBox(height: 8.0),
               Text(
-                'Total Students: $totalStudent', // Hiển thị tổng số sinh viên
+                'Tổng số lượng sinh viên: ${classInfoItem.count}', // Hiển thị tổng số sinh viên
                 style: TextStyle(
                   fontSize: 14.0,
                   color: Colors.white,

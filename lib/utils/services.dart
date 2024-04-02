@@ -243,8 +243,7 @@ class AppUtils {
   }
 
   static Future<Map<String, dynamic>> getClassList() async {
-    final response = await http.get(Uri.parse("$baseApi/user/getClassList"),
-        headers: <String, String>{'Content-Type': 'application/json'});
+    final response = await http.get(Uri.parse("$baseApi/class/get"));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
