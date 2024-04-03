@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/classItem.dart';
+import 'package:flutter_doan/component/listUserInClass.dart';
 import 'package:flutter_doan/component/userItem.dart';
 import 'package:flutter_doan/model/class.dart';
 import 'package:flutter_doan/utils/services.dart';
@@ -15,6 +16,18 @@ class ClassList extends StatefulWidget {
 
 class _ClassListState extends State<ClassList> {
   Future<Map<String, dynamic>> _classListFuture = AppUtils.getClassList();
+  Future<void> refreshData() async {
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() {
+      _classListFuture = AppUtils.getClassList();
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    refreshData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +50,24 @@ class _ClassListState extends State<ClassList> {
               final classList = classListData
                   .map((item) => ClassInfo.fromJson(item))
                   .toList();
-              return ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: classList.length,
-                  itemBuilder: (context, index) {
-                    final classInfoItem = classList[index];
-                    print(classInfoItem.id);
-                    return ClassItem(
-                        classInfoItem: classInfoItem,
-                        onPressed: () {
-                          print("Hello");
-                        });
+              return RefreshIndicator(
+                  child: ListView.builder(
+                      padding: const EdgeInsets.all(8),
+                      itemCount: classList.length,
+                      itemBuilder: (context, index) {
+                        final classInfoItem = classList[index];
+                        return ClassItem(
+                            classInfoItem: classInfoItem,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ListUserInClass(
+                                          listUser: classInfoItem.users)));
+                            });
+                      }),
+                  onRefresh: () async {
+                    refreshData();
                   });
             }
           },

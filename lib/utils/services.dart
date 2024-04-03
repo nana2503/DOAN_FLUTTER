@@ -175,15 +175,13 @@ class AppUtils {
       'subjectName': subjectName,
     };
     try {
-      // Gửi yêu cầu cập nhật môn học
       final responseSubject = await http
           .put(Uri.parse("$baseApi/subject/update"), headers: <String, String>{
         'Content-Type': 'application/x-www-form-urlencoded'
       }, body: {
         'subjectId': subjectId,
         'subjectName': subjectName,
-      } // Chuyển đổi dữ liệu thành JSON trước khi gửi
-              );
+      });
       final responsePoint = await http.put(
         Uri.parse("$baseApi/point/update"),
         headers: <String, String>{
@@ -209,20 +207,20 @@ class AppUtils {
     }
   }
 
-  static Future<Map<String, dynamic>> addTablePoint(String userId,
-      String subjectId, String subjectName, String point, String hocky) async {
-    final responseSubject = await http.post(
-      Uri.parse("$baseApi/subject/create"),
-      headers: <String, String>{
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: {
-        'subjectId': subjectId,
-        'subjectName': subjectName,
-        'userId': userId,
-        'hocky': hocky,
-      },
-    );
+  static Future<Map<String, dynamic>> addTablePoint(
+      String userId, String subjectId, String point, String hocky) async {
+    // final responseSubject = await http.post(
+    //   Uri.parse("$baseApi/subject/create"),
+    //   headers: <String, String>{
+    //     'Content-Type': 'application/x-www-form-urlencoded',
+    //   },
+    //   body: {
+    //     'subjectId': subjectId,
+    //     'subjectName': subjectName,
+    //     'userId': userId,
+    //     'hocky': hocky,
+    //   },
+    // );
     final responsePoint = await http.post(
       Uri.parse("$baseApi/point/create"),
       headers: <String, String>{
@@ -235,8 +233,8 @@ class AppUtils {
         'hocky': hocky,
       },
     );
-    if (responseSubject.statusCode == 200 && responsePoint.statusCode == 200) {
-      return jsonDecode(responseSubject.body);
+    if (responsePoint.statusCode == 200) {
+      return jsonDecode(responsePoint.body);
     } else {
       throw Exception('Thêm thất bại');
     }
@@ -244,6 +242,15 @@ class AppUtils {
 
   static Future<Map<String, dynamic>> getClassList() async {
     final response = await http.get(Uri.parse("$baseApi/class/get"));
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Gọi dữ liệu thất bại');
+    }
+  }
+
+  static Future<Map<String, dynamic>> getSubjectList() async {
+    final response = await http.get(Uri.parse("$baseApi/subject/read"));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {

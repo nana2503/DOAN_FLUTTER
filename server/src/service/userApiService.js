@@ -203,7 +203,7 @@ const deleteUser=async(userId)=>{
         if(user){
             await user.destroy();
             return {
-                EM : 'delete student success',
+                EM : 'Xóa sinh viên thành công',
                 EC: 0,
                 DT: []
             

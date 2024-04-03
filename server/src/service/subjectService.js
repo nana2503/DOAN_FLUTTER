@@ -2,7 +2,9 @@ import db from "../models";
 import {checkSubjectIdExist} from "./pointService"
 const getSubject = async () => {
     try {
-        const data = await db.Subject.findAll();
+        const data = await db.Subject.findAll({
+            attributes: ['subjectId', 'subjectName']
+        });
         return {
             EM: 'Get Subject success',
             EC: 0,
@@ -20,7 +22,6 @@ const getSubject = async () => {
 
 const createNewSubject = async (data) => {
     try {
-        console.log("check",data)
         let isSubjectIdExist = await checkSubjectIdExist(data);
         console.log("check",isSubjectIdExist)
         if(isSubjectIdExist===true) {

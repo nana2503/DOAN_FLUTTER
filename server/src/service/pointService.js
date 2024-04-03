@@ -38,21 +38,21 @@ const createNewPoint = async (data) => {
         console.log("first",isSubjectIdExist)
         if(isSubjectIdExist===true) {
             return{
-                EM : 'Mã môn học đã tồn tại',
+                EM : 'Môn học này đã có điểm, vui lòng nhập môn điểm khác hoặc cập nhật!!!',
                 EC : 2,
                 DT :[]
             }
         }
         const newPoint = await db.Point.create(data);
         return {
-            EM: 'Create point success',
+            EM: 'Thêm điểm vào môn thành công',
             EC: 0,
             DT: newPoint
         };
     } catch (error) {
         console.log(error);
         return {
-            EM: 'Error creating point',
+            EM: 'Lỗi khi thêm điểm cho môn!!',
             EC: 1,
             DT: []
         };

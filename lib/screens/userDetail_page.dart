@@ -151,10 +151,8 @@ class _UserDetailState extends State<UserDetail> {
                       );
                     } else {
                       try {
-                        print(className);
                         final response = await AppUtils.HandleUpdate(
                             userId, username, address, gender, className);
-                        print(response);
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {

@@ -16,43 +16,29 @@ class AddTablePointPage extends StatefulWidget {
 }
 
 class _AddTablePointPageState extends State<AddTablePointPage> {
-  // User user = User(
-  //   userId: "",
-  //   username: "",
-  //   address: "",
-  //   sex: "",
-  //   phone: "",
-  //   className: "",
-  // );
-
+  Future<Map<String, dynamic>> _getListSubject = AppUtils.getSubjectList();
+  List<dynamic> _subjectList = [];
   final TextEditingController _subjectId = TextEditingController();
   final TextEditingController _subjectName = TextEditingController();
   final TextEditingController _point = TextEditingController();
-  // final TextEditingController _userId = TextEditingController();
-  // final TextEditingController _hocky = TextEditingController();
   void clearTextField() {
     _point.text = "";
   }
-  @override
-  void initState() {
-    super.initState();
-    // _getUserById();
-  }
 
-  // Future<void> _getUserById() async {
-  //   final response = await AppUtils.getUserByID(widget.userId);
-  //   print("response['DT']");
-  //    print(response['DT']);
-  //   setState(() {
-  //     user = User.fromJson(response['DT']);
-  //     _usernameController.text = user.username;
-  //     _userIdController.text = user.userId;
-  //     _phoneController.text = user.phone;
-  //     _addressController.text = user.address == null ? "": user.address;
-  //     _sexController.text = user.sex == null ?"":user.sex;
-  //     _classController.text = user.className == null ?"":user.className;
-  //   });
-  // }
+  String _selectedSubjectName = '';
+  String? _selectedSubjectId;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getListSubject;
+    _getListSubject
+        .then((data) => setState(() {
+              _subjectList = data['DT'];
+            }))
+        .catchError((e) {
+      print("Lỗi gì đó ???");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,18 +52,41 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
           Text("ID",
               style: TextStyle(
                   fontStyle: FontStyle.italic, fontWeight: FontWeight.bold)),
-          CustomTextField(
-            isReadOnly: false,
-            isPassword: false,
-            hintText: "Mã môn học",
-            controller: _subjectId,
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.black)),
+            height: 50,
+            child: DropdownButton<String>(
+              value: _selectedSubjectId,
+              icon: const Icon(Icons.keyboard_arrow_down),
+              hint: Text('Chọn môn học'),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedSubjectId = newValue;
+                  _subjectId.text = _selectedSubjectId!;
+                  _selectedSubjectName = _subjectList.firstWhere(
+                      (item) => item['subjectId'] == newValue)['subjectName'];
+                  _subjectName.text = _selectedSubjectName;
+                });
+              },
+              items: _subjectList.map<DropdownMenuItem<String>>((dynamic item) {
+                String subjectId = item['subjectId'];
+                String subjectName = item['subjectName'];
+                return DropdownMenuItem<String>(
+                  value: subjectId,
+                  child: Text(subjectId),
+                );
+              }).toList(),
+            ),
           ),
           const SizedBox(height: 10),
           Text("Tên môn học",
               style: TextStyle(
                   fontStyle: FontStyle.italic, fontWeight: FontWeight.bold)),
           CustomTextField(
-            isReadOnly: false,
+            isReadOnly: true,
             isPassword: false,
             hintText: "Tên môn học",
             controller: _subjectName,
@@ -102,48 +111,42 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromARGB(255, 232, 225, 225)),
                   onPressed: () async {
+                    print(_subjectList);
                     String subjectId = _subjectId.text.trim();
                     String subjectName = _subjectName.text.trim();
                     String point = _point.text.trim();
-                    //int point = int.parse(_point.text.trim());
-                    if (subjectId.isEmpty ||
-                        subjectName.isEmpty) {
+                    if (point.isEmpty) {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return CustomDialogAlert(
-                            title: "Thông báo",
-                            message: "Vui lòng nhập đầy đủ thông tin",
-                            closeButtonText: "Đóng",
-                            onPressed: () => {
-                              Navigator.of(context).pop(),                           
-                            }
-                                                    
-                          );
+                              title: "Thông báo",
+                              message: "Vui lòng nhập đầy đủ thông tin",
+                              closeButtonText: "Đóng",
+                              onPressed: () => {
+                                    Navigator.of(context).pop(),
+                                  });
                         },
                       );
-                    } 
-                    else if(int.parse(point) < 0 || int.parse(point) > 10) {
-                        showDialog(
+                    } else if (int.parse(point) < 0 || int.parse(point) > 10) {
+                      showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return CustomDialogAlert(
-                            title: "Thông báo",
-                            message: "Điểm phải từ 0 - 10",
-                            closeButtonText: "Đóng",
-                            onPressed: () => {Navigator.of(context).pop(),
-                             clearTextField()}
-                          );
+                              title: "Thông báo",
+                              message: "Điểm phải từ 0 - 10",
+                              closeButtonText: "Đóng",
+                              onPressed: () => {
+                                    Navigator.of(context).pop(),
+                                    clearTextField()
+                                  });
                         },
                       );
-                    }
-                    else {
+                    } else {
                       try {
                         final hk = widget.hocky == 'Học kỳ 1' ? '1' : '2';
-                        print(hk);
                         final response = await AppUtils.addTablePoint(
-                            widget.userId, subjectId, subjectName, point, hk);
-                        print(response);
+                            widget.userId, subjectId, point, hk);
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {

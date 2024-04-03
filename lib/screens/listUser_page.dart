@@ -19,7 +19,7 @@ class _ListUserState extends State<ListUser> {
   Future<void> refreshData() async {
     await Future.delayed(const Duration(seconds: 1));
     setState(() {
-      _userListFuture = AppUtils.getListAllUser();
+      _userListFuture;
     });
   }
 
@@ -53,7 +53,7 @@ class _ListUserState extends State<ListUser> {
                     itemCount: userList.length,
                     itemBuilder: (context, index) {
                       final user = userList[index];
-                      if (user.username == 'admin') {
+                      if (user.userId.contains('admin')) {
                         return const SizedBox();
                       } else {
                         return UserItem(
@@ -65,7 +65,7 @@ class _ListUserState extends State<ListUser> {
                                 builder: (context) =>
                                     UserDetail(userId: user.userId),
                               ),
-                            ).then((value) => {refreshData()});
+                            );
                           },
                           onPressedButton2: () {
                             Navigator.push(
@@ -80,9 +80,7 @@ class _ListUserState extends State<ListUser> {
                             final shouldDelete =
                                 await _confirmDeleteUser(context, user);
                             if (shouldDelete) {
-                              setState(() {
-                                _userListFuture = AppUtils.getListAllUser();
-                              });
+                              refreshData();
                             }
                           },
                         );

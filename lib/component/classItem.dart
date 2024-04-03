@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/model/class.dart';
 
@@ -10,6 +12,11 @@ class ClassItem extends StatelessWidget {
     required this.classInfoItem,
     required this.onPressed,
   }) : super(key: key);
+  Color getRandomColor() {
+    Random random = Random();
+    return Color.fromARGB(
+        255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +27,14 @@ class ClassItem extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: Colors.blue, // Màu nền của container
-            borderRadius: BorderRadius.circular(10.0), // Bo tròn góc
-          ),
+              color: getRandomColor(),
+              borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(width: 1)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'ID Lớp Học: ${classInfoItem.id}', // Hiển thị ID của lớp
+                'ID Lớp Học: ${classInfoItem.id}',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -36,7 +43,7 @@ class ClassItem extends StatelessWidget {
               ),
               SizedBox(height: 8.0),
               Text(
-                'Tên lớp: ${classInfoItem.className}', // Hiển thị tên của lớp
+                'Tên lớp: ${classInfoItem.className}',
                 style: TextStyle(
                   fontSize: 16.0,
                   color: Colors.white,
@@ -44,7 +51,7 @@ class ClassItem extends StatelessWidget {
               ),
               SizedBox(height: 8.0),
               Text(
-                'Tổng số lượng sinh viên: ${classInfoItem.count}', // Hiển thị tổng số sinh viên
+                'Tổng số lượng sinh viên: ${classInfoItem.count}',
                 style: TextStyle(
                   fontSize: 14.0,
                   color: Colors.white,
