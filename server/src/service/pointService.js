@@ -82,7 +82,7 @@ const updatePoint = async (data) => {
 const deletePoint = async (id) => {
     try {
         const deletedPoint = await db.Point.destroy({
-            where: { id }
+            where: { subjectId: id }
         });
         return {
             EM: 'Delete point success',

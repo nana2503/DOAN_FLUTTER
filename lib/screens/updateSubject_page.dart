@@ -25,9 +25,10 @@ final TextEditingController _subjectIdController = TextEditingController();
 final TextEditingController _subjectNameController = TextEditingController();
 final TextEditingController _subjectPointController = TextEditingController();
 final TextEditingController _subjectHocKyController = TextEditingController();
- void clearTextField() {
-    _subjectPointController.text = "";
-  }
+void clearTextField() {
+  _subjectPointController.text = "";
+}
+
 class _UpdateSubjectAndPointState extends State<UpdateSubjectAndPoint> {
   @override
   void initState() {
@@ -43,7 +44,7 @@ class _UpdateSubjectAndPointState extends State<UpdateSubjectAndPoint> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Cập nhật môn và điểm'),
+          title: Text('Cập nhật điểm cho môn học'),
         ),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -72,7 +73,7 @@ class _UpdateSubjectAndPointState extends State<UpdateSubjectAndPoint> {
                       isPassword: false,
                       hintText: "Tên môn học",
                       controller: _subjectNameController,
-                      isReadOnly: false),
+                      isReadOnly: true),
                   const SizedBox(
                     height: 20,
                   ),
@@ -106,23 +107,22 @@ class _UpdateSubjectAndPointState extends State<UpdateSubjectAndPoint> {
                               );
                             },
                           );
-                        } 
-                        else if(int.parse(subjectPoint) < 0 || int.parse(subjectPoint) > 10) {
-                        showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return CustomDialogAlert(
-                            title: "Thông báo",
-                            message: "Điểm phải từ 0 - 10",
-                            closeButtonText: "Đóng",
-                            onPressed: () => {Navigator.of(context).pop(),
-                              clearTextField()
-                             }
+                        } else if (int.parse(subjectPoint) < 0 ||
+                            int.parse(subjectPoint) > 10) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomDialogAlert(
+                                  title: "Thông báo",
+                                  message: "Điểm phải từ 0 - 10",
+                                  closeButtonText: "Đóng",
+                                  onPressed: () => {
+                                        Navigator.of(context).pop(),
+                                        clearTextField()
+                                      });
+                            },
                           );
-                        },
-                      );
-                    }
-                        else {
+                        } else {
                           try {
                             final response = await AppUtils.updateTablePoint(
                                 subjectName, subjectId, subjectPoint);

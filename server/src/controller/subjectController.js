@@ -59,7 +59,7 @@ const updateFunc =async(req,res)=>{
 const deleteFunc =async(req,res)=>{
   
     try {
-        let data =await subjectService.deleteSubject(req.body.userId);
+        let data =await subjectService.deleteSubject(req.body.subjectId);
         return res.status(200).json({
             EM : data.EM,
             EC: data.EC,

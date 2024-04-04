@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/homeItem.dart';
+import 'package:flutter_doan/screens/Subject/subjectList_page.dart';
 import 'package:flutter_doan/screens/classList_page.dart';
 import 'package:flutter_doan/screens/listUser_page.dart';
 
@@ -51,7 +52,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     HomeItem(
                         title: "DSMH",
                         backgroundColor: Colors.blue,
-                        onPress: () => {print('Nhấn nút thành công!!')}),
+                        onPress: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SubjectList()))),
                     HomeItem(
                         title: "DS Lớp",
                         backgroundColor: Colors.green,

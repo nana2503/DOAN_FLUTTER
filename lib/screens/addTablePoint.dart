@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_doan/component/button.dart';
 import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/textfield.dart';
 import 'package:flutter_doan/model/user.dart';
@@ -104,70 +105,61 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
           const SizedBox(height: 10),
           BottomAppBar(
             surfaceTintColor: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 232, 225, 225)),
-                  onPressed: () async {
-                    print(_subjectList);
-                    String subjectId = _subjectId.text.trim();
-                    String subjectName = _subjectName.text.trim();
-                    String point = _point.text.trim();
-                    if (point.isEmpty) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return CustomDialogAlert(
-                              title: "Thông báo",
-                              message: "Vui lòng nhập đầy đủ thông tin",
-                              closeButtonText: "Đóng",
-                              onPressed: () => {
-                                    Navigator.of(context).pop(),
-                                  });
-                        },
-                      );
-                    } else if (int.parse(point) < 0 || int.parse(point) > 10) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return CustomDialogAlert(
-                              title: "Thông báo",
-                              message: "Điểm phải từ 0 - 10",
-                              closeButtonText: "Đóng",
-                              onPressed: () => {
-                                    Navigator.of(context).pop(),
-                                    clearTextField()
-                                  });
-                        },
-                      );
-                    } else {
-                      try {
-                        final hk = widget.hocky == 'Học kỳ 1' ? '1' : '2';
-                        final response = await AppUtils.addTablePoint(
-                            widget.userId, subjectId, point, hk);
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return CustomDialogAlert(
-                                title: "Thông báo",
-                                message: response['EM'],
-                                closeButtonText: "Đóng",
-                                onPressed: () => {
-                                      Navigator.of(context).pop(),
-                                      Navigator.of(context).pop()
-                                    });
-                          },
-                        );
-                      } catch (e) {
-                        print("Lỗi: $e");
-                      }
-                    }
-                  },
-                  child: Text('Thêm'),
-                ),
-              ],
+            child: CustomButton(
+              buttonText: "Thêm điểm",
+              onPressed: () async {
+                print(_subjectList);
+                String subjectId = _subjectId.text.trim();
+                String subjectName = _subjectName.text.trim();
+                String point = _point.text.trim();
+                if (point.isEmpty) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CustomDialogAlert(
+                          title: "Thông báo",
+                          message: "Vui lòng nhập đầy đủ thông tin",
+                          closeButtonText: "Đóng",
+                          onPressed: () => {
+                                Navigator.of(context).pop(),
+                              });
+                    },
+                  );
+                } else if (int.parse(point) < 0 || int.parse(point) > 10) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CustomDialogAlert(
+                          title: "Thông báo",
+                          message: "Điểm phải từ 0 - 10",
+                          closeButtonText: "Đóng",
+                          onPressed: () =>
+                              {Navigator.of(context).pop(), clearTextField()});
+                    },
+                  );
+                } else {
+                  try {
+                    final hk = widget.hocky == 'Học kỳ 1' ? '1' : '2';
+                    final response = await AppUtils.addTablePoint(
+                        widget.userId, subjectId, point, hk);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return CustomDialogAlert(
+                            title: "Thông báo",
+                            message: response['EM'],
+                            closeButtonText: "Đóng",
+                            onPressed: () => {
+                                  Navigator.of(context).pop(),
+                                  Navigator.of(context).pop()
+                                });
+                      },
+                    );
+                  } catch (e) {
+                    print("Lỗi: $e");
+                  }
+                }
+              },
             ),
           ),
         ],

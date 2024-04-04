@@ -5,8 +5,8 @@ require("dotenv").config();
 const nonSecurePaths = ['/logout', '/login','/register','/',
 '/user/getById','/user/read','/user/create','/user/update','/user/delete', '/user/getClassList',
 '/class/read','/class/get',
-'/point/read','/point/create','/point/update',
-'/subject/read','/subject/create','/subject/update'];
+'/point/read','/point/create','/point/update', '/point/delete',
+'/subject/read','/subject/create','/subject/update', '/subject/delete'];
 const createJWT = (payload)=> {
 
     let key = process.env.JWT_SECRET;

@@ -1,5 +1,15 @@
 import db from "../models";
-import {checkSubjectIdExist} from "./pointService"
+const checkSubjectIdExist = async (data) => {
+    let subject = await db.Subject.findOne({
+      where: { 
+        subjectId: data.subjectId},
+    });
+  
+    if (subject) {
+      return true;
+    }
+    return false;
+  };
 const getSubject = async () => {
     try {
         const data = await db.Subject.findAll({
@@ -26,14 +36,14 @@ const createNewSubject = async (data) => {
         console.log("check",isSubjectIdExist)
         if(isSubjectIdExist===true) {
             return{
-                EM : 'Môn học đã tồn tại',
+                EM : 'Môn học đã tồn tại!',
                 EC : 2,
                 DT :[]
             }
         }
         const newSubject = await db.Subject.create(data);
         return {
-            EM: 'Create Subject success',
+            EM: 'Thêm môn học thành công!',
             EC: 0,
             DT: newSubject
         };
@@ -71,17 +81,17 @@ const updateSubject = async (data) => {
 const deleteSubject = async (subjectId) => {
     try {
         const deletedSubject = await db.Subject.destroy({
-            where: { subjectId }
+            where: { subjectId: subjectId }
         });
         return {
-            EM: 'Delete Subject success',
+            EM: 'Xóa môn học thành công!!',
             EC: 0,
             DT: deletedSubject
         };
     } catch (error) {
         console.log(error);
         return {
-            EM: 'Error deleting Subject',
+            EM: 'Lỗi khi xóa môn học',
             EC: 1,
             DT: []
         };

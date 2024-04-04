@@ -5,6 +5,7 @@ import "package:http/http.dart" as http;
 
 class AppUtils {
   static const String baseApi = "http://192.168.238.1:8080/api/v1";
+
   static Future<Map<String, dynamic>> registerUser(
       String username, String phoneNumber, String password) async {
     final response = await http
@@ -255,6 +256,42 @@ class AppUtils {
       return jsonDecode(response.body);
     } else {
       throw Exception('Gọi dữ liệu thất bại');
+    }
+  }
+
+  static Future<Map<String, dynamic>> addSubject(
+      String subjectId, String subjectName) async {
+    final responsePoint = await http.post(
+      Uri.parse("$baseApi/subject/create"),
+      headers: <String, String>{
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: {'subjectId': subjectId, 'subjectName': subjectName},
+    );
+    if (responsePoint.statusCode == 200) {
+      return jsonDecode(responsePoint.body);
+    } else {
+      throw Exception('Thêm thất bại');
+    }
+  }
+
+  static Future<Map<String, dynamic>> deleteSubject(String subjectId) async {
+    final responseSubject = await http
+        .delete(Uri.parse("$baseApi/subject/delete"), headers: <String, String>{
+      'ContentType': 'application/json',
+    }, body: <String, String>{
+      'subjectId': subjectId,
+    });
+    final responsePoint = await http
+        .delete(Uri.parse("$baseApi/point/delete"), headers: <String, String>{
+      'ContentType': 'application/json',
+    }, body: <String, String>{
+      'subjectId': subjectId,
+    });
+    if (responseSubject.statusCode == 200 && responsePoint.statusCode == 200) {
+      return jsonDecode(responseSubject.body);
+    } else {
+      throw Exception('Xóa môn học thất bại');
     }
   }
 }
