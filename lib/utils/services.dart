@@ -294,4 +294,21 @@ class AppUtils {
       throw Exception('Xóa môn học thất bại');
     }
   }
+
+  static Future<Map<String, dynamic>> updateSubject(
+      String subjectId, String subjectName) async {
+    final responseSubject = await http
+        .put(Uri.parse("$baseApi/subject/update"), headers: <String, String>{
+      'ContentType': 'application/json',
+    }, body: <String, String>{
+      'subjectId': subjectId,
+      'subjectName': subjectName,
+    });
+
+    if (responseSubject.statusCode == 200) {
+      return jsonDecode(responseSubject.body);
+    } else {
+      throw Exception('Cập nhật môn học thất bại');
+    }
+  }
 }

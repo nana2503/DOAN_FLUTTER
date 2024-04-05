@@ -6,12 +6,14 @@ import 'package:flutter_doan/model/class.dart';
 class ClassItem extends StatelessWidget {
   final ClassInfo classInfoItem;
   final VoidCallback onPressed;
+  final VoidCallback onLongPressed;
 
-  const ClassItem({
-    Key? key,
-    required this.classInfoItem,
-    required this.onPressed,
-  }) : super(key: key);
+  const ClassItem(
+      {Key? key,
+      required this.classInfoItem,
+      required this.onPressed,
+      required this.onLongPressed})
+      : super(key: key);
   Color getRandomColor() {
     Random random = Random();
     return Color.fromARGB(
@@ -23,6 +25,7 @@ class ClassItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
+        onLongPress: onLongPressed,
         onTap: onPressed,
         child: Container(
           padding: const EdgeInsets.all(16.0),

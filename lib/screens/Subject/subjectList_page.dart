@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/model/subject.dart';
 import 'package:flutter_doan/screens/Subject/subjectAdd_page.dart';
+import 'package:flutter_doan/screens/Subject/subjectUpdate_page.dart';
 import 'package:flutter_doan/utils/services.dart';
 
 class SubjectList extends StatefulWidget {
@@ -63,14 +64,26 @@ class _SubjectListState extends State<SubjectList> {
                     snapshot.data!['DT'] as List<dynamic>?;
                 final subjectList = subjectDataList!
                     .map<DataRow>((item) => DataRow(cells: [
-                          DataCell(onLongPress: () {
-                            myLongPressFunction(item['subjectId'].toString());
-                          },
+                          DataCell(
+                              onTap: () => {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return UdapteSubjectInfo(
+                                          subjectId:
+                                              item['subjectId'].toString(),
+                                          subjectName:
+                                              item['subjectName'].toString());
+                                    })).then((value) => refreshData()),
+                                  },
+                              onLongPress: () {
+                                myLongPressFunction(
+                                    item['subjectId'].toString());
+                              },
                               SizedBox.expand(
                                 child: Container(
                                   width:
                                       MediaQuery.of(context).size.width * 0.2,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     border: Border(
                                         right: BorderSide(color: Colors.black)),
                                   ),
@@ -84,6 +97,15 @@ class _SubjectListState extends State<SubjectList> {
                                 ),
                               )),
                           DataCell(
+                            onTap: () => {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return UdapteSubjectInfo(
+                                    subjectId: item['subjectId'].toString(),
+                                    subjectName:
+                                        item['subjectName'].toString());
+                              })).then((value) => refreshData()),
+                            },
                             onLongPress: () {
                               myLongPressFunction(item['subjectId'].toString());
                             },

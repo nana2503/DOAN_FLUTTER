@@ -64,7 +64,7 @@ const updateSubject = async (data) => {
             { where: { subjectId: data.subjectId }});
         
         return {
-            EM: 'Update Subject success',
+            EM: 'Cập nhật môn học thành công!!',
             EC: 0,
             DT: updatedSubject
         };
