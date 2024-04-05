@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import mysql from "mysql2/promise";
 const salt = bcrypt.genSaltSync(10);
 import db from "../models";
+import { where } from "sequelize";
 
 const hashUserPassword = (userPassword) => {
   let hashPassword = bcrypt.hashSync(userPassword, salt);
@@ -30,28 +31,28 @@ const deleteUser = async (userId) => {
 };
 const countStudentInClass = async (classId) => {
   try {
-      const studentCount = await db.User.count({
-          where: { classId }
-      });
+    const studentCount = await db.User.count({
+      where: { classId },
+    });
 
-      return {
-          EM: 'Count students in class success',
-          EC: 0,
-          DT: studentCount
-      };
+    return {
+      EM: "Count students in class success",
+      EC: 0,
+      DT: studentCount,
+    };
   } catch (error) {
-      console.log(error);
-      return {
-          EM: 'Error counting students in class',
-          EC: 1,
-          DT: []
-      };
+    console.log(error);
+    return {
+      EM: "Error counting students in class",
+      EC: 1,
+      DT: [],
+    };
   }
 };
+
 module.exports = {
   createNewUser,
   getUserList,
   deleteUser,
-  updateUserInfor,
-  countStudentInClass
+  countStudentInClass,
 };

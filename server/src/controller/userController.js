@@ -126,6 +126,23 @@ const getUserInClass = async (req, res) => {
     });
   }
 };
+const getUserNotInClass = async (req, res) => {
+  try {
+    let data = await userApiService.filterStudentNotInClass();
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+    // }
+  } catch (error) {
+    return res.status(500).json({
+      EM: "error from server",
+      EC: "-1",
+      DT: "",
+    });
+  }
+}
 module.exports = {
   readFunc,
   createFunc,
@@ -133,5 +150,6 @@ module.exports = {
   deleteFunc,
   getUserAccount,
   findOneFunc,
-  getUserInClass
+  getUserInClass,
+  getUserNotInClass
 };
