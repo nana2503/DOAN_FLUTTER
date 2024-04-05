@@ -5,6 +5,7 @@ import 'package:flutter_doan/component/classItem.dart';
 import 'package:flutter_doan/component/listUserInClass.dart';
 import 'package:flutter_doan/component/userItem.dart';
 import 'package:flutter_doan/model/class.dart';
+import 'package:flutter_doan/screens/Class/classAdd.dart';
 import 'package:flutter_doan/utils/services.dart';
 
 class ClassList extends StatefulWidget {
@@ -62,13 +63,26 @@ class _ClassListState extends State<ClassList> {
                                   MaterialPageRoute(
                                       builder: (context) => ListUserInClass(
                                           listUser: classInfoItem.users)));
-                            });
+                            }, onLongPressed: () {  },);
                       }),
                   onRefresh: () async {
                     refreshData();
                   });
             }
           },
+          
+        ),
+         floatingActionButton: Container(
+          width: 60,
+          height: 60,
+          child: FloatingActionButton.small(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const classAdd()))
+                .then((value) => refreshData()),
+            child: const Icon(Icons.add),
+          ),
         ));
   }
 }

@@ -329,5 +329,21 @@ class AppUtils {
 
     }
   }
+
+    static Future<Map<String, dynamic>> addClass(
+      String className) async {
+    final responsePoint = await http.post(
+      Uri.parse("$baseApi/class/create"),
+      headers: <String, String>{
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: {'className': className},
+    );
+    if (responsePoint.statusCode == 200) {
+      return jsonDecode(responsePoint.body);
+    } else {
+      throw Exception('Thêm thất bại');
+    }
+  }
 }
  
