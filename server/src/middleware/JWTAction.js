@@ -4,7 +4,7 @@ require("dotenv").config();
 //const nonSecurePaths = ['/*'];
 const nonSecurePaths = ['/logout', '/login','/register','/',
 '/user/getById','/user/read','/user/create','/user/update','/user/delete', '/user/getClassList',
-'/class/read','/class/get',
+'/class/read','/class/get', '/class/delete',
 '/point/read','/point/create','/point/update', '/point/delete',
 '/subject/read','/subject/create','/subject/update', '/subject/delete'];
 const createJWT = (payload)=> {

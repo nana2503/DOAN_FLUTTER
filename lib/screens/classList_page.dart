@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/classItem.dart';
+import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/listUserInClass.dart';
 import 'package:flutter_doan/component/userItem.dart';
 import 'package:flutter_doan/model/class.dart';
 import 'package:flutter_doan/utils/services.dart';
+import 'package:http/http.dart';
 
 class ClassList extends StatefulWidget {
   const ClassList({super.key});
@@ -55,14 +57,22 @@ class _ClassListState extends State<ClassList> {
                       itemBuilder: (context, index) {
                         final classInfoItem = classList[index];
                         return ClassItem(
-                            classInfoItem: classInfoItem,
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ListUserInClass(
-                                          listUser: classInfoItem.users)));
-                            });
+                          classInfoItem: classInfoItem,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ListUserInClass(
+                                        listUser: classInfoItem.users)));
+                          },
+                          onLongPressed: () async {
+                            final deleteAction = await _confirmDeleteClass(
+                                context, classInfoItem.id);
+                            if (deleteAction) {
+                              refreshData();
+                            }
+                          },
+                        );
                       }),
                   onRefresh: () async {
                     refreshData();
@@ -70,5 +80,62 @@ class _ClassListState extends State<ClassList> {
             }
           },
         ));
+  }
+
+  Future<bool> _confirmDeleteClass(BuildContext context, int classId) async {
+    final shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Xác nhận'),
+          content: const Text('Bạn có muốn xóa lớp học này không?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Không'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Có'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldDelete != null && shouldDelete) {
+      try {
+        final response = await AppUtils.deleteClass(classId);
+        if (response.isNotEmpty) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomDialogAlert(
+                title: "Thông báo",
+                message: response['EM'],
+                closeButtonText: "Đóng",
+                onPressed: () => Navigator.of(context).pop(),
+              );
+            },
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomDialogAlert(
+                title: "Thông báo",
+                message: "Xóa môn học thất bại",
+                closeButtonText: "Đóng",
+                onPressed: () => Navigator.of(context).pop(),
+              );
+            },
+          );
+        }
+        return true;
+      } catch (e) {
+        print('Lỗi khi xóa môn học: $e');
+      }
+    }
+    return false;
   }
 }
