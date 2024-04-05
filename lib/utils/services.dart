@@ -295,6 +295,7 @@ class AppUtils {
     }
   }
 
+
   static Future<Map<String, dynamic>> deleteTablePoint(
       String userId, String subjectId, String hocky) async {
     final response = await http
@@ -310,5 +311,23 @@ class AppUtils {
     } else {
       throw Exception('Xóa thất bại');
     }
+    }
+  static Future<Map<String, dynamic>> updateSubject(
+      String subjectId, String subjectName) async {
+    final responseSubject = await http
+        .put(Uri.parse("$baseApi/subject/update"), headers: <String, String>{
+      'ContentType': 'application/json',
+    }, body: <String, String>{
+      'subjectId': subjectId,
+      'subjectName': subjectName,
+    });
+
+    if (responseSubject.statusCode == 200) {
+      return jsonDecode(responseSubject.body);
+    } else {
+      throw Exception('Cập nhật môn học thất bại');
+
+    }
   }
 }
+ 
