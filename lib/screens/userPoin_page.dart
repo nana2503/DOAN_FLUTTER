@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/button.dart';
+import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/dropdownButton.dart';
 import 'package:flutter_doan/screens/addTablePoint.dart';
 import 'package:flutter_doan/screens/updateSubject_page.dart';
@@ -50,7 +51,12 @@ class _UserPointPageState extends State<UserPointPage> {
           .toList());
     });
   }
-
+ void myLongPressFunction(String subjectId) async {
+    final deleteAction = await _confirmDeleteTablePoint(context, subjectId);
+    if (deleteAction) {
+      refreshData(_selectedSemester);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     String _userId = widget.userId;
@@ -195,6 +201,8 @@ class _UserPointPageState extends State<UserPointPage> {
                                               ''),
                                     ),
                                   ),
+                                 onLongPress: () {
+                                  myLongPressFunction(point['subjectId'].toString());   },
                                 ),
                                 DataCell(
                                   onTap: () {
@@ -230,6 +238,9 @@ class _UserPointPageState extends State<UserPointPage> {
                                               BorderSide(color: Colors.black)),
                                     ),
                                   ),
+                                   onLongPress: () {
+                                  myLongPressFunction(point['subjectId'].toString());
+                            },
                                 ),
                               ],
                             );
@@ -262,5 +273,48 @@ class _UserPointPageState extends State<UserPointPage> {
             )
           : null,
     );
+  }
+    Future<bool> _confirmDeleteTablePoint(
+      BuildContext context, String subjectId) async {
+    final shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Xác nhận'),
+          content: const Text('Bạn có muốn xóa môn học này không?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Không'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Có'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldDelete != null && shouldDelete) {
+      try {
+        final response = await AppUtils.deleteTablePoint(widget.userId,subjectId,_selectedSemester== 'Học kỳ 1' ? '1' : '2');
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialogAlert(
+              title: "Thông báo",
+              message: response['EM'],
+              closeButtonText: "Đóng",
+              onPressed: () => Navigator.of(context).pop(),
+            );
+          },
+        );
+        return true;
+      } catch (e) {
+        print('Lỗi khi xóa môn học: $e');
+      }
+    }
+    return false;
   }
 }

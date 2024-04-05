@@ -58,7 +58,9 @@ const updateFunc =async(req,res)=>{
 const deleteFunc =async(req,res)=>{
   
     try {
-        let data =await pointService.deletePoint(req.body.subjectId);
+        console.log("first,",req.body)
+        // let data =await pointService.deletePoint(req.body.subjectId);
+        let data =await pointService.deletePoint(req.body);
         return res.status(200).json({
             EM : data.EM,
             EC: data.EC,

@@ -79,10 +79,11 @@ const updatePoint = async (data) => {
     }
 };
 
-const deletePoint = async (id) => {
+const deletePoint = async (data) => {
     try {
+        console.log("delete table point",data)
         const deletedPoint = await db.Point.destroy({
-            where: { subjectId: id }
+            where: { subjectId: data.subjectId, userId : data.userId, hocky:data.hocky }
         });
         return {
             EM: 'Delete point success',
