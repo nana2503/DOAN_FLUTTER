@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 
 class AppUtils {
-  static const String baseApi = "http://localhost:8080/api/v1";
+  static const String baseApi = "http://192.168.238.1:8080/api/v1";
 
   static Future<Map<String, dynamic>> registerUser(
       String username, String phoneNumber, String password) async {
@@ -295,23 +295,37 @@ class AppUtils {
     }
   }
 
-
   static Future<Map<String, dynamic>> deleteTablePoint(
       String userId, String subjectId, String hocky) async {
     final response = await http
         .delete(Uri.parse("$baseApi/point/delete"), headers: <String, String>{
       'ContentType': 'application/json',
     }, body: <String, String>{
-        'userId': userId,
-        'subjectId': subjectId,
-        'hocky': hocky,
+      'userId': userId,
+      'subjectId': subjectId,
+      'hocky': hocky,
     });
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
       throw Exception('Xóa thất bại');
     }
+  }
+
+  static Future<Map<String, dynamic>> deleteClass(int id) async {
+    final response = await http
+        .delete(Uri.parse("$baseApi/class/delete"), headers: <String, String>{
+      'ContentType': 'application/json',
+    }, body: <String, String>{
+      'id': id.toString(),
+    });
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Xóa thất bại');
     }
+  }
+
   static Future<Map<String, dynamic>> updateSubject(
       String subjectId, String subjectName) async {
     final responseSubject = await http
@@ -326,7 +340,6 @@ class AppUtils {
       return jsonDecode(responseSubject.body);
     } else {
       throw Exception('Cập nhật môn học thất bại');
-
     }
   }
 
@@ -346,4 +359,3 @@ class AppUtils {
     }
   }
 }
- 

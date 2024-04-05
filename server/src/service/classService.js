@@ -76,13 +76,13 @@ const updateClass = async (id, data) => {
   }
 };
 
-const deleteClass = async (id) => {
+const deleteClass = async (data) => {
   try {
     const deletedClass = await db.Class.destroy({
-      where: { id },
+      where: { id: data.id },
     });
     return {
-      EM: "Delete class success",
+      EM: "Xóa lớp học thành công!",
       EC: 0,
       DT: deletedClass,
     };

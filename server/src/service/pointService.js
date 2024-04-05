@@ -86,14 +86,14 @@ const deletePoint = async (data) => {
             where: { subjectId: data.subjectId, userId : data.userId, hocky:data.hocky }
         });
         return {
-            EM: 'Delete point success',
+            EM: 'Xóa điểm cho môn học thành công',
             EC: 0,
             DT: deletedPoint
         };
     } catch (error) {
         console.log(error);
         return {
-            EM: 'Error deleting point',
+            EM: 'Lỗi khi xóa điểm',
             EC: 1,
             DT: []
         };
