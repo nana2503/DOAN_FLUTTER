@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/userItem.dart';
 import 'package:flutter_doan/model/user.dart';
+import 'package:flutter_doan/screens/getUserNotInClass.dart';
 import 'package:flutter_doan/screens/userDetail_page.dart';
 import 'package:flutter_doan/screens/userPoin_page.dart';
 import 'package:flutter_doan/utils/services.dart';
@@ -92,7 +93,9 @@ class _ListUserState extends State<ListUser> {
                   });
             }
           },
-        ));
+        ),);
+       
+      
   }
 
   Future<bool> _confirmDeleteUser(BuildContext context, User user) async {

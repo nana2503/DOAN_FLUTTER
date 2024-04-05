@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/userItem.dart';
 import 'package:flutter_doan/model/user.dart';
+import 'package:flutter_doan/screens/getUserNotInClass.dart';
 import 'package:flutter_doan/screens/userDetail_page.dart';
 import 'package:flutter_doan/screens/userPoin_page.dart';
 import 'package:flutter_doan/utils/services.dart';
@@ -43,7 +44,20 @@ class _ListUserInClassState extends State<ListUserInClass> {
                 onPressedButton3: () async =>
                     {_confirmDeleteUser(context, user)},
               );
-            }));
+            }),
+             floatingActionButton: Container(
+          width: 60,
+          height: 60,
+          child: FloatingActionButton.small(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const ListUserNoClass())),
+                // .then((value) => refreshData()),
+            child: const Icon(Icons.add),
+          ),
+        ));
+       
   }
 
   Future<bool> _confirmDeleteUser(BuildContext context, User user) async {
