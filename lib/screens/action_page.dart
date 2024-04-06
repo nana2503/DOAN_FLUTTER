@@ -10,12 +10,13 @@ class ActionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.lime[100],
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.cyan[200],
         title: const Center(
           child: Text(
             "Quản Lý Sinh Viên",
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
         ),
       ),

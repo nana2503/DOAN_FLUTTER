@@ -16,8 +16,11 @@ class ClassItem extends StatelessWidget {
       : super(key: key);
   Color getRandomColor() {
     Random random = Random();
-    return Color.fromARGB(
-        255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+    int minBrightness = 150;
+    int red = minBrightness + random.nextInt(106);
+    int green = minBrightness + random.nextInt(106);
+    int blue = minBrightness + random.nextInt(106);
+    return Color.fromARGB(255, red, green, blue);
   }
 
   @override
@@ -41,7 +44,7 @@ class ClassItem extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ),
               SizedBox(height: 8.0),
@@ -49,7 +52,7 @@ class ClassItem extends StatelessWidget {
                 'Tên lớp: ${classInfoItem.className}',
                 style: TextStyle(
                   fontSize: 16.0,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ),
               SizedBox(height: 8.0),
@@ -57,7 +60,7 @@ class ClassItem extends StatelessWidget {
                 'Tổng số lượng sinh viên: ${classInfoItem.count}',
                 style: TextStyle(
                   fontSize: 14.0,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ),
             ],

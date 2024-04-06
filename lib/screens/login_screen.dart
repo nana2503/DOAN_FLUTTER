@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doan/component/button.dart';
 import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/textfield.dart';
-import 'package:flutter_doan/screens/admin_page.dart';
+import 'package:flutter_doan/screens/adminHome_page.dart';
 import 'package:flutter_doan/screens/userHome_page.dart';
 import 'package:flutter_doan/screens/user_page.dart';
 import 'package:flutter_doan/utils/services.dart';
@@ -100,7 +100,7 @@ class _LoginFormState extends State<LoginForm> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const AdminPage()));
+                                              const AdminHomePage()));
                                 } else {
                                   Navigator.push(
                                       context,
@@ -135,8 +135,7 @@ class _LoginFormState extends State<LoginForm> {
                               print("Lỗi: $e");
                             }
                           }
-                        }
-                        ),
+                        }),
                   ],
                 ),
               ),

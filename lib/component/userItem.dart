@@ -16,8 +16,11 @@ class UserItem extends StatelessWidget {
   });
   Color getRandomColor() {
     Random random = Random();
-    return Color.fromARGB(
-        255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+    int minBrightness = 150;
+    int red = minBrightness + random.nextInt(106);
+    int green = minBrightness + random.nextInt(106);
+    int blue = minBrightness + random.nextInt(106);
+    return Color.fromARGB(255, red, green, blue);
   }
 
   @override
@@ -42,7 +45,7 @@ class UserItem extends StatelessWidget {
                     user.toString(),
                     style: const TextStyle(
                       fontSize: 24,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ),

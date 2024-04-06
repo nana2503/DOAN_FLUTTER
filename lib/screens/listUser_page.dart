@@ -33,69 +33,68 @@ class _ListUserState extends State<ListUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("data"),
-        ),
-        body: FutureBuilder<Map<String, dynamic>>(
-          future: _userListFuture,
-          builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Đã xảy ra lỗi: ${snapshot.error}'));
-            } else {
-              final userDataList = snapshot.data!['DT'] as List<dynamic>;
-              final userList =
-                  userDataList.map((item) => User.fromJson(item)).toList();
+      appBar: AppBar(
+        title: Text("Danh sách sinh viên"),
+      ),
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: _userListFuture,
+        builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Đã xảy ra lỗi: ${snapshot.error}'));
+          } else {
+            final userDataList = snapshot.data!['DT'] as List<dynamic>;
+            final userList =
+                userDataList.map((item) => User.fromJson(item)).toList();
 
-              return RefreshIndicator(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(10),
-                    itemCount: userList.length,
-                    itemBuilder: (context, index) {
-                      final user = userList[index];
-                      if (user.userId.contains('admin')) {
-                        return const SizedBox();
-                      } else {
-                        return UserItem(
-                          user: user,
-                          onPressedButton1: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    UserDetail(userId: user.userId),
-                              ),
-                            );
-                          },
-                          onPressedButton2: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    UserPointPage(userId: user.userId),
-                              ),
-                            );
-                          },
-                          onPressedButton3: () async {
-                            final shouldDelete =
-                                await _confirmDeleteUser(context, user);
-                            if (shouldDelete) {
-                              refreshData();
-                            }
-                          },
-                        );
-                      }
-                    },
-                  ),
-                  onRefresh: () async {
-                    await refreshData();
-                  });
-            }
-          },
-        ),);
-       
-      
+            return RefreshIndicator(
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(10),
+                  itemCount: userList.length,
+                  itemBuilder: (context, index) {
+                    final user = userList[index];
+                    if (user.userId.contains('admin')) {
+                      return const SizedBox();
+                    } else {
+                      return UserItem(
+                        user: user,
+                        onPressedButton1: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  UserDetail(userId: user.userId),
+                            ),
+                          );
+                        },
+                        onPressedButton2: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  UserPointPage(userId: user.userId),
+                            ),
+                          );
+                        },
+                        onPressedButton3: () async {
+                          final shouldDelete =
+                              await _confirmDeleteUser(context, user);
+                          if (shouldDelete) {
+                            refreshData();
+                          }
+                        },
+                      );
+                    }
+                  },
+                ),
+                onRefresh: () async {
+                  await refreshData();
+                });
+          }
+        },
+      ),
+    );
   }
 
   Future<bool> _confirmDeleteUser(BuildContext context, User user) async {
