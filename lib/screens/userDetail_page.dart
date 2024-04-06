@@ -30,17 +30,26 @@ class _UserDetailState extends State<UserDetail> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _sexController = TextEditingController();
   final TextEditingController _classController = TextEditingController();
-
+  List<dynamic> _classList = [];
   @override
   void initState() {
     super.initState();
+    _getClassList;
+    _getClassList
+        .then((data) => {
+              setState(() {
+                _classList = data['DT'];
+              })
+            })
+        .catchError((e) {
+      print("Lỗi gán dữ liệu!!");
+    });
     _getUserById();
   }
 
+  Future<Map<String, dynamic>> _getClassList = AppUtils.getClassInfo();
   Future<void> _getUserById() async {
     final response = await AppUtils.getUserByID(widget.userId);
-    print("response['DT']");
-    print(response['DT']);
     setState(() {
       user = User.fromJson(response['DT']);
       _usernameController.text = user.username;
@@ -52,6 +61,7 @@ class _UserDetailState extends State<UserDetail> {
     });
   }
 
+  String? _selectedClassName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,8 +124,33 @@ class _UserDetailState extends State<UserDetail> {
           Text("Lớp",
               style: TextStyle(
                   fontStyle: FontStyle.italic, fontWeight: FontWeight.bold)),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.black)),
+            height: 50,
+            margin: const EdgeInsets.only(bottom: 15),
+            child: DropdownButton<String>(
+                value: _selectedClassName,
+                icon: const Icon(Icons.keyboard_arrow_down),
+                hint: Text('Chọn lớp học'),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedClassName = newValue;
+                    _classController.text = _selectedClassName!;
+                  });
+                },
+                items: _classList.map<DropdownMenuItem<String>>((dynamic item) {
+                  String className = item['className'];
+                  return DropdownMenuItem<String>(
+                    value: className,
+                    child: Text(className),
+                  );
+                }).toList()),
+          ),
           CustomTextField(
-            isReadOnly: false,
+            isReadOnly: true,
             isPassword: false,
             hintText: "Lớp",
             controller: _classController,

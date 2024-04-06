@@ -108,7 +108,6 @@ class _AddTablePointPageState extends State<AddTablePointPage> {
             child: CustomButton(
               buttonText: "Thêm điểm",
               onPressed: () async {
-                print(_subjectList);
                 String subjectId = _subjectId.text.trim();
                 String subjectName = _subjectName.text.trim();
                 String point = _point.text.trim();
