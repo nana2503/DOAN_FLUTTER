@@ -1,11 +1,22 @@
 import db from "../models";
 const checkClassNameExist = async (className) => {
-  let classname = await db.Class.findOne({
+  let classname = await db.Class.findAll({
     where: { 
       className: className },
   });
 
   if (classname) {
+    return true;
+  }
+  return false;
+};
+const checkUserInClassExist = async (classId) => {
+  let userInClass = await db.User.findOne({
+    where: { 
+      classId: classId },
+  });
+
+  if (userInClass) {
     return true;
   }
   return false;
@@ -78,9 +89,21 @@ const updateClass = async (id, data) => {
 
 const deleteClass = async (data) => {
   try {
+    console.log("classID", data);
+    let isUserInClassExist = await checkUserInClassExist(data.id);
+    console.log("first", isUserInClassExist);
+
     const deletedClass = await db.Class.destroy({
       where: { id: data.id },
     });
+
+    if (isUserInClassExist === true) {
+      await db.User.update(
+        { classId: null },
+        { where: { classId: data.id } }
+      );
+    }
+
     return {
       EM: "Xóa lớp học thành công!",
       EC: 0,
@@ -95,6 +118,7 @@ const deleteClass = async (data) => {
     };
   }
 };
+
 const countStudentInClass = async () => {
   
   try {
