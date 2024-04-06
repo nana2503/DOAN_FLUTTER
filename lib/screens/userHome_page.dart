@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doan/screens/action_page.dart';
+import 'package:flutter_doan/screens/userHome_screen.dart';
 import 'package:flutter_doan/screens/userPoin_page.dart';
 import 'package:flutter_doan/screens/user_page.dart';
 import 'package:flutter_doan/utils/services.dart';
@@ -30,10 +31,7 @@ class _UserHomePageState extends State<UserHomePage> {
     setState(() {
       _role = tokenAndRole['role'] ?? '';
       _widgetOptions = <Widget>[
-        const Text(
-          'Đây là trang chủ',
-          style: optionStyle,
-        ),
+        const UserHomeScreen(),
         const UserPage(),
         UserPointPage(userId: _role!),
         const Text(

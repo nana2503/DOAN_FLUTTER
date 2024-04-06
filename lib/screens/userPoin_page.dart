@@ -61,9 +61,7 @@ class _UserPointPageState extends State<UserPointPage> {
   Widget build(BuildContext context) {
     String _userId = widget.userId;
     return Scaffold(
-      appBar: _role != 'admin'
-          ? null
-          : AppBar(
+      appBar: AppBar(
               title: Text("Điểm của sinh viên"),
             ),
       body: FutureBuilder<List<dynamic>>(

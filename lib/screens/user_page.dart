@@ -54,6 +54,9 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       appBar: AppBar(
+        title: Text("Thông tin của sinh viên"),
+      ),
       body: _userData == null
           ? Center(child: CircularProgressIndicator())
           : FutureBuilder<Map<String, dynamic>>(
