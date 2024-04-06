@@ -65,7 +65,7 @@ const updatePoint = async (data) => {
             where: {subjectId: data.subjectId}
         });
         return {
-            EM: 'Update point success',
+            EM: 'Cập nhật điểm thành công !!',
             EC: 0,
             DT: updatedPoint
         };

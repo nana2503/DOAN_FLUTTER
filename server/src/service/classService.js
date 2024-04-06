@@ -1,6 +1,6 @@
 import db from "../models";
 const checkClassNameExist = async (className) => {
-  let classname = await db.Class.findAll({
+  let classname = await db.Class.findOne({
     where: { 
       className: className },
   });
@@ -46,14 +46,14 @@ const createNewClass = async (data) => {
     console.log("first",isClassNameExist)
     if(isClassNameExist===true) {
         return{
-            EM : 'Môn học này đã tồn tại',
+            EM : 'Lớp học này đã tồn tại',
             EC : 2,
             DT :[]
         }
     }
     const newClass = await db.Class.create(data);
     return {
-      EM: "Create class success",
+      EM: "Tạo lớp học thành công!!",
       EC: 0,
       DT: newClass,
     };
@@ -73,7 +73,7 @@ const updateClass = async (id, data) => {
       where: { id },
     });
     return {
-      EM: "Update class success",
+      EM: "Cập nhật thông tin lớp thành công",
       EC: 0,
       DT: updatedClass,
     };
