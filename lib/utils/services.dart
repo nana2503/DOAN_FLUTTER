@@ -390,9 +390,8 @@ class AppUtils {
   }
 
   static Future<Map<String, dynamic>> moveMultipleUserFromClass(
-      List<String> userIds, int classId) async {
-    final String jsonBody =
-        jsonEncode({'listUserId': userIds, 'classId': classId});
+      List<String> userIds) async {
+    final String jsonBody = jsonEncode({'listUserId': userIds});
     final response =
         await http.put(Uri.parse("$baseApi/user/moveUserFromClass"),
             headers: <String, String>{

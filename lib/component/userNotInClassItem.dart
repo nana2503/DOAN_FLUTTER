@@ -19,7 +19,6 @@ class _UserNotInclassCtemState extends State<UserNotInClassItem> {
   bool _isChecked = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _isChecked = widget.isChecked;
   }

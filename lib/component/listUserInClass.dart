@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_doan/component/dialog.dart';
+import 'package:flutter_doan/component/moveUserFromClassItem.dart';
 import 'package:flutter_doan/component/userItem.dart';
 import 'package:flutter_doan/model/user.dart';
 import 'package:flutter_doan/screens/getUserNotInClass.dart';
@@ -19,6 +20,18 @@ class ListUserInClass extends StatefulWidget {
 }
 
 class _ListUserInClassState extends State<ListUserInClass> {
+  List<String> selectedUser = [];
+  late List<bool> isCheckedList;
+  void updateSelectedUsers(User user, bool isChecked) {
+    setState(() {
+      if (isChecked) {
+        selectedUser.add(user.userId);
+      } else {
+        selectedUser.remove(user.userId);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,38 +50,90 @@ class _ListUserInClassState extends State<ListUserInClass> {
                 itemCount: widget.listUser.length,
                 itemBuilder: (context, index) {
                   final user = widget.listUser[index];
-                  return UserItem(
-                    user: user,
-                    onPressedButton1: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UserDetail(userId: user.userId),
+                  isCheckedList = List.filled(widget.listUser.length, false);
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: UserItem(
+                          user: user,
+                          onPressedButton1: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  UserDetail(userId: user.userId),
+                            ),
+                          ),
+                          onPressedButton2: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  UserPointPage(userId: user.userId),
+                            ),
+                          ),
+                          onPressedButton3: () async {
+                            await _confirmDeleteUser(context, user);
+                          },
+                        ),
                       ),
-                    ),
-                    onPressedButton2: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            UserPointPage(userId: user.userId),
-                      ),
-                    ),
-                    onPressedButton3: () async =>
-                        {_confirmDeleteUser(context, user)},
+                      MoveUserClassItem(
+                          user: user,
+                          isChecked: isCheckedList[index],
+                          onChanged: (isChecked) {
+                            updateSelectedUsers(user, isChecked);
+                          })
+                    ],
                   );
                 }),
-        floatingActionButton: Container(
-          width: 180,
-          height: 60,
-          child: FloatingActionButton.small(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        ListUserNoClass(classId: widget.classId))),
-            child: const Text("Thêm sinh viên vào lớp"),
-          ),
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            widget.listUser.isEmpty
+                ? const SizedBox()
+                : Container(
+                    width: 180,
+                    height: 60,
+                    child: FloatingActionButton.small(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      onPressed: () async {
+                        final response =
+                            await AppUtils.moveMultipleUserFromClass(
+                                selectedUser);
+                        if (response.isNotEmpty) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomDialogAlert(
+                                  title: "Thông báo",
+                                  message: response['EM'],
+                                  closeButtonText: "Đóng",
+                                  onPressed: () => {
+                                        Navigator.of(context).pop(),
+                                        Navigator.of(context).pop()
+                                      });
+                            },
+                          );
+                        }
+                      },
+                      child: const Text("Xóa sinh viên ra khỏi lớp"),
+                    ),
+                  ),
+            Container(
+              margin: const EdgeInsets.only(left: 10),
+              width: 180,
+              height: 60,
+              child: FloatingActionButton.small(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ListUserNoClass(classId: widget.classId))),
+                child: const Text("Thêm sinh viên vào lớp"),
+              ),
+            )
+          ],
         ));
   }
 
