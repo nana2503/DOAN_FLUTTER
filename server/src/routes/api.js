@@ -33,6 +33,8 @@ router.get('/user/getClassList', userController.getUserInClass);
 router.get('/user/getUserNotInClass', userController.getUserNotInClass);
 router.post("/user/create", userController.createFunc);
 router.put("/user/update", userController.updateFunc);
+router.put("/user/updateMultiClass", userController.updateClassForMultipleUsers);
+router.put("/user/moveUserFromClass", userController.moveUserFromClassController);
 router.delete("/user/delete", userController.deleteFunc);
 
 router.get("/point/read", pointController.readFunc);

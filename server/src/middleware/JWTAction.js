@@ -3,7 +3,7 @@ import  jwt  from "jsonwebtoken";
 require("dotenv").config();
 //const nonSecurePaths = ['/*'];
 const nonSecurePaths = ['/logout', '/login','/register','/',
-'/user/getById','/user/read','/user/create','/user/update','/user/delete', '/user/getClassList','/user/getUserNotInClass',
+'/user/getById','/user/read','/user/create','/user/update','/user/delete', '/user/getClassList','/user/getUserNotInClass','/user/updateMultiClass','/user/moveUserFromClass',
 '/class/read','/class/get','/class/create','/class/delete',
 '/point/read','/point/create','/point/update', '/point/delete',
 '/subject/read','/subject/create','/subject/update', '/subject/delete'];

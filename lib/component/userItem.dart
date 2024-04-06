@@ -35,7 +35,6 @@ class UserItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Ô lớn chứa thông tin
                 Container(
                   decoration: BoxDecoration(color: getRandomColor()),
                   padding: const EdgeInsets.all(8),

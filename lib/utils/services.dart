@@ -1,10 +1,9 @@
 //lib/service.dart
 import "dart:convert";
-import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 
 class AppUtils {
-  static const String baseApi = "http://localhost:8080/api/v1";
+  static const String baseApi = "http://192.168.238.1:8080/api/v1";
 
   static Future<Map<String, dynamic>> registerUser(
       String username, String phoneNumber, String password) async {
@@ -343,8 +342,7 @@ class AppUtils {
     }
   }
 
-    static Future<Map<String, dynamic>> addClass(
-      String className) async {
+  static Future<Map<String, dynamic>> addClass(String className) async {
     final responsePoint = await http.post(
       Uri.parse("$baseApi/class/create"),
       headers: <String, String>{
@@ -359,7 +357,6 @@ class AppUtils {
     }
   }
 
-  
   static Future<Map<String, dynamic>> getUserNotInClass() async {
     final response = await http.get(
       Uri.parse("$baseApi/user/getUserNotInClass"),
@@ -375,4 +372,38 @@ class AppUtils {
     }
   }
 
+  static Future<Map<String, dynamic>> addMultipleUserToClass(
+      List<String> userIds, int classId) async {
+    final String jsonBody =
+        jsonEncode({'listUserId': userIds, 'classId': classId});
+    final response = await http.put(Uri.parse("$baseApi/user/updateMultiClass"),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonBody);
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Thất bại khi gọi API!');
+    }
+  }
+
+  static Future<Map<String, dynamic>> moveMultipleUserFromClass(
+      List<String> userIds, int classId) async {
+    final String jsonBody =
+        jsonEncode({'listUserId': userIds, 'classId': classId});
+    final response =
+        await http.put(Uri.parse("$baseApi/user/moveUserFromClass"),
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+            },
+            body: jsonBody);
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Thất bại khi gọi API!');
+    }
+  }
 }

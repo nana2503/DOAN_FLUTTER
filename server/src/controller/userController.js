@@ -142,7 +142,41 @@ const getUserNotInClass = async (req, res) => {
       DT: "",
     });
   }
-}
+};
+const updateClassForMultipleUsers = async (req, res) => {
+  try {
+    const {listUserId, classId} = req.body;
+    let data = await userApiService.updateClassForUser(listUserId, classId);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      EM: "error from server",
+      EC: "-1",
+      DT: "",
+    });
+  }
+};
+const moveUserFromClassController = async (req, res) => {
+  try {
+    const {listUserId} = req.body;
+    let data = await userApiService.MoveUserFromClass(listUserId);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      EM: "error from server",
+      EC: "-1",
+      DT: "",
+    });
+  }
+};
 module.exports = {
   readFunc,
   createFunc,
@@ -151,5 +185,7 @@ module.exports = {
   getUserAccount,
   findOneFunc,
   getUserInClass,
-  getUserNotInClass
+  getUserNotInClass,
+  updateClassForMultipleUsers,
+  moveUserFromClassController
 };

@@ -193,6 +193,65 @@ const updateUser = async (data) => {
   }
 };
 
+const updateOneUser = async (userId, classId) => {
+  try {
+    const updatedUser = await db.User.update(
+      {
+        classId:classId,
+      },
+      { where: { userId: userId } }
+    );
+    return {
+      EM: "Cập nhật lớp của sinh viên thành công !!!",
+      EC: 0,
+      DT: updatedUser,
+    };
+  } catch (error) {
+    return {
+      EM: "Error updating user and class 1",
+      EC: 1,
+      DT: [],
+    };
+  }
+};
+
+const updateClassForUser = async (listUserId, classId) => {
+  try {
+    for(const userItem of listUserId) {
+      await updateOneUser(userItem, classId);
+    }
+    return {
+      EM: "Cập nhật thông tin cho lớp thành công",
+      EC: 1,
+      DT: [],
+    }
+  } catch (error) {
+    return {
+      EM: "Error updating user and class 2",
+      EC: 1,
+      DT: [],
+    };
+  }
+};
+const MoveUserFromClass = async (listUserId) => {
+  try {
+    for(const userItem of listUserId) {
+      await updateOneUser(userItem, null);
+    }
+    return {
+      EM: "Xóa sinh viên ra khỏi lớp thành công",
+      EC: 1,
+      DT: [],
+    }
+  } catch (error) {
+    console.log(error);
+    return {
+      EM: "Error updating user and class 3",
+      EC: 1,
+      DT: [],
+    };
+  }
+};
 const deleteUser = async (userId) => {
   try {
     let user = await db.User.findOne({
@@ -258,7 +317,7 @@ const filterStudentNotInClass = async () => {
       where: { classId: null },
       attributes: ["userId", "username", "address", "phone", "sex"],
     });
-    console.log( users);
+    console.log(users);
     if (users) {
       return {
         EM: "get data success",
@@ -289,5 +348,7 @@ module.exports = {
   getUserWithPagination,
   getOneUser,
   getListUserFromClass,
-  filterStudentNotInClass
+  filterStudentNotInClass,
+  updateClassForUser,
+  MoveUserFromClass
 };

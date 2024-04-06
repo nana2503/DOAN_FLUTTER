@@ -64,7 +64,9 @@ class _ClassListState extends State<ClassList> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ListUserInClass(
-                                        listUser: classInfoItem.users)));
+                                          listUser: classInfoItem.users,
+                                          classId: classInfoItem.id,
+                                        ))).then((value) => refreshData());
                           },
                           onLongPressed: () async {
                             final deleteAction = await _confirmDeleteClass(
@@ -80,9 +82,8 @@ class _ClassListState extends State<ClassList> {
                   });
             }
           },
-          
         ),
-         floatingActionButton: Container(
+        floatingActionButton: Container(
           width: 60,
           height: 60,
           child: FloatingActionButton.small(

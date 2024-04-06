@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_doan/component/dialog.dart';
 import 'package:flutter_doan/component/userItem.dart';
 import 'package:flutter_doan/model/user.dart';
@@ -9,7 +10,9 @@ import 'package:flutter_doan/utils/services.dart';
 
 class ListUserInClass extends StatefulWidget {
   final List<User> listUser;
-  const ListUserInClass({super.key, required this.listUser});
+  final int classId;
+  const ListUserInClass(
+      {super.key, required this.listUser, required this.classId});
 
   @override
   State<ListUserInClass> createState() => _ListUserInClassState();
@@ -20,44 +23,53 @@ class _ListUserInClassState extends State<ListUserInClass> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Danh sách sinh viên trong lớp'),
+          title: Text('Danh sách sinh viên trong lớp ${widget.classId}'),
         ),
-        body: ListView.builder(
-            padding: const EdgeInsets.all(8),
-            itemCount: widget.listUser.length,
-            itemBuilder: (context, index) {
-              final user = widget.listUser[index];
-              return UserItem(
-                user: user,
-                onPressedButton1: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UserDetail(userId: user.userId),
-                  ),
+        body: widget.listUser.isEmpty
+            ? const Center(
+                child: Text(
+                  'Lớp trống',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                onPressedButton2: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UserPointPage(userId: user.userId),
-                  ),
-                ),
-                onPressedButton3: () async =>
-                    {_confirmDeleteUser(context, user)},
-              );
-            }),
-             floatingActionButton: Container(
-          width: 60,
+              )
+            : ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: widget.listUser.length,
+                itemBuilder: (context, index) {
+                  final user = widget.listUser[index];
+                  return UserItem(
+                    user: user,
+                    onPressedButton1: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserDetail(userId: user.userId),
+                      ),
+                    ),
+                    onPressedButton2: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            UserPointPage(userId: user.userId),
+                      ),
+                    ),
+                    onPressedButton3: () async =>
+                        {_confirmDeleteUser(context, user)},
+                  );
+                }),
+        floatingActionButton: Container(
+          width: 180,
           height: 60,
           child: FloatingActionButton.small(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const ListUserNoClass())),
-                // .then((value) => refreshData()),
-            child: const Icon(Icons.add),
+            onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ListUserNoClass(classId: widget.classId))),
+            child: const Text("Thêm sinh viên vào lớp"),
           ),
         ));
-       
   }
 
   Future<bool> _confirmDeleteUser(BuildContext context, User user) async {
@@ -95,11 +107,11 @@ class _ListUserInClassState extends State<ListUserInClass> {
                     {Navigator.of(context).pop(), Navigator.of(context).pop()});
           },
         );
-        return true; // Trả về true nếu xóa thành công
+        return true;
       } catch (e) {
         print('Lỗi khi xóa người dùng: $e');
       }
     }
-    return false; // Trả về false nếu không xóa hoặc xác nhận không
+    return false;
   }
 }
