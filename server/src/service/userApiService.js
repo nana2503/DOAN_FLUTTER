@@ -197,7 +197,7 @@ const updateOneUser = async (userId, classId) => {
   try {
     const updatedUser = await db.User.update(
       {
-        classId:classId,
+        classId: classId,
       },
       { where: { userId: userId } }
     );
@@ -217,14 +217,14 @@ const updateOneUser = async (userId, classId) => {
 
 const updateClassForUser = async (listUserId, classId) => {
   try {
-    for(const userItem of listUserId) {
+    for (const userItem of listUserId) {
       await updateOneUser(userItem, classId);
     }
     return {
       EM: "Cập nhật thông tin cho lớp thành công",
       EC: 1,
       DT: [],
-    }
+    };
   } catch (error) {
     return {
       EM: "Error updating user and class 2",
@@ -235,14 +235,14 @@ const updateClassForUser = async (listUserId, classId) => {
 };
 const MoveUserFromClass = async (listUserId) => {
   try {
-    for(const userItem of listUserId) {
+    for (const userItem of listUserId) {
       await updateOneUser(userItem, null);
     }
     return {
       EM: "Xóa sinh viên ra khỏi lớp thành công",
       EC: 1,
       DT: [],
-    }
+    };
   } catch (error) {
     console.log(error);
     return {
@@ -326,13 +326,42 @@ const filterStudentNotInClass = async () => {
       };
     } else {
       return {
-        EM: "get data success",
+        EM: "get data failed",
         EC: 0,
         DT: [],
       };
     }
   } catch (e) {
     console.log(e);
+    return {
+      EM: "error from server",
+      EC: 1,
+      DT: [],
+    };
+  }
+};
+const getOneUserByID = async (userId) => {
+  try {
+    const user = await db.User.findOne({
+      where: {
+        userId: userId,
+      },
+    });
+    console.log(user);
+    if (user) {
+      return {
+        EM: "get data success",
+        EC: 0,
+        DT: user,
+      };
+    } else {
+      return {
+        EM: "get data failed",
+        EC: 0,
+        DT: [],
+      };
+    }
+  } catch (e) {
     return {
       EM: "error from server",
       EC: 1,
@@ -350,5 +379,6 @@ module.exports = {
   getListUserFromClass,
   filterStudentNotInClass,
   updateClassForUser,
-  MoveUserFromClass
+  MoveUserFromClass,
+  getOneUserByID
 };

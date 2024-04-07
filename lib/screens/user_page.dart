@@ -30,8 +30,6 @@ class _UserPageState extends State<UserPage> {
   Future<void> _getUserData() async {
     final tokenAndRole = await TokenService.getTokenAndRole();
     _role = tokenAndRole['role'] ?? '';
-    print("_role");
-    print(_role);
     setState(() {
       _userData = AppUtils.fetchUser();
       // print(_userData);
@@ -54,7 +52,7 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         title: Text("Thông tin của sinh viên"),
       ),
       body: _userData == null

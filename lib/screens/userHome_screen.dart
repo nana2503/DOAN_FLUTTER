@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_doan/component/button.dart';
 import 'package:flutter_doan/component/homeItem.dart';
 import 'package:flutter_doan/screens/Subject/subjectList_page.dart';
+import 'package:flutter_doan/screens/action_page.dart';
 import 'package:flutter_doan/screens/classList_page.dart';
 import 'package:flutter_doan/screens/listUser_page.dart';
 import 'package:flutter_doan/screens/userPoin_page.dart';
 import 'package:flutter_doan/screens/user_page.dart';
+import 'package:flutter_doan/utils/services.dart';
 import 'package:flutter_doan/utils/tokenService.dart';
 
 class UserHomeScreen extends StatefulWidget {
@@ -16,11 +19,10 @@ class UserHomeScreen extends StatefulWidget {
 
 class _UserHomeScreenState extends State<UserHomeScreen> {
   String? _role;
-
   @override
   void initState() {
     super.initState();
-    _getRole(); // Thay vì _getRoleAndUserId, chỉ cần lấy role
+    _getRole();
   }
 
   Future<void> _getRole() async {
@@ -30,13 +32,29 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     });
   }
 
+  void handleLogout() {
+    try {
+      final response = AppUtils.handleLogout();
+      if (response.toString().isNotEmpty) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const ActionPage()),
+        );
+        TokenService.deleteToken();
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: <Widget>[
+          const SizedBox(height: 100),
           Text(
-            "Xin chào",
+            "Xin chào ${_role}",
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
@@ -66,25 +84,27 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         );
                       },
                     ),
-                 
-                      HomeItem(
-                        title: "Bảng Điểm",
-                        backgroundColor: Colors.redAccent,
-                        onPress: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => UserPointPage(userId: _role!),
-                            ),
-                          );
-                        },
-                      ),
+
+                    HomeItem(
+                      title: "Bảng Điểm",
+                      backgroundColor: Colors.redAccent,
+                      onPress: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserPointPage(userId: _role!),
+                          ),
+                        );
+                      },
+                    ),
                     // Thêm các HomeItem khác tương tự ở đây nếu cần
                   ],
                 ),
               ),
             ),
           ),
+          const SizedBox(height: 10),
+          CustomButton(buttonText: "Đăng xuất", onPressed: () => handleLogout())
         ],
       ),
     );

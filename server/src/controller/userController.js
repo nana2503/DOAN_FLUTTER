@@ -145,7 +145,7 @@ const getUserNotInClass = async (req, res) => {
 };
 const updateClassForMultipleUsers = async (req, res) => {
   try {
-    const {listUserId, classId} = req.body;
+    const { listUserId, classId } = req.body;
     let data = await userApiService.updateClassForUser(listUserId, classId);
     return res.status(200).json({
       EM: data.EM,
@@ -162,7 +162,7 @@ const updateClassForMultipleUsers = async (req, res) => {
 };
 const moveUserFromClassController = async (req, res) => {
   try {
-    const {listUserId} = req.body;
+    const { listUserId } = req.body;
     let data = await userApiService.MoveUserFromClass(listUserId);
     return res.status(200).json({
       EM: data.EM,
@@ -170,6 +170,25 @@ const moveUserFromClassController = async (req, res) => {
       DT: data.DT,
     });
   } catch (error) {
+    return res.status(500).json({
+      EM: "error from server",
+      EC: "-1",
+      DT: "",
+    });
+  }
+};
+
+const getUserByID = async (req, res) => {
+  try {
+    let data = await userApiService.getOneUserByID(req.body);
+    if (data) {
+      return res.status(200).json({
+        EM: data.EM,
+        EC: data.EC,
+        DT: data.DT,
+      });
+    }
+  } catch (e) {
     return res.status(500).json({
       EM: "error from server",
       EC: "-1",
@@ -187,5 +206,6 @@ module.exports = {
   getUserInClass,
   getUserNotInClass,
   updateClassForMultipleUsers,
-  moveUserFromClassController
+  moveUserFromClassController,
+  getUserByID
 };

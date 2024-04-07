@@ -38,12 +38,12 @@ class AppUtils {
     }
   }
 
-  static Future<Map<String, dynamic>> getUserByID(String userId) async {
+  static Future<Map<String, dynamic>> getUserByID(String? userId) async {
     final response = await http
         .post(Uri.parse("$baseApi/user/getById"), headers: <String, String>{
       'ContentType': 'application/json',
     }, body: <String, String>{
-      'userId': userId,
+      'userId': userId!,
     });
     if (response.statusCode == 200) {
       print("response['DT']");

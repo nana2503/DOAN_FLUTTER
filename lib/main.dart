@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_doan/screens/action_page.dart';
 import 'package:flutter_doan/screens/adminHome_page.dart';
 import 'package:flutter_doan/screens/userHome_page.dart';
+import 'package:flutter_doan/screens/userHome_screen.dart';
 import 'package:flutter_doan/screens/user_page.dart';
 import 'package:flutter_doan/utils/tokenService.dart';
 
@@ -41,7 +42,7 @@ class AuthenticationPage extends StatelessWidget {
               if (role == 'admin') {
                 return const AdminHomePage();
               } else {
-                return const UserHomePage();
+                return const UserHomeScreen();
               }
             } else {
               print('Chưa đăng nhập');
