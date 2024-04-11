@@ -20,7 +20,7 @@ class _ListUserState extends State<ListUser> {
   Future<void> refreshData() async {
     await Future.delayed(const Duration(seconds: 1));
     setState(() {
-      _userListFuture;
+      _userListFuture = AppUtils.getListAllUser();
     });
   }
 
@@ -132,11 +132,12 @@ class _ListUserState extends State<ListUser> {
             );
           },
         );
-        return true; // Trả về true nếu xóa thành công
+        refreshData();
+        return true;
       } catch (e) {
         print('Lỗi khi xóa người dùng: $e');
       }
     }
-    return false; // Trả về false nếu không xóa hoặc xác nhận không
+    return false;
   }
 }
