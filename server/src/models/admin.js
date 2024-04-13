@@ -1,27 +1,26 @@
-// models/class.js
+// models/admin.js
 
 'use strict';
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Class extends Model {
+  class Admin extends Model {
     static associate(models) {
-      Class.hasMany(models.Student, { foreignKey: 'class_id' });
+      Admin.belongsTo(models.User, { foreignKey: 'user_id' });
     }
   }
 
-  Class.init({
-    class_id: {
+  Admin.init({
+    admin_id: {
       type: DataTypes.STRING,
       primaryKey: true
     },
-    class_name: DataTypes.STRING,
-    department_id: DataTypes.STRING
+    user_id: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Class',
+    modelName: 'Admin',
     timestamps: false
   });
 
-  return Class;
+  return Admin;
 };

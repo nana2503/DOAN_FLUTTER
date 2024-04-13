@@ -1,26 +1,28 @@
+// models/subject.js
+
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Subject extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
-      Subject.hasMany(models.Point);
-    
+      Subject.belongsTo(models.Department, { foreignKey: 'department_id' });
     }
   }
+
   Subject.init({
-    subjectId: DataTypes.STRING,
-    subjectName: DataTypes.STRING,
+    subject_id: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
+    subject_name: DataTypes.STRING,
+    department_id: DataTypes.STRING,
+    credits: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Subject',
+    timestamps: false
   });
+
   return Subject;
 };

@@ -1,27 +1,27 @@
+// migrations/create-subject.js
+
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Subject', {
-      id: {
+      subject_id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.STRING
+      },
+      subject_name: {
+        type: Sequelize.STRING
+      },
+      department_id: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        references: {
+          model: 'Department',
+          key: 'department_id'
+        }
+      },
+      credits: {
         type: Sequelize.INTEGER
-      },
-      subjectId: {
-        type: Sequelize.STRING
-      },
-      subjectName: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
       }
     });
   },

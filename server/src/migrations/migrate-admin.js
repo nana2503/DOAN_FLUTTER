@@ -1,28 +1,26 @@
-// migrations/create-class.js
+// migrations/create-admin.js
 
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Class', {
-      class_id: {
+    await queryInterface.createTable('Admin', {
+      admin_id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.STRING
       },
-      class_name: {
-        type: Sequelize.STRING
-      },
-      department_id: {
+      user_id: {
         type: Sequelize.STRING,
         allowNull: false,
         references: {
-          model: 'Department',
-          key: 'department_id'
+          model: 'User',
+          key: 'user_id'
         }
-      }
+      },
+      
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Class');
+    await queryInterface.dropTable('Admin');
   }
 };

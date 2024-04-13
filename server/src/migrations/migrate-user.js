@@ -1,43 +1,34 @@
+// migrations/create-user.js
+
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('User', {
-      id: {
+      user_id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      userId: {
         type: Sequelize.STRING
       },
-      username: {
+      user_name: {
         type: Sequelize.STRING
       },
       password: {
         type: Sequelize.STRING
       },
-      
-      address: {
-        type: Sequelize.STRING
-      },
-      sex: {
+      email: {
         type: Sequelize.STRING
       },
       phone: {
         type: Sequelize.STRING
       },
-      classId: {
-        type: Sequelize.INTEGER
+      address: {
+        type: Sequelize.STRING
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      gender: {
+        type: Sequelize.STRING
       },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      user_type: {
+        type: Sequelize.STRING
       }
     });
   },

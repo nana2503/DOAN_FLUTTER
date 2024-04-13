@@ -8,11 +8,6 @@ import {checkUserJWT,checkUserPermission} from '../middleware/JWTAction';
 
 const router = express.Router();
 
-/**
- * 
- * @param {*} app express app
- * 
- */
 
 
 const initApiRoutes = (app) => {
